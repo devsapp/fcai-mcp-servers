@@ -1,0 +1,31 @@
+{
+  "name": "@amap/amap-maps-mcp-server",
+  "version": "0.0.7",
+  "description": "MCP server for using the AMap Maps API",
+  "author": "高德地图开放平台, PBC (https://lbs.amap.com)",
+  "type": "module",
+  "license": "ISC",
+  "bin": {
+    "mcp-amap": "./build/index.js"
+  },
+  "files": [
+    "build"
+  ],
+  "main": "build/index.js",
+  "scripts": {
+    "build": "chmod 755 build/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.0.1",
+    "@types/node-fetch": "^2.6.12",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "shx": "^0.3.4",
+    "typescript": "^5.6.2"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}
