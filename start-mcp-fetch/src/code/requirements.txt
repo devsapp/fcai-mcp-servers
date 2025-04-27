@@ -1,0 +1,1 @@
+mcp-server-fetch==2025.1.17

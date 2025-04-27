@@ -1,0 +1,18 @@
+edition: 3.0.0
+name: start-mcp-server-nodejs
+access: '{{access}}'
+vars:
+  region: '{{region}}'
+resources:
+  nodejs-stdio-hello-world:
+    component: fcai-mcp-server
+    props:
+      region: ${vars.region}
+      description: mcp server deployed by devs
+      transport: sse
+      port: 8080
+      runtime: nodejs20
+      startCommand: 'node dist/index.js'
+      cpu: 0.5
+      memorySize: 512
+      instanceQuota: 1
