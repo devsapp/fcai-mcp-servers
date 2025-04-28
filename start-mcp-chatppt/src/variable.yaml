@@ -1,0 +1,7 @@
+services:
+  start-mcp-chatppt:
+    API_KEY:
+      title: 必优科技 API Key
+      type: string
+      default: ''
+      description: 对应的 API Key 需要到 www.yoo-ai.com 进行生成

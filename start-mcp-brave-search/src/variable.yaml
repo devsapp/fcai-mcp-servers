@@ -1,0 +1,10 @@
+services:
+  start-mcp-brave-search:
+    BRAVE_API_KEY:
+      title: BRAVE_API_KEY
+      type: string
+      default: ''
+      sensitive: 'true'
+      pattern: ^[a-zA-Z0-9_][a-zA-Z0-9_\-.]*$
+      description: Brave Search API KEY,  请参考 
+        https://github.com/modelcontextprotocol/servers/tree/main/src/brave-search#getting-an-api-key
