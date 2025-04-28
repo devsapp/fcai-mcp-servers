@@ -1,0 +1,19 @@
+edition: 3.0.0
+name: hello-world-app
+access: "{{ access }}"
+
+vars: #
+  region: "{{ region }}"
+
+resources:
+  start-mcp-chatppt:
+    component: fcai-mcp-server
+    props:
+      region: ${vars.region}
+      description: mcp server deployed by devs
+      transport: stdio
+      runtime: python3.10
+      startCommand: python3 ppt.py
+      cpu: 1
+      memorySize: 2048
+      instanceQuota: 1
