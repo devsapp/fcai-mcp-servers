@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@gongrzhe/server-json-mcp": "^1.0.3"
+  }
+}

@@ -1,0 +1,14 @@
+services:
+  start-mcp-gitlab:
+    GITLAB_PERSONAL_ACCESS_TOKEN:
+      title: GITLAB_PERSONAL_ACCESS_TOKEN
+      type: string
+      default: ''
+      sensitive: 'true'
+      pattern: ^[a-zA-Z0-9_][a-zA-Z0-9_\-.]*$
+      description: Access Token, 请参考 https://github.com/modelcontextprotocol/servers/tree/main/src/gitlab#personal-access-token
+    GITLAB_API_URL:
+      title: GITLAB_API_URL
+      type: string
+      default: 'https://gitlab.com/api/v4'
+      description: Gitlab API URL , 默认为 https://gitlab.com/api/v4, 可以填自建gitlab服务 API URL

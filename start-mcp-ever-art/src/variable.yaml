@@ -1,0 +1,9 @@
+services:
+  start-mcp-ever-art:
+    EVERART_API_KEY:
+      title: EVERART_API_KEY
+      type: string
+      default: ''
+      sensitive: 'true'
+      pattern: ^[a-zA-Z0-9_][a-zA-Z0-9_\-.]*$
+      description: EverArt's API Key， 从 https://www.everart.ai/api 获取 API Key
