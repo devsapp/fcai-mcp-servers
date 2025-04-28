@@ -20,6 +20,12 @@ mcp servers on serverless
 - [fcai-start-mcp-python-hello-world](./start-mcp-python-hello-world)
 - [fcai-start-mcp-python-hello-world-stdio](./start-mcp-python-hello-world-stdio)
 - [fcai-start-mcp-time](./start-mcp-time)
+- [fcai-start-mcp-agentql](./start-mcp-agentql)
+- [fcai-start-mcp-brave-search](./start-mcp-brave-search)
+- [fcai-start-mcp-chatppt](./start-mcp-chatppt)
+- [fcai-start-mcp-figma](./start-mcp-figma)
+- [fcai-start-mcp-financial-datasets](./start-mcp-financial-datasets)
+- [fcai-start-mcp-firecrawl](./start-mcp-firecrawl)
 
 
 
