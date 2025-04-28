@@ -1,0 +1,8 @@
+services:
+  start-mcp-figma:
+    FIGMA_API_KEY:
+      title:  FIGMA_API_KEY
+      type: string
+      default: ''
+      sensitive: 'true'
+      description: 获取 Figma API key，请参考 https://help.figma.com/hc/en-us/articles/8085703771159-Manage-personal-access-tokens

@@ -1,0 +1,8 @@
+services:
+  start-mcp-financial-datasets:
+    FINANCIAL_DATASETS_API_KEY:
+      title: fd-api-key
+      type: string
+      default: ""
+      sensitive: 'true'
+      description: financial-datasets api-key, 请参考 https://www.financialdatasets.ai/

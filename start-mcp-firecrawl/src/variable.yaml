@@ -1,0 +1,8 @@
+services:
+  start-mcp-firecrawl:
+    FIRECRAWL_API_KEY:
+      title: FIRECRAWL_API_KEY
+      type: string
+      default: ''
+      sensitive: 'true'
+      description: 获取 Firecrawl API key，请参考 https://www.firecrawl.dev/app/api-keys
