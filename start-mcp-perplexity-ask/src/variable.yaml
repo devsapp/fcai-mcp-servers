@@ -1,0 +1,8 @@
+services:
+  start-mcp-perplexity-ask:
+    PERPLEXITY_API_KEY:
+      title: PERPLEXITY_API_KEY
+      type: string
+      default: ''
+      sensitive: 'true'
+      description: 获取 Sonar API Key，请参考 https://docs.perplexity.ai/guides/getting-started

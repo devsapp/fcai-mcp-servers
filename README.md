@@ -26,6 +26,13 @@ mcp servers on serverless
 - [fcai-start-mcp-figma](./start-mcp-figma)
 - [fcai-start-mcp-financial-datasets](./start-mcp-financial-datasets)
 - [fcai-start-mcp-firecrawl](./start-mcp-firecrawl)
+- [fcai-start-mcp-flomo](./start-mcp-flomo)
+- [fcai-start-mcp-notion](./start-mcp-notion)
+- [fcai-start-mcp-openweather](./start-mcp-openweather)
+- [fcai-start-mcp-perplexity-ask](./start-mcp-perplexity-ask)
+- [fcai-start-mcp-quickchart](./start-mcp-quickchart)
+- [fcai-start-mcp-sequentialthinking](./start-mcp-sequentialthinking)
+
 
 
 
