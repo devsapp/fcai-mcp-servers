@@ -1,0 +1,8 @@
+services:
+  start-mcp-openweather:
+    OPENWEATHERMAP_API_KEY:
+      title: API_KEY
+      type: string
+      default: ""
+      sensitive: 'true'
+      description: OpenWeather API Key, 请参考 https://home.openweathermap.org/users/sign_in
