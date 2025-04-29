@@ -1,0 +1,8 @@
+services:
+  start-mcp-notion:
+    NOTION_API_TOKEN:
+      title: NOTION_API_TOKEN
+      type: string
+      default: ''
+      sensitive: 'true'
+      description: 获取 Notion API Key，请参考 https://developers.notion.com/

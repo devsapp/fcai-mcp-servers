@@ -1,0 +1,19 @@
+edition: 3.0.0
+name: mcp-server-app
+access: "{{ access }}"
+
+vars:
+  region: "{{ region }}"
+
+resources:
+  start-mcp-flomo:
+    component: fcai-mcp-server
+    props:
+      region: ${vars.region}
+      description: mcp server deployed by devs
+      transport: stdio
+      runtime: nodejs20
+      startCommand: /code/node_modules/.bin/mcp-server-flomo
+      cpu: 1
+      memorySize: 2048
+      instanceQuota: 1

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "mcp-server-flomo": "^0.0.11"
+  }
+}

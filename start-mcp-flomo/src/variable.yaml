@@ -1,0 +1,8 @@
+services:
+  start-mcp-flomo:
+    FLOMO_API_URL:
+      title: FLOMO_API_URL
+      type: string
+      default: ''
+      sensitive: 'true'
+      description: 获取 Flomo API URL, 参考 https://v.flomoapp.com/mine
