@@ -1,0 +1,11 @@
+start-mcp-ledger-mate:
+  default:
+    rootPath: ./code
+    languages:
+      - nodejs20
+    cache:
+      paths:
+        - "~/.npm"
+    steps:
+      - run: npm install
+      

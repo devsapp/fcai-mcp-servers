@@ -1,0 +1,17 @@
+services:
+  start-mcp-esign:
+    HOST:
+      title: 环境地址
+      type: string
+      default: ''
+      description: 选择对应的环境地址
+    APP_ID:
+      title: 应用ID
+      type: string
+      default: ''
+      description: 应用ID，获取请前往：https://open.esign.cn/?spm=5176.28197581.d_mcp.1.92285a9eaVK90c
+    APP_SECRET: 
+      title: 应用密钥
+      type: string
+      default: ''
+      description: 应用密钥，获取请前往：https://open.esign.cn/?spm=5176.28197581.d_mcp.1.92285a9eaVK90c
