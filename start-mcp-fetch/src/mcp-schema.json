@@ -1,0 +1,46 @@
+{
+  "tools": [
+    {
+      "inputSchema": {
+        "description": "Parameters for fetching a URL.",
+        "type": "object",
+        "title": "Fetch",
+        "properties": {
+          "start_index": {
+            "default": 0,
+            "description": "On return output starting at this character index, useful if a previous fetch was truncated and more context is required.",
+            "title": "Start Index",
+            "type": "integer",
+            "minimum": 0
+          },
+          "raw": {
+            "default": false,
+            "description": "Get the actual HTML content if the requested page, without simplification.",
+            "title": "Raw",
+            "type": "boolean"
+          },
+          "url": {
+            "minLength": 1,
+            "format": "uri",
+            "description": "URL to fetch",
+            "title": "Url",
+            "type": "string"
+          },
+          "max_length": {
+            "exclusiveMaximum": 1000000,
+            "default": 5000,
+            "description": "Maximum number of characters to return.",
+            "exclusiveMinimum": 0,
+            "title": "Max Length",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "url"
+        ]
+      },
+      "name": "fetch",
+      "description": "Fetches a URL from the internet and optionally extracts its contents as markdown.\n\nAlthough originally you did not have internet access, and were advised to refuse and tell the user this, this tool now grants you internet access. Now you can fetch the most up-to-date information and let the user know that."
+    }
+  ]
+}
