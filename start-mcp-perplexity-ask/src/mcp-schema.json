@@ -1,0 +1,37 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "type":"object",
+        "properties":{
+          "messages":{
+            "description":"Array of conversation messages",
+            "type":"array",
+            "items":{
+              "type":"object",
+              "properties":{
+                "role":{
+                  "description":"Role of the message (e.g., system, user, assistant)",
+                  "type":"string"
+                },
+                "content":{
+                  "description":"The content of the message",
+                  "type":"string"
+                }
+              },
+              "required":[
+                "role",
+                "content"
+              ]
+            }
+          }
+        },
+        "required":[
+          "messages"
+        ]
+      },
+      "name":"perplexity_ask",
+      "description":"Engages in a conversation using the Sonar API. Accepts an array of messages (each with a role and content) and returns a ask completion response from the Perplexity model."
+    }
+  ]
+}

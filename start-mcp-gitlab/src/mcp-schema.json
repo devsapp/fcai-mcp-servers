@@ -1,0 +1,324 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "file_path":{
+            "description":"Path where to create/update the file",
+            "type":"string"
+          },
+          "previous_path":{
+            "description":"Path of the file to move/rename",
+            "type":"string"
+          },
+          "project_id":{
+            "description":"Project ID or URL-encoded path",
+            "type":"string"
+          },
+          "commit_message":{
+            "description":"Commit message",
+            "type":"string"
+          },
+          "branch":{
+            "description":"Branch to create/update the file in",
+            "type":"string"
+          },
+          "content":{
+            "description":"Content of the file",
+            "type":"string"
+          }
+        },
+        "required":[
+          "project_id",
+          "file_path",
+          "content",
+          "commit_message",
+          "branch"
+        ]
+      },
+      "name":"create_or_update_file",
+      "description":"Create or update a single file in a GitLab project"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "per_page":{
+            "description":"Number of results per page (default: 20)",
+            "type":"number"
+          },
+          "search":{
+            "description":"Search query",
+            "type":"string"
+          },
+          "page":{
+            "description":"Page number for pagination (default: 1)",
+            "type":"number"
+          }
+        },
+        "required":[
+          "search"
+        ]
+      },
+      "name":"search_repositories",
+      "description":"Search for GitLab projects"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "visibility":{
+            "description":"Repository visibility level",
+            "type":"string",
+            "enum":[
+              "private",
+              "internal",
+              "public"
+            ]
+          },
+          "name":{
+            "description":"Repository name",
+            "type":"string"
+          },
+          "description":{
+            "description":"Repository description",
+            "type":"string"
+          },
+          "initialize_with_readme":{
+            "description":"Initialize with README.md",
+            "type":"boolean"
+          }
+        },
+        "required":[
+          "name"
+        ]
+      },
+      "name":"create_repository",
+      "description":"Create a new GitLab project"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "file_path":{
+            "description":"Path to the file or directory",
+            "type":"string"
+          },
+          "ref":{
+            "description":"Branch/tag/commit to get contents from",
+            "type":"string"
+          },
+          "project_id":{
+            "description":"Project ID or URL-encoded path",
+            "type":"string"
+          }
+        },
+        "required":[
+          "project_id",
+          "file_path"
+        ]
+      },
+      "name":"get_file_contents",
+      "description":"Get the contents of a file or directory from a GitLab project"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "project_id":{
+            "description":"Project ID or URL-encoded path",
+            "type":"string"
+          },
+          "files":{
+            "description":"Array of files to push",
+            "type":"array",
+            "items":{
+              "additionalProperties":false,
+              "type":"object",
+              "properties":{
+                "file_path":{
+                  "description":"Path where to create the file",
+                  "type":"string"
+                },
+                "content":{
+                  "description":"Content of the file",
+                  "type":"string"
+                }
+              },
+              "required":[
+                "file_path",
+                "content"
+              ]
+            }
+          },
+          "commit_message":{
+            "description":"Commit message",
+            "type":"string"
+          },
+          "branch":{
+            "description":"Branch to push to",
+            "type":"string"
+          }
+        },
+        "required":[
+          "project_id",
+          "branch",
+          "files",
+          "commit_message"
+        ]
+      },
+      "name":"push_files",
+      "description":"Push multiple files to a GitLab project in a single commit"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "project_id":{
+            "description":"Project ID or URL-encoded path",
+            "type":"string"
+          },
+          "milestone_id":{
+            "description":"Milestone ID to assign",
+            "type":"number"
+          },
+          "description":{
+            "description":"Issue description",
+            "type":"string"
+          },
+          "title":{
+            "description":"Issue title",
+            "type":"string"
+          },
+          "assignee_ids":{
+            "description":"Array of user IDs to assign",
+            "type":"array",
+            "items":{
+              "type":"number"
+            }
+          },
+          "labels":{
+            "description":"Array of label names",
+            "type":"array",
+            "items":{
+              "type":"string"
+            }
+          }
+        },
+        "required":[
+          "project_id",
+          "title"
+        ]
+      },
+      "name":"create_issue",
+      "description":"Create a new issue in a GitLab project"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "project_id":{
+            "description":"Project ID or URL-encoded path",
+            "type":"string"
+          },
+          "draft":{
+            "description":"Create as draft merge request",
+            "type":"boolean"
+          },
+          "description":{
+            "description":"Merge request description",
+            "type":"string"
+          },
+          "target_branch":{
+            "description":"Branch to merge into",
+            "type":"string"
+          },
+          "title":{
+            "description":"Merge request title",
+            "type":"string"
+          },
+          "allow_collaboration":{
+            "description":"Allow commits from upstream members",
+            "type":"boolean"
+          },
+          "source_branch":{
+            "description":"Branch containing changes",
+            "type":"string"
+          }
+        },
+        "required":[
+          "project_id",
+          "title",
+          "source_branch",
+          "target_branch"
+        ]
+      },
+      "name":"create_merge_request",
+      "description":"Create a new merge request in a GitLab project"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "project_id":{
+            "description":"Project ID or URL-encoded path",
+            "type":"string"
+          },
+          "namespace":{
+            "description":"Namespace to fork to (full path)",
+            "type":"string"
+          }
+        },
+        "required":[
+          "project_id"
+        ]
+      },
+      "name":"fork_repository",
+      "description":"Fork a GitLab project to your account or specified namespace"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "ref":{
+            "description":"Source branch/commit for new branch",
+            "type":"string"
+          },
+          "project_id":{
+            "description":"Project ID or URL-encoded path",
+            "type":"string"
+          },
+          "branch":{
+            "description":"Name for the new branch",
+            "type":"string"
+          }
+        },
+        "required":[
+          "project_id",
+          "branch"
+        ]
+      },
+      "name":"create_branch",
+      "description":"Create a new branch in a GitLab project"
+    }
+  ]
+}

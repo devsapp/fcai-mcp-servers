@@ -6,3 +6,4 @@ services:
       default: ""
       sensitive: 'true'
       description: OpenWeather API Key, 请参考 https://home.openweathermap.org/users/sign_in
+      required: true

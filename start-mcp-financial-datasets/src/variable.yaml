@@ -6,3 +6,4 @@ services:
       default: ""
       sensitive: 'true'
       description: financial-datasets api-key, 请参考 https://www.financialdatasets.ai/
+      required: true
