@@ -1,0 +1,20 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "type":"object",
+        "properties":{
+          "query":{
+            "description":"搜索关键词（长度：>=2 and <=100）",
+            "type":"string"
+          }
+        },
+        "required":[
+          "query"
+        ]
+      },
+      "name":"common_search",
+      "description":"标准搜索接口提供增强的网络开放域的实时搜索能力，通过大模型优化与多数据源融合的技术，查询干净、准确、多样、高质量的结果。"
+    }
+  ]
+}

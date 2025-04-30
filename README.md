@@ -35,7 +35,9 @@ mcp servers on serverless
 - [fcai-start-mcp-esign](./start-mcp-esign)
 - [fcai-start-mcp-ledger-mate](./start-mcp-ledger-mate)
 - [fcai-start-mcp-edgeone-pages](./start-mcp-edgeone-pages)
-
+- [fcai-start-mcp-alibaba-cloud-ops](./start-mcp-alibaba-cloud-ops)
+- [fcai-start-mcp-cappt](./start-mcp-cappt)
+- [fcai-start-mcp-tongxiao](./start-mcp-tongxiao)
 
 
 
