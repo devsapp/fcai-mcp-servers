@@ -32,6 +32,9 @@ mcp servers on serverless
 - [fcai-start-mcp-perplexity-ask](./start-mcp-perplexity-ask)
 - [fcai-start-mcp-quickchart](./start-mcp-quickchart)
 - [fcai-start-mcp-sequentialthinking](./start-mcp-sequentialthinking)
+- [fcai-start-mcp-esign](./start-mcp-esign)
+- [fcai-start-mcp-ledger-mate](./start-mcp-ledger-mate)
+- [fcai-start-mcp-edgeone-pages](./start-mcp-edgeone-pages)
 
 
 

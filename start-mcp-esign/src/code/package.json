@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "esign-mcp-server": "^1.1.0"
+  }
+}

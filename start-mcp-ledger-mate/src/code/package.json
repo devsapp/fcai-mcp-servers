@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@big_mouth_cn/ledger-mate-mcp-server": "^0.0.4"
+  }
+}

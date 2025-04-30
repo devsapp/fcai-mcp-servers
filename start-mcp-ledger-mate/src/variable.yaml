@@ -1,0 +1,8 @@
+services:
+  start-mcp-ledger-mate:
+    LEDGER_MATE_ACCESS_KEY:
+      title: 密钥
+      type: string
+      default: ''
+      description: 需要前往微信打开小程序《爱小记》，登录后在「设置-复制密钥」获取 Acccess Key。
+      required: true
