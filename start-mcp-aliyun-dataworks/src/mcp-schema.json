@@ -1,0 +1,1547 @@
+{
+  "tools": [
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "MetaCollectionId": {
+            "description": "集合对象Id",
+            "type": "string"
+          },
+          "Id": {
+            "description": "实体Id，目前仅支持表类型",
+            "type": "string"
+          },
+          "Remark": {
+            "description": "添加到集合时的备注信息，目前仅对专辑类型生效",
+            "type": "string"
+          }
+        },
+        "required": [
+          "MetaCollectionId",
+          "Id"
+        ]
+      },
+      "name": "AddEntityIntoMetaCollection",
+      "description": "向数据地图集合中添加实体对象"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "CloneDataSourceName": {
+            "description": "目标数据源的名称，由字母、数字、下划线组合，且不能以数字和下划线开头，最长60个字符",
+            "type": "string"
+          },
+          "Id": {
+            "description": "数据源ID，数据源的唯一标识符"
+          }
+        },
+        "required": [
+          "CloneDataSourceName"
+        ]
+      },
+      "name": "CloneDataSource",
+      "description": "克隆数据源"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Type": {
+            "description": "数据源的类型，目前已经支持数据源类型 70+，数据源类型枚举说明参考文档：[数据源类型列表](~~2852465~~)",
+            "type": "string"
+          },
+          "Description": {
+            "description": "数据源描述信息，长度不超过3000个字符",
+            "type": "string"
+          },
+          "ConnectionProperties": {
+            "description": "数据源的具体连接配置信息，包括连接地址、访问身份、环境信息等。数据源环境envType信息是此对象的成员属性，包括-Dev（开发环境）-Prod（生产环境）不同类型的数据源在不同的配置模式（ConnectionPropertiesMode）下具有不同的属性信息规范，请参考[数据源连接信息ConnectionProperties](~~2852465~~)",
+            "type": "string"
+          },
+          "ProjectId": {
+            "description": "DataWorks工作空间的ID"
+          },
+          "ConnectionPropertiesMode": {
+            "description": "数据源添加的类别，不同Type下会有不同的子类型，对应有不同的参数约束，以MySQL数据源举例有：- InstanceMode（实例模式）- UrlMode（连接串模式）",
+            "type": "string"
+          },
+          "Name": {
+            "description": "数据源的名称，由字母、数字、下划线组合，且不能以数字和下划线开头，最长255个字符",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Name",
+          "Type",
+          "ConnectionPropertiesMode",
+          "ConnectionProperties"
+        ]
+      },
+      "name": "CreateDataSource",
+      "description": "创建数据源"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "DstEntity": {
+            "description": "目标实体"
+          },
+          "Task": {
+            "description": "任务信息。"
+          },
+          "SrcEntity": {
+            "description": "源实体"
+          }
+        }
+      },
+      "name": "CreateLineageRelationship",
+      "description": "注册数据地图血缘关系"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "ParentId": {
+            "description": "父节点集合对象Id",
+            "type": "string"
+          },
+          "Type": {
+            "description": "集合类型，可枚举，取值为-Category类目-Album数据专辑-AlbumCategory专辑子类目",
+            "type": "string"
+          },
+          "Description": {
+            "description": "集合对象描述",
+            "type": "string"
+          },
+          "Name": {
+            "description": "集合对象名称",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Name",
+          "Type"
+        ]
+      },
+      "name": "CreateMetaCollection",
+      "description": "创建数据地图集合对象"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "UserId": {
+            "description": "Dataworks账号ID",
+            "type": "string"
+          },
+          "ProjectId": {
+            "description": "DataWorks工作空间的ID"
+          },
+          "RoleCodes": {
+            "description": "工作空间角色Code列表",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "UserId",
+          "RoleCodes"
+        ]
+      },
+      "name": "CreateProjectMember",
+      "description": "创建工作空间成员"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "数据源ID，数据源的唯一标识符"
+          }
+        }
+      },
+      "name": "DeleteDataSource",
+      "description": "删除数据源"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "血缘关系ID",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "DeleteLineageRelationship",
+      "description": "删除数据地图血缘关系"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "集合对象Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "DeleteMetaCollection",
+      "description": "删除数据地图集合对象"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "UserId": {
+            "description": "DataWorks账号ID",
+            "type": "string"
+          },
+          "ProjectId": {
+            "description": "DataWorks工作空间的ID"
+          }
+        },
+        "required": [
+          "UserId"
+        ]
+      },
+      "name": "DeleteProjectMember",
+      "description": "移除工作空间成员"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "ID，当前支持dlf与starrocks类型，可参考[元数据实体相关概念说明](~~2880092~~)。-对于dlf类型，当前仅支持dlf1.0，其ID格式为`dlf-catalog:${主账号ID}:${数据目录名称}`-对于starrocks类型，其ID格式为`starrocks-catalog:${实例ID或转义后的URL}:${数据目录名称}`",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "GetCatalog",
+      "description": "获取数据地图数据目录详情"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "ID，可参考[元数据实体相关概念说明](~~2880092~~)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "GetColumn",
+      "description": "获取数据地图数据表字段信息"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "数据源ID，数据源的唯一标识符"
+          }
+        }
+      },
+      "name": "GetDataSource",
+      "description": "查看数据源详情"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "ID，可参考[元数据实体相关概念说明](~~2880092~~)。格式为`${EntityType}:${实例ID或转义后的URL}:${数据目录名称}:${数据库名称}`，对于不存在的层级置空",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "GetDatabase",
+      "description": "获取数据地图数据库详情"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "血缘关系ID",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "GetLineageRelationship",
+      "description": "获取数据地图血缘关系"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "集合对象Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "GetMetaCollection",
+      "description": "获取数据地图集合信息"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "网络资源ID"
+          }
+        }
+      },
+      "name": "GetNetwork",
+      "description": "获取某个网络资源详细信息"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "TableId": {
+            "description": "数据表ID，可参考[元数据实体相关概念说明](~~2880092~~)",
+            "type": "string"
+          },
+          "Name": {
+            "description": "分区名称",
+            "type": "string"
+          }
+        },
+        "required": [
+          "TableId",
+          "Name"
+        ]
+      },
+      "name": "GetPartition",
+      "description": "获取数据地图数据表的分区详情"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "DataWorks工作空间的ID"
+          }
+        }
+      },
+      "name": "GetProject",
+      "description": "获取工作空间详情"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "UserId": {
+            "description": "Dataworks账号ID",
+            "type": "string"
+          },
+          "ProjectId": {
+            "description": "DataWorks工作空间的ID"
+          }
+        },
+        "required": [
+          "UserId"
+        ]
+      },
+      "name": "GetProjectMember",
+      "description": "查询工作空间成员详情"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "ProjectId": {
+            "description": "DataWorks工作空间的ID"
+          },
+          "Code": {
+            "description": "工作空间的角色 Code。- role_project_admin：空间管理员- role_project_dev：开发- role_project_dg_admin：数据治理管理员- role_project_guest：访客- role_project_security：安全管理员- role_project_deploy：部署- role_project_owner：空间所有者- role_project_data_analyst：数据分析师- role_project_pe：运维- role_project_erd(模型设计师",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Code"
+        ]
+      },
+      "name": "GetProjectRole",
+      "description": "获取工作空间角色详情"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "通用资源组唯一标识",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "GetResourceGroup",
+      "description": "根据ID获取指定资源组信息"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "路由ID"
+          }
+        }
+      },
+      "name": "GetRoute",
+      "description": "根据ID获取指定路由信息"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "ID，可参考[元数据实体相关概念说明](~~2880092~~)。格式为`${EntityType}:${实例ID或转义后的URL}:${数据目录名称}:${数据库名称}:${模式名称}`，对于不存在的层级置空>对于MaxCompute类型，此处的实例ID即为主账号ID，数据库名称即为MaxCompute项目名称",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "GetSchema",
+      "description": "获取数据地图数据库模式信息"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Id": {
+            "description": "ID，可参考[元数据实体相关概念说明](~~2880092~~)。格式为`${EntityType}:${实例ID或转义后的URL}:${数据目录名称}:${数据库名称}:${模式名称}:${数据表名称}`，对于不存在的层级置空>对于MaxCompute和DLF类型，此处的实例ID即为主账号ID。>对于MaxCompute类型，此处的数据库名称即为MaxCompute项目名称",
+            "type": "string"
+          },
+          "IncludeBusinessMetadata": {
+            "description": "是否包含业务元数据，默认为false",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "GetTable",
+      "description": "获取数据地图数据表详情"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "UserId": {
+            "description": "DataWorks账号ID",
+            "type": "string"
+          },
+          "ProjectId": {
+            "description": "DataWorks工作空间的ID"
+          },
+          "RoleCodes": {
+            "description": "工作空间角色Code列表",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "UserId",
+          "RoleCodes"
+        ]
+      },
+      "name": "GrantMemberProjectRoles",
+      "description": "授予工作空间成员新的空间角色"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Order": {
+            "description": "排序方向，默认为Asc，枚举值，当前支持-Asc升序-Desc降序",
+            "type": "string"
+          },
+          "Comment": {
+            "description": "注释，分词匹配",
+            "type": "string"
+          },
+          "Types": {
+            "description": "类型，精确匹配，为空时查询所有类型",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "PageSize": {
+            "description": "分页大小，默认为10，最大为100"
+          },
+          "PageNumber": {
+            "description": "分页页码，默认为1"
+          },
+          "SortBy": {
+            "description": "排序字段，默认为CreateTime，枚举值，当前支持-CreateTime创建时间-ModifyTime修改时间-Name名称-Type类型",
+            "type": "string"
+          },
+          "ParentMetaEntityId": {
+            "description": "父层级实体ID，可参考[元数据实体相关概念说明](~~2880092~~)。当前支持dlf与starrocks类型。-对于dlf类型，当前仅支持dlf1.0，其实体ID为dlf-对于starrocks类型，其实体ID格式为`starrocks:${实例ID或URL转义后的JDBC连接串}`",
+            "type": "string"
+          },
+          "Name": {
+            "description": "名称，模糊匹配",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ParentMetaEntityId"
+        ]
+      },
+      "name": "ListCatalogs",
+      "description": "查询数据地图数据目录列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "TableId": {
+            "description": "数据表ID，可参考[元数据实体相关概念说明](~~2880092~~)",
+            "type": "string"
+          },
+          "Order": {
+            "description": "排序方向，默认为Asc，枚举值，当前支持-Asc升序-Desc降序",
+            "type": "string"
+          },
+          "Comment": {
+            "description": "注释，模糊匹配",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "分页大小，默认为10，最大为100"
+          },
+          "PageNumber": {
+            "description": "分页页码，默认为1"
+          },
+          "SortBy": {
+            "description": "排序字段，默认为Position，枚举值，当前支持-Name名称-Position位置",
+            "type": "string"
+          },
+          "Name": {
+            "description": "名称，模糊匹配",
+            "type": "string"
+          }
+        },
+        "required": [
+          "TableId"
+        ]
+      },
+      "name": "ListColumns",
+      "description": "查询数据地图数据表字段列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {}
+      },
+      "name": "ListCrawlerTypes",
+      "description": "获取数据地图元数据采集器类型列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "TargetProjectId": {
+            "description": "数据源分享到的目标项目空间ID，不支持分享到本项目"
+          },
+          "DataSourceId": {
+            "description": "数据源ID，数据源的唯一标识符"
+          }
+        }
+      },
+      "name": "ListDataSourceSharedRules",
+      "description": "查询数据源分享规则列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Order": {
+            "description": "数据源列表排序方向，枚举值：- Desc：倒序- Asc：正序默认值：Desc",
+            "type": "string"
+          },
+          "Types": {
+            "description": "数据源类型查询过滤，可以配置多个类型查询过滤",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "PageSize": {
+            "description": "分页大小，默认值为10，最大值100"
+          },
+          "PageNumber": {
+            "description": "查询第几页，默认值为1表示第一页"
+          },
+          "SortBy": {
+            "description": "数据源列表排序字段，支持名称、创建时间、数据源ID排序- CreateTime：创建时间- Id：数据源ID- Name：数据源名称默认值：CreateTime",
+            "type": "string"
+          },
+          "ProjectId": {
+            "description": "DataWorks工作空间的ID"
+          },
+          "EnvType": {
+            "description": "数据源环境类型，枚举值：- Dev：开发环境- Prod：生产环境",
+            "type": "string"
+          },
+          "Tags": {
+            "description": "数据源可以打标签，基于标签做数据源查询过滤：- 多个值之间是“且”的关系，比如`[\"tag1\", \"tag2\", \"tag3\"]`底层查询同时有这3个标签打标的数据源列表。- 不传递，或者传递为空表示不作tag过滤，查询最多支持10个标签",
+            "type": "string"
+          },
+          "Name": {
+            "description": "数据源名称，基于此名称做模糊查询",
+            "type": "string"
+          }
+        }
+      },
+      "name": "ListDataSources",
+      "description": "获取数据源列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Order": {
+            "description": "排序方向，默认为Asc，枚举值，当前支持-Asc升序-Desc降序",
+            "type": "string"
+          },
+          "Comment": {
+            "description": "注释，模糊匹配",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "分页大小，默认为10，最大为100"
+          },
+          "PageNumber": {
+            "description": "分页页码，默认为1"
+          },
+          "SortBy": {
+            "description": "排序字段，默认为CreateTime，枚举值，当前支持-CreateTime创建时间-ModifyTime修改时间-Name名称",
+            "type": "string"
+          },
+          "ParentMetaEntityId": {
+            "description": "父层级实体ID，可参考[元数据实体相关概念说明](~~2880092~~)。父层级实体类型参考ListCrawlerTypes接口-如果父层级实体为数据目录，此处为数据目录ID-如果父层级实体为元数据采集器实体，ID格式为`${CrawlerType}:${实例ID或转义后的URL}`",
+            "type": "string"
+          },
+          "Name": {
+            "description": "名称，模糊匹配",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ParentMetaEntityId"
+        ]
+      },
+      "name": "ListDatabases",
+      "description": "查询数据地图数据库列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "EntityType": {
+            "description": "实体类型",
+            "type": "string"
+          },
+          "Order": {
+            "description": "排序方向，支持-Asc（默认）-Desc",
+            "type": "string"
+          },
+          "EntityName": {
+            "description": "实体名称，模糊匹配",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "分页大小，默认为10，最大为100"
+          },
+          "PageNumber": {
+            "description": "分页页码，默认为1"
+          },
+          "EntityDescription": {
+            "description": "添加实体到集合时的描述，模糊匹配，目前仅专辑类型支持",
+            "type": "string"
+          },
+          "SortBy": {
+            "description": "排序字段,支持-Name名称（默认）-CreateTime实体创建时间",
+            "type": "string"
+          },
+          "Id": {
+            "description": "集合对象Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "ListEntitiesInMetaCollection",
+      "description": "查询数据地图集合中的实体列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Order": {
+            "description": "排序方向，默认为Asc，枚举值，当前支持-Asc升序-Desc降序",
+            "type": "string"
+          },
+          "SrcEntityId": {
+            "description": "源实体ID",
+            "type": "string"
+          },
+          "SrcEntityName": {
+            "description": "源实体名称，模糊匹配",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "分页大小，默认为10，最大为100"
+          },
+          "DstEntityName": {
+            "description": "目标实体名称，模糊匹配",
+            "type": "string"
+          },
+          "PageNumber": {
+            "description": "分页页码，默认为1"
+          },
+          "SortBy": {
+            "description": "排序字段，默认为Name",
+            "type": "string"
+          },
+          "DstEntityId": {
+            "description": "目标实体ID",
+            "type": "string"
+          }
+        },
+        "required": [
+          "SrcEntityId",
+          "DstEntityId"
+        ]
+      },
+      "name": "ListLineageRelationships",
+      "description": "查询数据地图血缘关系列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Order": {
+            "description": "排序方向，默认为Asc，枚举值，当前支持-Asc升序-Desc降序",
+            "type": "string"
+          },
+          "SrcEntityId": {
+            "description": "源实体ID",
+            "type": "string"
+          },
+          "SrcEntityName": {
+            "description": "源实体名称，模糊匹配",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "分页大小，默认为10，最大为100"
+          },
+          "DstEntityName": {
+            "description": "目标实体名称，模糊匹配",
+            "type": "string"
+          },
+          "PageNumber": {
+            "description": "分页页码，默认为1"
+          },
+          "SortBy": {
+            "description": "排序字段，默认为Name",
+            "type": "string"
+          },
+          "DstEntityId": {
+            "description": "目标实体ID",
+            "type": "string"
+          },
+          "NeedAttachRelationship": {
+            "description": "是否返回血缘关系信息",
+            "type": "boolean"
+          }
+        }
+      },
+      "name": "ListLineages",
+      "description": "查询数据地图实体血缘列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "ParentId": {
+            "description": "父节点集合对象ID",
+            "type": "string"
+          },
+          "Order": {
+            "description": "排序方向，支持-Asc（默认）-Desc",
+            "type": "string"
+          },
+          "Type": {
+            "description": "集合类型，可枚举，取值为-Category类目-Album数据专辑-AlbumCategory专辑子类目",
+            "type": "string"
+          },
+          "Description": {
+            "description": "集合描述，模糊匹配",
+            "type": "string"
+          },
+          "Administrator": {
+            "description": "集合管理员ID，专辑类型有效，默认为当前用户ID",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "分页大小，默认为10，最大为100"
+          },
+          "PageNumber": {
+            "description": "分页页码，默认为1"
+          },
+          "SortBy": {
+            "description": "排序字段,支持-Id（默认）-Name名称-CreateUser创建者ID-CreateTime创建时间-ModifyTime修改时间",
+            "type": "string"
+          },
+          "CreateUser": {
+            "description": "创建者用户ID，专辑类型有效，默认为当前用户ID",
+            "type": "string"
+          },
+          "Name": {
+            "description": "集合名称，模糊匹配",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Type"
+        ]
+      },
+      "name": "ListMetaCollections",
+      "description": "查询数据地图集合列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "ResourceGroupId": {
+            "description": "通用资源组唯一标识",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "分页大小"
+          },
+          "PageNumber": {
+            "description": "分页页码"
+          },
+          "SortBy": {
+            "description": "排序字段列表，支持定时时间、开始时间等字段。格式为\"排序字段+排序方式(Desc/Asc)\"（Asc可以缺省）。排序字段的枚举值如下：- Id  (Desc/Asc)：网络ID- Status (Desc/Asc)：网络状态- CreateUser (Desc/Asc)：创建用户- CreateTime (Desc/Asc)：创建时间默认值为CreateTime Asc",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ResourceGroupId"
+        ]
+      },
+      "name": "ListNetworks",
+      "description": "获取资源组网络资源列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "TableId": {
+            "description": "所属数据表ID，可参考[元数据实体相关概念说明](~~2880092~~)",
+            "type": "string"
+          },
+          "Order": {
+            "description": "排序方向，默认为Asc，枚举值，当前支持- Asc：升序。- Desc：降序",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "分页大小，默认为10，最大为100"
+          },
+          "PageNumber": {
+            "description": "分页页码，默认为1"
+          },
+          "SortBy": {
+            "description": "排序字段，默认为CreateTime，枚举值，当前支持- CreateTime：创建时间，仅MaxCompute类型支持。- ModifyTime：修改时间，仅MaxCompute类型支持。- Name：名称，HMS类型使用的排序方式。- RecordCount：记录数，仅MaxCompute类型支持。- DataSize：存储量，仅MaxCompute类型支持",
+            "type": "string"
+          },
+          "Name": {
+            "description": "分区名称",
+            "type": "string"
+          }
+        },
+        "required": [
+          "TableId"
+        ]
+      },
+      "name": "ListPartitions",
+      "description": "查询数据地图数据表的分区列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "PageSize": {
+            "description": "每页显示的条数，默认为10条，最大100条"
+          },
+          "PageNumber": {
+            "description": "请求的数据页数，用于翻页"
+          },
+          "ProjectId": {
+            "description": "DataWorks工作空间的ID"
+          },
+          "RoleCodes": {
+            "description": "工作空间角色Code列表",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "UserIds": {
+            "description": "Dataworks账号ID列表",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "name": "ListProjectMembers",
+      "description": "查询工作空间成员列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Names": {
+            "description": "工作空间的角色Name列表",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Codes": {
+            "description": "工作空间角色Code列表",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Type": {
+            "description": "工作空间的角色类型。- UserCustom：用户自定义角色- System：系统角色",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "每页显示的条数，默认为10条，最大100条"
+          },
+          "PageNumber": {
+            "description": "请求的数据页数，用于翻页"
+          },
+          "ProjectId": {
+            "description": "DataWorks工作空间的ID"
+          }
+        }
+      },
+      "name": "ListProjectRoles",
+      "description": "获取工作空间角色详情列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Names": {
+            "description": "DataWorks工作空间名称列表。该参数用来查询符合工作空间Name列表的空间详情",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Status": {
+            "description": "空间状态：- Available：工作空间运行正常- Initializing：初始化工作空间- InitFailed：工作空间初始化失败- Forbidden：手动禁用工作空间- Deleting：正在删除工作空间- DeleteFailed：工作空间删除失败- Frozen：工作空间欠费冻结- Updating：更新工作空间中- UpdateFailed：更新工作空间失败该参数用于查询符合该状态的工作空间详情",
+            "type": "string"
+          },
+          "AliyunResourceTags": {
+            "description": "标签列表。该参数用于查询拥有任意标签键值信息的工作空间详情",
+            "type": "array",
+            "items": {
+              "additionalProperties": false,
+              "type": "object",
+              "properties": {
+                "Value": {
+                  "description": "标签值",
+                  "type": "string"
+                },
+                "Key": {
+                  "description": "标签键",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "AliyunResourceGroupId": {
+            "description": "工作空间所属阿里云资源组ID",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "每页显示的条数，默认为10条，最大100条"
+          },
+          "PageNumber": {
+            "description": "请求的数据页数，用于翻页"
+          },
+          "PaiTaskEnabled": {
+            "description": "是否启用PAI任务调度：- true 可以在DataWorks工作空间创建机器学习（PAI）节点，并按照节点配置进行周期性调度运行。- false 禁用PAI任务调度该参数用于查询符合“开启/未开启PAI任务调用”条件的工作空间详情",
+            "type": "boolean"
+          },
+          "Ids": {
+            "description": "DataWorks工作空间ID列表。该参数用来查询符合工作空间ID列表的空间详情",
+            "type": "array"
+          },
+          "DevEnvironmentEnabled": {
+            "description": "是否启用开发环境：- true 工作空间启用开发环境，支持开发与生产环境隔离- false 仅使用生产环境该参数用于查询符合“启用/未启用开发环境”条件的工作空间详情",
+            "type": "boolean"
+          },
+          "DevRoleDisabled": {
+            "description": "是否禁用开发角色：- false，开启开发角色（默认）- true，禁用开发角色该参数用于查询符合“开启/禁用开发角色”条件的工作空间详情",
+            "type": "boolean"
+          }
+        }
+      },
+      "name": "ListProjects",
+      "description": "获取工作空间详情列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "AliyunResourceTags": {
+            "description": "阿里云标签列表",
+            "type": "array",
+            "items": {
+              "additionalProperties": false,
+              "type": "object",
+              "properties": {
+                "Value": {
+                  "description": "标签Value",
+                  "type": "string"
+                },
+                "Key": {
+                  "description": "标签Key",
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "AliyunResourceGroupId": {
+            "description": "阿里云资源组ID",
+            "type": "string"
+          },
+          "Statuses": {
+            "description": "查询的资源组状态列表",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "PageSize": {
+            "description": "分页大小"
+          },
+          "PageNumber": {
+            "description": "分页页码"
+          },
+          "SortBy": {
+            "description": "排序字段列表，支持定时时间、开始时间等字段。格式为\"排序字段+排序方式(Desc/Asc)\"（Asc可以缺省）。排序字段的枚举值如下：- Id  (Desc/Asc)：资源组ID- Name  (Desc/Asc)：资源组名称- Remark  (Desc/Asc)：资源组备注- Type  (Desc/Asc)：资源组类型- Status  (Desc/Asc)：资源组资源状态- Spec  (Desc/Asc)：资源组规格- CreateUser  (Desc/Asc)：创建人- CreateTime  (Desc/Asc)：创建时间默认值为CreateTime Asc",
+            "type": "string"
+          },
+          "ProjectId": {
+            "description": "所属工作空间ID"
+          },
+          "PaymentType": {
+            "description": "资源组的付费类型。- PrePaid：包年包月。- PostPaid：按量付费",
+            "type": "string"
+          },
+          "ResourceGroupTypes": {
+            "description": "查询的资源组类型列表，为空默认查询通用资源组",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Name": {
+            "description": "资源组名称，用于模糊查询",
+            "type": "string"
+          }
+        }
+      },
+      "name": "ListResourceGroups",
+      "description": "获取资源组列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "ResourceGroupId": {
+            "description": "通用资源组唯一标识",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "分页大小"
+          },
+          "PageNumber": {
+            "description": "分页页码"
+          },
+          "SortBy": {
+            "description": "排序字段列表，支持定时时间、开始时间等字段。格式为\"排序字段+排序方式(Desc/Asc)\"（Asc可以缺省）。排序字段的枚举值如下：- Id (Desc/Asc)：路由ID- DestinationCidr (Desc/Asc)：目的CIDR- CreateTime (Desc/Asc)：创建时间默认为CreateTime Asc",
+            "type": "string"
+          },
+          "NetworkId": {
+            "description": "网络资源ID"
+          }
+        },
+        "required": [
+          "ResourceGroupId"
+        ]
+      },
+      "name": "ListRoutes",
+      "description": "获取网络资源的路由列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Order": {
+            "description": "排序方向，默认为Asc，枚举值，当前支持：- Asc：升序。- Desc：降序",
+            "type": "string"
+          },
+          "Comment": {
+            "description": "注释，模糊匹配",
+            "type": "string"
+          },
+          "Types": {
+            "description": "类型，精确匹配，为空时查询所有类型",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "PageSize": {
+            "description": "分页大小，默认为10，最大为100"
+          },
+          "PageNumber": {
+            "description": "分页页码，默认为1"
+          },
+          "SortBy": {
+            "description": "排序字段，默认为CreateTime，枚举值，当前支持：- CreateTime：创建时间。- ModifyTime：修改时间。- Name：名称。- Type：类型",
+            "type": "string"
+          },
+          "ParentMetaEntityId": {
+            "description": "父层级实体ID，可参考[元数据实体相关概念说明](~~2880092~~)。父层级实体类型参考ListCrawlerTypes接口，格式为`${EntityType}:${实例ID或转义后的URL}:${数据目录名称}:${数据库名称}`，对于不存在的层级置空。>对于MaxCompute类型，此处的实例ID即为主账号ID，数据库名称即为MaxCompute项目名称",
+            "type": "string"
+          },
+          "Name": {
+            "description": "名称，模糊匹配",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ParentMetaEntityId"
+        ]
+      },
+      "name": "ListSchemas",
+      "description": "查询数据地图数据库模式列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Order": {
+            "description": "排序方向，默认为Asc，枚举值，当前支持-Asc升序-Desc降序",
+            "type": "string"
+          },
+          "Comment": {
+            "description": "注释，模糊匹配",
+            "type": "string"
+          },
+          "PageSize": {
+            "description": "分页大小，默认为10，最大为100"
+          },
+          "PageNumber": {
+            "description": "分页页码，默认为1"
+          },
+          "TableTypes": {
+            "description": "查询的表类型列表，为空时查询所有类型",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "SortBy": {
+            "description": "排序字段，默认为CreateTime，枚举值，当前支持-CreateTime创建时间-ModifyTime修改时间-Name名称-TableType表类型",
+            "type": "string"
+          },
+          "ParentMetaEntityId": {
+            "description": "父层级元数据实体ID，可参考[元数据实体相关概念说明](~~2880092~~)。-可以为所属数据库ID，格式为`${EntityType}:${实例ID或转义后的URL}:${数据目录名称}:${数据库名称}`，对于不存在的层级置空-对于支持schema的数据库类型（`maxcompute/holo/postgresql/sqlserver/hybriddb_for_postgresql/oracle`），除所属数据库外，也可为所属数据库模式ID（可选），格式为`${EntityType}:${实例ID或转义后的URL}:${数据目录名称}:${数据库名称}:${模式名称}`，对于不存在的层级置空>对于MaxCompute和DLF类型，此处的实例ID即为主账号ID。>对于MaxCompute类型，此处的数据库名称即为MaxCompute项目名称",
+            "type": "string"
+          },
+          "Name": {
+            "description": "名称，模糊匹配",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ParentMetaEntityId"
+        ]
+      },
+      "name": "ListTables",
+      "description": "查询数据地图数据表列表"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "MetaCollectionId": {
+            "description": "集合对象Id",
+            "type": "string"
+          },
+          "Id": {
+            "description": "实体Id",
+            "type": "string"
+          }
+        }
+      },
+      "name": "RemoveEntityFromMetaCollection",
+      "description": "从数据地图集合中移除实体对象"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "UserId": {
+            "description": "Dataworks账号ID",
+            "type": "string"
+          },
+          "ProjectId": {
+            "description": "DataWorks工作空间的ID"
+          },
+          "RoleCodes": {
+            "description": "工作空间角色Code列表",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "UserId",
+          "RoleCodes"
+        ]
+      },
+      "name": "RevokeMemberProjectRoles",
+      "description": "撤销空间成员的空间角色"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "ResourceGroupId": {
+            "description": "资源组ID，即资源组的唯一标识符",
+            "type": "string"
+          },
+          "ProjectId": {
+            "description": "DataWorks项目空间ID"
+          },
+          "DataSourceId": {
+            "description": "待测试连通性的数据源ID，数据源ID是数据源的唯一标识符"
+          }
+        },
+        "required": [
+          "ResourceGroupId"
+        ]
+      },
+      "name": "TestDataSourceConnectivity",
+      "description": "测试数据源的连通性"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Description": {
+            "description": "字段业务描述",
+            "type": "string"
+          },
+          "Id": {
+            "description": "字段ID，可参考[元数据实体相关概念说明](~~2880092~~)",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "UpdateColumnBusinessMetadata",
+      "description": "更新数据地图数据表字段的业务元数据"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Description": {
+            "description": "数据源描述信息，长度不超过3000个字符",
+            "type": "string"
+          },
+          "ConnectionProperties": {
+            "description": "数据源具体连接配置信息，包括连接地址、访问身份、环境信息等。数据源环境EnvType信息是此对象的成员属性，包括-Dev（开发环境）-Prod（生产环境）不同类型的数据源在不同的配置模式（ConnectionPropertiesMode）下具有不同的属性信息规范，请参考[数据源连接信息ConnectionProperties](~~2852465~~)",
+            "type": "string"
+          },
+          "ProjectId": {
+            "description": "DataWorks项目空间ID"
+          },
+          "ConnectionPropertiesMode": {
+            "description": "数据源添加的类别，不同type下会有不同的子类型，对应有不同的参数约束，场景举例：- InstanceMode：实例模式。- UrlMode：连接串模式",
+            "type": "string"
+          },
+          "Id": {
+            "description": "数据源ID，数据源的唯一标识符"
+          }
+        },
+        "required": [
+          "ConnectionProperties"
+        ]
+      },
+      "name": "UpdateDataSource",
+      "description": "修改数据源"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Description": {
+            "description": "更新后的集合描述",
+            "type": "string"
+          },
+          "Administrators": {
+            "description": "集合管理员ID列表，仅专辑类型支持，1.管理员为同租户下子账号2.API调用者为集合创建者或管理员",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Id": {
+            "description": "集合对象ID",
+            "type": "string"
+          },
+          "Name": {
+            "description": "更新后的集合名称",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "UpdateMetaCollection",
+      "description": "更新数据地图集合对象"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Readme": {
+            "description": "使用说明，支持富文本格式",
+            "type": "string"
+          },
+          "Id": {
+            "description": "数据表ID，可参考[元数据实体相关概念说明](~~2880092~~)。格式为`${EntityType}:${实例ID或转义后的URL}:${数据目录名称}:${数据库名称}:${模式名称}:${数据表名称}`，对于不存在的层级置空>对于MaxCompute和DLF类型，此处的实例ID即为主账号ID。>对于MaxCompute类型，此处的数据库名称即为MaxCompute项目名称",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Id"
+        ]
+      },
+      "name": "UpdateTableBusinessMetadata",
+      "description": "更新数据地图数据表的业务元数据"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "Timestamps": {
+            "description": "时间戳数组",
+            "type": "array"
+          },
+          "Format": {
+            "description": "日期格式，如：YYYY-MM-DD HH:mm:ss",
+            "type": "string"
+          }
+        },
+        "required": [
+          "Timestamps"
+        ]
+      },
+      "name": "ConvertTimestamps",
+      "description": "将时间戳转成日期或时间。返回内容如果有时间戳，透过此Tool显示成为日期或时间。"
+    },
+    {
+      "inputSchema": {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "DateTimeDisplay": {
+            "description": "日期或时间数组",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "DateTimeDisplay"
+        ]
+      },
+      "name": "ToTimestamps",
+      "description": "将日期或时间转成时间戳。"
+    }
+  ]
+}

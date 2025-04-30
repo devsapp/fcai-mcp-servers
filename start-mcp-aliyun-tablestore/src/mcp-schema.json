@@ -1,0 +1,47 @@
+{
+  "tools": [
+    {
+      "inputSchema": {
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "meta_data": {
+            "description": "a Python dictionary with strings as keys, which can store some meta data related to this document",
+            "type": "object"
+          },
+          "content": {
+            "description": "a natural language document content",
+            "type": "string"
+          }
+        },
+        "required": [
+          "content"
+        ]
+      },
+      "name": "store",
+      "description": "Store document into Tablestore(表格存储) for later retrieval."
+    },
+    {
+      "inputSchema": {
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "size": {
+            "format": "int32",
+            "description": "the number of similar documents to be returned",
+            "type": "integer"
+          },
+          "query": {
+            "description": "describe what you're looking for, and the tool will return the most relevant documents",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "name": "search",
+      "description": "Search for similar documents on natural language descriptions from Tablestore(表格存储)"
+    }
+  ]
+}

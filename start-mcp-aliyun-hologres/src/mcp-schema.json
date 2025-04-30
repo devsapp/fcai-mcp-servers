@@ -1,0 +1,224 @@
+{
+  "tools": [
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "description": "The (SELECT) SQL query to execute in Hologres database.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "name": "execute_hg_select_sql",
+      "description": "Execute SELECT SQL to query data from Hologres database."
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "description": "The (SELECT) SQL query to execute with serverless computing in Hologres database",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "name": "execute_hg_select_sql_with_serverless",
+      "description": "Use Serverless Computing resources to execute SELECT SQL to query data in Hologres database. When the error like \"Total memory used by all existing queries exceeded memory limitation\" occurs during execute_hg_select_sql execution, you can re-execute the SQL with the tool execute_hg_select_sql_with_serverless."
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "description": "The DML SQL query to execute in Hologres database",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "name": "execute_hg_dml_sql",
+      "description": "Execute (INSERT, UPDATE, DELETE) SQL to insert, update, and delete data in Hologres databse."
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "description": "The DDL SQL query to execute in Hologres database",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "name": "execute_hg_ddl_sql",
+      "description": "Execute (CREATE, ALTER, DROP) SQL statements to CREATE, ALTER, or DROP tables, views, procedures, GUCs etc. in Hologres databse."
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "schema": {
+            "description": "Schema name in Hologres database",
+            "type": "string"
+          },
+          "table": {
+            "description": "Table name in Hologres database",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schema",
+          "table"
+        ]
+      },
+      "name": "gather_hg_table_statistics",
+      "description": "Execute the ANALYZE TABLE command to have Hologres collect table statistics, enabling QO to generate better query plans"
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "description": "The SQL query to analyze in Hologres database",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "name": "get_hg_query_plan",
+      "description": "Get query plan for a SQL query in Hologres database"
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "description": "The SQL query to analyze in Hologres database",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "name": "get_hg_execution_plan",
+      "description": "Get actual execution plan with runtime statistics for a SQL query in Hologres database"
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "procedure_name": {
+            "description": "The name of the stored procedure to call in Hologres database",
+            "type": "string"
+          },
+          "arguments": {
+            "description": "The arguments to pass to the stored procedure in Hologres database",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "procedure_name"
+        ]
+      },
+      "name": "call_hg_procedure",
+      "description": "Call a stored procedure in Hologres database."
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "maxcompute_project": {
+            "description": "The MaxCompute project name (required)",
+            "type": "string"
+          },
+          "local_schema": {
+            "default": "public",
+            "description": "The local schema name in Hologres (optional, default: 'public')",
+            "type": "string"
+          },
+          "maxcompute_tables": {
+            "description": "The MaxCompute table names (required)",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxcompute_schema": {
+            "default": "default",
+            "description": "The MaxCompute schema name (optional, default: 'default')",
+            "type": "string"
+          }
+        },
+        "required": [
+          "maxcompute_project",
+          "maxcompute_tables"
+        ]
+      },
+      "name": "create_hg_maxcompute_foreign_table",
+      "description": "Create a MaxCompute foreign table in Hologres database to accelerate queries on MaxCompute data."
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "name": "list_hg_schemas",
+      "description": "List all schemas in the current Hologres database, excluding system schemas."
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "schema": {
+            "description": "Schema name to list tables from in Hologres database",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schema"
+        ]
+      },
+      "name": "list_hg_tables_in_a_schema",
+      "description": "List all tables in a specific schema in the current Hologres database, including their types (table, view, foreign table, partitioned table)."
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "schema": {
+            "description": "Schema name in Hologres database",
+            "type": "string"
+          },
+          "table": {
+            "description": "Table name in Hologres database",
+            "type": "string"
+          }
+        },
+        "required": [
+          "schema",
+          "table"
+        ]
+      },
+      "name": "show_hg_table_ddl",
+      "description": "Show DDL script for a table, view, or foreign table in Hologres database."
+    }
+  ]
+}
