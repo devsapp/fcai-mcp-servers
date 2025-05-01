@@ -1,0 +1,9 @@
+services:
+  start-mcp-tongxiao:
+    TONGXIAO_API_KEY:
+      title: TONGXIAO_API_KEY
+      type: string
+      default: ''
+      description: 需要前往 https://ipaas.console.aliyun.com/api-key 开通并获取 API Key
+      required: true
+  
