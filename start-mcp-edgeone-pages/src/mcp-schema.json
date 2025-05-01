@@ -1,0 +1,22 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "value":{
+            "description":"HTML or text content to deploy. Provide complete HTML or text content you want to publish, and the system will return a public URL where your content can be accessed.",
+            "type":"string"
+          }
+        },
+        "required":[
+          "value"
+        ]
+      },
+      "name":"deploy-html",
+      "description":"Deploy HTML content to EdgeOne Pages, return the public URL"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "type":"object",
+        "properties":{
+          "fileName":{
+            "description":"文件名，必须包含文件扩展名（例如：合同.pdf、文档.docx），扩展名要与实际文件格式一致",
+            "type":"string"
+          },
+          "receiverPhone":{
+            "description":"签署人手机号，用于接收签署通知短信",
+            "type":"string"
+          },
+          "filePath":{
+            "description":"文件路径，支持本地文件路径或 HTTP(S) 远程文件下载链接。支持的格式：PDF(.pdf)、Word(.docx/.doc/.rtf)、Excel(.xlsx/.xls)、PPT(.pptx/.ppt)、WPS(.wps/.et/.dps)、图片(.jpg/.png/.bmp等)、HTML(.html/.htm)",
+            "type":"string"
+          },
+          "username":{
+            "description":"签署人姓名,非必填，默认为空字符串，如果对方没有在e签宝注册过, 则必须提供姓名; 如果对应用户已存在个人信息，则不需要添加姓名",
+            "type":"string"
+          }
+        },
+        "required":[
+          "filePath",
+          "fileName",
+          "receiverPhone"
+        ]
+      },
+      "name":"create_sign_flow",
+      "description":"创建签署流程，支持多种文件格式，包括：PDF、Word、Excel、PPT、WPS、图片等。非PDF格式会自动转换为PDF。"
+    },
+    {
+      "inputSchema":{
+        "type":"object",
+        "properties":{
+          "flowId":{
+            "description":"Sign flow ID",
+            "type":"string"
+          }
+        },
+        "required":[
+          "flowId"
+        ]
+      },
+      "name":"query_sign_flow",
+      "description":"Query sign flow details"
+    }
+  ]
+}

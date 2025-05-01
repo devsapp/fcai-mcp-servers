@@ -1,0 +1,21 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "input":{
+            "type":"string"
+          }
+        },
+        "required":[
+          "input"
+        ]
+      },
+      "name":"newNote",
+      "description":"Create a new note in Flomo"
+    }
+  ]
+}

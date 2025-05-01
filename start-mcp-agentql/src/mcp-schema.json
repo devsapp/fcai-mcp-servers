@@ -1,0 +1,25 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "type":"object",
+        "properties":{
+          "prompt":{
+            "description":"Natural Language description of the data to extract from the page",
+            "type":"string"
+          },
+          "url":{
+            "description":"The URL of the public webpage to extract data from",
+            "type":"string"
+          }
+        },
+        "required":[
+          "url",
+          "prompt"
+        ]
+      },
+      "name":"extract-web-data",
+      "description":"Extracts structured data as JSON from a web page given a URL using a Natural Language description of the data."
+    }
+  ]
+}

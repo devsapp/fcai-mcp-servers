@@ -1,0 +1,103 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "type":"object",
+        "title":"checkArguments",
+        "properties":{}
+      },
+      "name":"check",
+      "description":"查询用户当前配置token"
+    },
+    {
+      "inputSchema":{
+        "type":"object",
+        "title":"query_pptArguments",
+        "properties":{
+          "ppt_id":{
+            "description":"PPT-ID",
+            "title":"Ppt Id",
+            "type":"string"
+          }
+        },
+        "required":[
+          "ppt_id"
+        ]
+      },
+      "name":"query_ppt",
+      "description":"\n    Name:\n        查询PPT生成进度\n    Description:\n        根据PPT任务ID查询异步生成结果，status=1表示还在生成中，应该继续轮训该查询，status=2表示成功，status=3表示失败；process_url表示预览的url地址，不断轮训请求直至成功或失败;\n        当成功后使用默认浏览器打开ppt地址并下载PPT和生成编辑器地址；\n    Args:\n        ppt_id: PPT-ID\n    Returns:\n        PPT信息的描述\n    "
+    },
+    {
+      "inputSchema":{
+        "type":"object",
+        "title":"build_pptArguments",
+        "properties":{
+          "text":{
+            "description":"描述生成文本",
+            "title":"Text",
+            "type":"string"
+          }
+        },
+        "required":[
+          "text"
+        ]
+      },
+      "name":"build_ppt",
+      "description":"\n    Name:\n        PPT生成。当用户需要生成PPT时，调用此工具\n    Description:\n        根据描述的文本或markdown，执行生成任务。当返回PPT-ID时，表示生成任务成功，可以调用query_ppt工具查询生成进度\n    Args:\n        text: 输入描述的文本或markdown，生成PPT\n    Returns:\n        PPT-ID\n    "
+    },
+    {
+      "inputSchema":{
+        "type":"object",
+        "title":"replace_template_pptArguments",
+        "properties":{
+          "ppt_id":{
+            "description":"PPT-ID",
+            "title":"Ppt Id",
+            "type":"string"
+          }
+        },
+        "required":[
+          "ppt_id"
+        ]
+      },
+      "name":"replace_template_ppt",
+      "description":"\n    Name:\n        替换模板\n    Description:\n        根据PPT-ID执行替换模板\n    Args:\n        ppt_id: PPT-ID\n    Returns:\n        新的PPT-ID\n    "
+    },
+    {
+      "inputSchema":{
+        "type":"object",
+        "title":"download_pptArguments",
+        "properties":{
+          "ppt_id":{
+            "description":"PPT-ID",
+            "title":"Ppt Id",
+            "type":"string"
+          }
+        },
+        "required":[
+          "ppt_id"
+        ]
+      },
+      "name":"download_ppt",
+      "description":"\n    Name:\n        当PPT生成完成后，下载PPT。\n    Description:\n        生成 PPT 下载地址\n    Args:\n        ppt_id: PPT-ID\n    Returns:\n        PPT下载地址URL\n    "
+    },
+    {
+      "inputSchema":{
+        "type":"object",
+        "title":"editor_pptArguments",
+        "properties":{
+          "ppt_id":{
+            "description":"PPT-ID",
+            "title":"Ppt Id",
+            "type":"string"
+          }
+        },
+        "required":[
+          "ppt_id"
+        ]
+      },
+      "name":"editor_ppt",
+      "description":"\n    Name:\n        生成PPT编辑器界面URL\n    Description:\n        通过PPT-ID生成PPT编辑器界面URL\n    Args:\n        ppt_id: PPT-ID\n    Returns:\n        PPT编辑器地址URL\n    "
+    }
+  ]
+}

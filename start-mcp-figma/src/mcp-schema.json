@@ -1,0 +1,80 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "depth":{
+            "description":"How many levels deep to traverse the node tree, only use if explicitly requested by the user",
+            "type":"number"
+          },
+          "fileKey":{
+            "description":"The key of the Figma file to fetch, often found in a provided URL like figma.com/(file|design)/<fileKey>/...",
+            "type":"string"
+          },
+          "nodeId":{
+            "description":"The ID of the node to fetch, often found as URL parameter node-id=<nodeId>, always use if provided",
+            "type":"string"
+          }
+        },
+        "required":[
+          "fileKey"
+        ]
+      },
+      "name":"get_figma_data",
+      "description":"When the nodeId cannot be obtained, obtain the layout information about the entire Figma file"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "nodes":{
+            "description":"The nodes to fetch as images",
+            "type":"array",
+            "items":{
+              "additionalProperties":false,
+              "type":"object",
+              "properties":{
+                "fileName":{
+                  "description":"The local name for saving the fetched file",
+                  "type":"string"
+                },
+                "imageRef":{
+                  "description":"If a node has an imageRef fill, you must include this variable. Leave blank when downloading Vector SVG images.",
+                  "type":"string"
+                },
+                "nodeId":{
+                  "description":"The ID of the Figma image node to fetch, formatted as 1234:5678",
+                  "type":"string"
+                }
+              },
+              "required":[
+                "nodeId",
+                "fileName"
+              ]
+            }
+          },
+          "localPath":{
+            "description":"The absolute path to the directory where images are stored in the project. If the directory does not exist, it will be created. The format of this path should respect the directory format of the operating system you are running on. Don't use any special character escaping in the path name either.",
+            "type":"string"
+          },
+          "fileKey":{
+            "description":"The key of the Figma file containing the node",
+            "type":"string"
+          }
+        },
+        "required":[
+          "fileKey",
+          "nodes",
+          "localPath"
+        ]
+      },
+      "name":"download_figma_images",
+      "description":"Download SVG and PNG images used in a Figma file based on the IDs of image or icon nodes"
+    }
+  ]
+}
