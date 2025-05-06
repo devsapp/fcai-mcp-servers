@@ -1,0 +1,247 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "arr":{
+            "minLength":3,
+            "pattern":"^[A-Z]{3}$",
+            "description":"Arrival airport IATA 3-letter code (e.g. SHA for Shanghai, HFE for Hefei)",
+            "type":"string",
+            "maxLength":3
+          },
+          "date":{
+            "pattern":"^\\d{4}-\\d{2}-\\d{2}$",
+            "description":"Flight date in YYYY-MM-DD format. IMPORTANT: If user input only cotains month and date, you should use getTodayDate tool to get the year. For today's date, use getTodayDate tool instead of hardcoding",
+            "type":"string"
+          },
+          "arrcity":{
+            "minLength":3,
+            "pattern":"^[A-Z]{3}$",
+            "description":"Arrival city IATA 3-letter code (e.g. SHA for Shanghai, BJS for Beijing)",
+            "type":"string",
+            "maxLength":3
+          },
+          "depcity":{
+            "minLength":3,
+            "pattern":"^[A-Z]{3}$",
+            "description":"Departure city IATA 3-letter code (e.g. BJS for Beijing, CAN for Guangzhou)",
+            "type":"string",
+            "maxLength":3
+          },
+          "dep":{
+            "minLength":3,
+            "pattern":"^[A-Z]{3}$",
+            "description":"Departure airport IATA 3-letter code (e.g. PEK for Beijing, CAN for Guangzhou)",
+            "type":"string",
+            "maxLength":3
+          }
+        },
+        "required":[
+          "date"
+        ]
+      },
+      "name":"searchFlightsByDepArr",
+      "description":"Search for flights between airports or cities by date. For cities with multiple airports, use depcity and arrcity parameters; otherwise use dep and arr parameters. Date must be in YYYY-MM-DD format. For today's date, use the getTodayDate tool. All airport/city codes must be valid IATA 3-letter codes (e.g.BJS for city of Beijing, PEK for Beijing Capital Airport)."
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "fnum":{
+            "pattern":"^[A-Z0-9]{2,3}[0-9]{1,4}$",
+            "description":"Flight number including airline code (e.g. MU2157, CZ3969)",
+            "type":"string"
+          },
+          "date":{
+            "pattern":"^\\d{4}-\\d{2}-\\d{2}$",
+            "description":"Flight date in YYYY-MM-DD format. IMPORTANT: If user input only cotains month and date, you should use getTodayDate tool to get the year. For today's date, use getTodayDate tool instead of hardcoding",
+            "type":"string"
+          },
+          "arr":{
+            "minLength":3,
+            "pattern":"^[A-Z]{3}$",
+            "description":"Arrival airport IATA 3-letter code (e.g. CAN for Guangzhou)",
+            "type":"string",
+            "maxLength":3
+          },
+          "dep":{
+            "minLength":3,
+            "pattern":"^[A-Z]{3}$",
+            "description":"Departure airport IATA 3-letter code (e.g. HFE for Hefei)",
+            "type":"string",
+            "maxLength":3
+          }
+        },
+        "required":[
+          "fnum",
+          "date"
+        ]
+      },
+      "name":"searchFlightsByNumber",
+      "description":"Search flights by flight number and date. Flight number should include airline code (e.g. MU2157, CZ3969).  dep and arr are optional, keep empty if you don't know them. Date format: YYYY-MM-DD. IMPORTANT: For today's date, you MUST use getTodayDate tool instead of hardcoding any date. Airport codes (optional) should be IATA 3-letter codes. "
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "arrcity":{
+            "minLength":3,
+            "pattern":"^[A-Z]{3}$",
+            "description":"Arrival airport IATA 3-letter code (e.g. SHA for Shanghai, LAX for Los Angeles)",
+            "type":"string",
+            "maxLength":3
+          },
+          "depcity":{
+            "minLength":3,
+            "pattern":"^[A-Z]{3}$",
+            "description":"Departure airport IATA 3-letter code (e.g. BJS for Beijing, CAN for Guangzhou)",
+            "type":"string",
+            "maxLength":3
+          },
+          "depdate":{
+            "pattern":"^\\d{4}-\\d{2}-\\d{2}$",
+            "description":"Flight date in YYYY-MM-DD format. IMPORTANT: If user input only cotains month and date, you should use getTodayDate tool to get the year. For today's date, use getTodayDate tool instead of hardcoding",
+            "type":"string"
+          }
+        },
+        "required":[
+          "depdate",
+          "depcity",
+          "arrcity"
+        ]
+      },
+      "name":"getFlightTransferInfo",
+      "description":"Get flight transfer info by departure city and arrival city and departure date. Date format: YYYY-MM-DD. IMPORTANT: For today's date, you MUST use getTodayDate tool instead of hardcoding any date. Airport codes should be IATA 3-letter codes. "
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "fnum":{
+            "pattern":"^[A-Z0-9]{2,3}[0-9]{1,4}$",
+            "description":"Flight number including airline code (e.g. MU2157, CZ3969)",
+            "type":"string"
+          },
+          "date":{
+            "pattern":"^\\d{4}-\\d{2}-\\d{2}$",
+            "description":"Flight date in YYYY-MM-DD format. IMPORTANT: If user input only cotains month and date, you should use getTodayDate tool to get the year. For today's date, use getTodayDate tool instead of hardcoding",
+            "type":"string"
+          },
+          "arr":{
+            "minLength":3,
+            "pattern":"^[A-Z]{3}$",
+            "description":"Arrival airport IATA 3-letter code (e.g. CAN for Guangzhou)",
+            "type":"string",
+            "maxLength":3
+          },
+          "dep":{
+            "minLength":3,
+            "pattern":"^[A-Z]{3}$",
+            "description":"Departure airport IATA 3-letter code (e.g. HFE for Hefei)",
+            "type":"string",
+            "maxLength":3
+          }
+        },
+        "required":[
+          "fnum",
+          "date"
+        ]
+      },
+      "name":"flightHappinessIndex",
+      "description":"using this tool when you need information related to following topics: Detailed flight comparisons (punctuality, amenities, cabin specs),Health safety protocols for air travel,Baggage allowance verification,Environmental impact assessments,Aircraft configuration visualization,Comfort-focused trip planning (seat dimensions, entertainment, food). etc."
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "anum":{
+            "description":"Aircraft number like B2021, B2022, B2023, etc.",
+            "type":"string"
+          }
+        },
+        "required":[
+          "anum"
+        ]
+      },
+      "name":"getRealtimeLocationByAnum",
+      "description":"Get flight realtime location by aircraft number. aircraft number should be Aircraft registration numberlike B2021, B2022, B2023, etc. if aircraft number is unknown, you shuold try to request it using searchFlightsByNumber tool"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "random_string":{
+            "description":"Dummy parameter for no-parameter tools",
+            "type":"string"
+          }
+        }
+      },
+      "name":"getTodayDate",
+      "description":"Get today's date in local timezone (YYYY-MM-DD format). Use this tool whenever you need today's date - NEVER hardcode dates."
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "airport":{
+            "pattern":"^[A-Z]{3}$",
+            "description":"Airport IATA 3-letter code (e.g. PEK for Beijing, SHA for Shanghai, CAN for Guangzhou, HFE for Hefei)",
+            "type":"string"
+          }
+        },
+        "required":[
+          "airport"
+        ]
+      },
+      "name":"getFutureWeatherByAirport",
+      "description":"Get airport future weather for 3days (today、tomorrow、the day after tomorrow) by airport IATA 3-letter code. Airport codes should be IATA 3-letter codes (e.g. PEK for Beijing, SHA for Shanghai, CAN for Guangzhou, HFE for Hefei)."
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "arrCityCode":{
+            "pattern":"^[A-Z]{3}$",
+            "description":"Arrival city 3-letter code (e.g. BJS for Beijing, SHA for Shanghai, CAN for Guangzhou, HFE for Hefei)",
+            "type":"string"
+          },
+          "depDate":{
+            "pattern":"^\\d{4}-\\d{2}-\\d{2}$",
+            "description":"Departure city date (format: YYYY-MM-DD, e.g., 2025-07-04).IMPORTANT: If user input only cotains month and date, you should use getTodayDate tool to get the year. For today's date, use getTodayDate tool instead of hardcoding",
+            "type":"string"
+          },
+          "depCityCode":{
+            "pattern":"^[A-Z]{3}$",
+            "description":"Departure city 3-letter code (e.g. BJS for Beijing, SHA for Shanghai, CAN for Guangzhou, HFE for Hefei)",
+            "type":"string"
+          }
+        },
+        "required":[
+          "depCityCode",
+          "depDate",
+          "arrCityCode"
+        ]
+      },
+      "name":"searchFlightItineraries",
+      "description":"Search for purchasable flight options and the lowest price using the departure city three-letter code, arrival city three-letter code, and departure date. (e.g. BJS for Beijing, SHA for Shanghai, CAN for Guangzhou, HFE for Hefei)."
+    }
+  ]
+}

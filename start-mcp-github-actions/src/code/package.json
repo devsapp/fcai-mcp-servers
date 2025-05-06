@@ -1,0 +1,35 @@
+{
+  "name": "github-actions-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for using the GitHub Actions API",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "github-actions-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').chmodSync('./dist/index.js', 0o755)\"",
+    "build:win": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsc && node dist/index.js",
+    "watch": "tsc --watch",
+    "lint": "tsc --noEmit",
+    "test": "echo No tests specified && exit 0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.10.2",
+    "@types/node": "22.15.3",
+    "node-fetch": "^3.3.2",
+    "@octokit/rest": "^21.0.1",
+    "universal-user-agent": "^7.0.2",
+    "zod": "^3.24.3",
+    "zod-to-json-schema": "^3.24.5"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

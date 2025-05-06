@@ -1,0 +1,357 @@
+
+> 注：当前项目为 Serverless Devs 应用，由于应用中会存在需要初始化才可运行的变量（例如应用部署地区、函数名等等），所以**不推荐**直接 Clone 本仓库到本地进行部署或直接复制 s.yaml 使用，**强烈推荐**通过 `s init ${模版名称}` 的方法或应用中心进行初始化，详情可参考[部署 & 体验](#部署--体验) 。
+
+# fcai-start-mcp-github-actions 帮助文档
+
+<description>
+
+GitHub 官方提供的MCP Server
+
+</description>
+
+
+## 资源准备
+
+使用该项目，您需要有开通以下服务并拥有对应权限：
+
+<service>
+
+
+
+| 服务/业务 |  权限  | 相关文档 |
+| --- |  --- | --- |
+| 函数计算 |  AliyunFCFullAccess | [帮助文档](https://help.aliyun.com/product/2508973.html) [计费文档](https://help.aliyun.com/document_detail/2512928.html) |
+
+</service>
+
+<remark>
+
+
+
+</remark>
+
+<disclaimers>
+
+
+
+</disclaimers>
+
+## 部署 & 体验
+
+<appcenter>
+   
+- :fire: 通过 [云原生应用开发平台 CAP](https://cap.console.aliyun.com/template-detail?template=fcai-start-mcp-github-actions) ，[![Deploy with Severless Devs](https://img.alicdn.com/imgextra/i1/O1CN01w5RFbX1v45s8TIXPz_!!6000000006118-55-tps-95-28.svg)](https://cap.console.aliyun.com/template-detail?template=fcai-start-mcp-github-actions) 该应用。
+   
+</appcenter>
+<deploy>
+    
+   
+</deploy>
+
+## 案例介绍
+
+<appdetail id="flushContent">
+
+## GitHub Actions MCP Server
+
+MCP Server for the GitHub Actions API, enabling AI assistants to manage and operate GitHub Actions workflows. Compatible with multiple AI coding assistants including Claude Desktop, Codeium, and Windsurf.
+
+#### Features
+
+- **Complete Workflow Management**: List, view, trigger, cancel, and rerun workflows
+- **Workflow Run Analysis**: Get detailed information about workflow runs and their jobs
+- **Comprehensive Error Handling**: Clear error messages with enhanced details
+- **Flexible Type Validation**: Robust type checking with graceful handling of API variations
+- **Security-Focused Design**: Timeout handling, rate limiting, and strict URL validation
+
+### Tools
+
+1. `list_workflows`
+   - List workflows in a GitHub repository
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `page` (optional number): Page number for pagination
+     - `perPage` (optional number): Results per page (max 100)
+   - Returns: List of workflows in the repository
+
+2. `get_workflow`
+   - Get details of a specific workflow
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `workflowId` (string or number): The ID of the workflow or filename
+   - Returns: Detailed information about the workflow
+
+3. `get_workflow_usage`
+   - Get usage statistics of a workflow
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `workflowId` (string or number): The ID of the workflow or filename
+   - Returns: Usage statistics including billable minutes
+
+4. `list_workflow_runs`
+   - List all workflow runs for a repository or a specific workflow
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `workflowId` (optional string or number): The ID of the workflow or filename
+     - `actor` (optional string): Filter by user who triggered the workflow
+     - `branch` (optional string): Filter by branch
+     - `event` (optional string): Filter by event type
+     - `status` (optional string): Filter by status
+     - `created` (optional string): Filter by creation date (YYYY-MM-DD)
+     - `excludePullRequests` (optional boolean): Exclude PR-triggered runs
+     - `checkSuiteId` (optional number): Filter by check suite ID
+     - `page` (optional number): Page number for pagination
+     - `perPage` (optional number): Results per page (max 100)
+   - Returns: List of workflow runs matching the criteria
+
+5. `get_workflow_run`
+   - Get details of a specific workflow run
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `runId` (number): The ID of the workflow run
+   - Returns: Detailed information about the specific workflow run
+
+6. `get_workflow_run_jobs`
+   - Get jobs for a specific workflow run
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `runId` (number): The ID of the workflow run
+     - `filter` (optional string): Filter jobs by completion status ('latest', 'all')
+     - `page` (optional number): Page number for pagination
+     - `perPage` (optional number): Results per page (max 100)
+   - Returns: List of jobs in the workflow run
+
+7. `trigger_workflow`
+   - Trigger a workflow run
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `workflowId` (string or number): The ID of the workflow or filename
+     - `ref` (string): The reference to run the workflow on (branch, tag, or SHA)
+     - `inputs` (optional object): Input parameters for the workflow
+   - Returns: Information about the triggered workflow run
+
+8. `cancel_workflow_run`
+   - Cancel a workflow run
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `runId` (number): The ID of the workflow run
+   - Returns: Status of the cancellation operation
+
+9. `rerun_workflow`
+   - Re-run a workflow run
+   - Inputs:
+     - `owner` (string): Repository owner (username or organization)
+     - `repo` (string): Repository name
+     - `runId` (number): The ID of the workflow run
+   - Returns: Status of the re-run operation
+
+#### Usage with AI Coding Assistants
+
+This MCP server is compatible with multiple AI coding assistants including Claude Desktop, Codeium, and Windsurf.
+
+##### Claude Desktop
+
+First, make sure you have built the project (see Build section below). Then, add the following to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "github-actions": {
+      "command": "node",
+      "args": [
+        "<path-to-mcp-server>/dist/index.js"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
+      }
+    }
+  }
+}
+```
+
+##### Codeium
+
+Add the following configuration to your Codeium MCP config file (typically at `~/.codeium/windsurf/mcp_config.json` on Unix-based systems or `%USERPROFILE%\.codeium\windsurf\mcp_config.json` on Windows):
+
+```json
+{
+  "mcpServers": {
+    "github-actions": {
+      "command": "node",
+      "args": [
+        "<path-to-mcp-server>/dist/index.js"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
+      }
+    }
+  }
+}
+```
+
+##### Windsurf
+
+Windsurf uses the same configuration format as Codeium. Add the server to your Windsurf MCP configuration as shown above for Codeium.
+
+### Build
+
+#### Unix/Linux/macOS
+
+Clone the repository and build:
+
+```bash
+git clone https://github.com/ko1ynnky/github-actions-mcp-server.git
+cd github-actions-mcp-server
+npm install
+npm run build
+```
+
+#### Windows
+
+For Windows systems, use the Windows-specific build command:
+
+```bash
+git clone https://github.com/ko1ynnky/github-actions-mcp-server.git
+cd github-actions-mcp-server
+npm install
+npm run build:win
+```
+
+Alternatively, you can use the included batch file:
+
+```bash
+run-server.bat [optional-github-token]
+```
+
+This will create the necessary files in the `dist` directory that you'll need to run the MCP server.
+
+##### Windows-Specific Instructions
+
+**Prerequisites**
+- Node.js (v14 or higher)
+- npm (v6 or higher)
+
+**Running the Server on Windows**
+
+1. Using the batch file (simplest method):
+   ```
+   run-server.bat [optional-github-token]
+   ```
+   This will check if the build exists, build if needed, and start the server.
+
+2. Using npm directly:
+   ```
+   npm run start
+   ```
+
+**Setting GitHub Personal Access Token on Windows**
+
+For full functionality and to avoid rate limiting, you need to set your GitHub Personal Access Token.
+
+Options:
+1. Pass it as a parameter to the batch file:
+   ```
+   run-server.bat your_github_token_here
+   ```
+
+2. Set it as an environment variable:
+   ```
+   set GITHUB_PERSONAL_ACCESS_TOKEN=your_github_token_here
+   npm run start
+   ```
+
+**Troubleshooting Windows Issues**
+
+If you encounter issues:
+
+1. **Build errors**: Make sure TypeScript is installed correctly.
+   ```
+   npm install -g typescript
+   ```
+
+2. **Permission issues**: Ensure you're running the commands in a command prompt with appropriate permissions.
+
+3. **Node.js errors**: Verify you're using a compatible Node.js version.
+   ```
+   node --version
+   ```
+
+### Usage Examples
+
+List workflows in a repository:
+
+```javascript
+const result = await listWorkflows({
+  owner: "your-username",
+  repo: "your-repository"
+});
+```
+
+Trigger a workflow:
+
+```javascript
+const result = await triggerWorkflow({
+  owner: "your-username",
+  repo: "your-repository",
+  workflowId: "ci.yml",
+  ref: "main",
+  inputs: {
+    environment: "production"
+  }
+});
+```
+
+### Troubleshooting
+
+#### Common Issues
+
+1. **Authentication Errors**:
+   - Ensure your GitHub token has the correct permissions
+   - Check that the token is correctly set as an environment variable
+
+2. **Rate Limiting**:
+   - The server implements rate limiting to avoid hitting GitHub API limits
+   - If you encounter rate limit errors, reduce the frequency of requests
+
+3. **Type Validation Errors**:
+   - GitHub API responses might sometimes differ from expected schemas
+   - The server implements flexible validation to handle most variations
+   - If you encounter persistent errors, please open an issue
+
+### License
+
+This MCP server is licensed under the MIT License.
+
+
+</appdetail>
+
+
+
+
+
+
+
+## 使用流程
+
+<usedetail id="flushContent">
+
+部署完成拿到 URL 后，准备好支持 SSE 的 MCP Client，通过 SSETransport 进行连接。
+
+</usedetail>
+
+
+
+
+
+
+
+
+

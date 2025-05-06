@@ -1,0 +1,329 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "owner":{
+            "description":"Repository owner (username or organization)",
+            "type":"string"
+          },
+          "perPage":{
+            "description":"Results per page (max 100)",
+            "type":"number"
+          },
+          "repo":{
+            "description":"Repository name",
+            "type":"string"
+          },
+          "page":{
+            "description":"Page number for pagination",
+            "type":"number"
+          }
+        },
+        "required":[
+          "owner",
+          "repo"
+        ]
+      },
+      "name":"list_workflows"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "owner":{
+            "description":"Repository owner (username or organization)",
+            "type":"string"
+          },
+          "repo":{
+            "description":"Repository name",
+            "type":"string"
+          },
+          "workflowId":{
+            "description":"The ID of the workflow or filename (string or number)",
+            "type":"string"
+          }
+        },
+        "required":[
+          "owner",
+          "repo",
+          "workflowId"
+        ]
+      },
+      "name":"get_workflow"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "owner":{
+            "description":"Repository owner (username or organization)",
+            "type":"string"
+          },
+          "repo":{
+            "description":"Repository name",
+            "type":"string"
+          },
+          "workflowId":{
+            "description":"The ID of the workflow or filename (string or number)",
+            "type":"string"
+          }
+        },
+        "required":[
+          "owner",
+          "repo",
+          "workflowId"
+        ]
+      },
+      "name":"get_workflow_usage"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "owner":{
+            "description":"Repository owner (username or organization)",
+            "type":"string"
+          },
+          "actor":{
+            "description":"Returns someone's workflow runs. Use the login for the user",
+            "type":"string"
+          },
+          "perPage":{
+            "description":"Results per page (max 100)",
+            "type":"number"
+          },
+          "created":{
+            "description":"Returns workflow runs created within date range (YYYY-MM-DD)",
+            "type":"string"
+          },
+          "repo":{
+            "description":"Repository name",
+            "type":"string"
+          },
+          "checkSuiteId":{
+            "description":"Returns workflow runs with the check_suite_id",
+            "type":"number"
+          },
+          "page":{
+            "description":"Page number for pagination",
+            "type":"number"
+          },
+          "event":{
+            "description":"Returns workflow runs triggered by the event",
+            "type":"string"
+          },
+          "branch":{
+            "description":"Returns workflow runs associated with a branch",
+            "type":"string"
+          },
+          "excludePullRequests":{
+            "description":"If true, pull requests are omitted from the response",
+            "type":"boolean"
+          },
+          "workflowId":{
+            "description":"The ID of the workflow or filename (string or number)",
+            "type":"string"
+          },
+          "status":{
+            "description":"Returns workflow runs with the check run status",
+            "type":"string",
+            "enum":[
+              "completed",
+              "action_required",
+              "cancelled",
+              "failure",
+              "neutral",
+              "skipped",
+              "stale",
+              "success",
+              "timed_out",
+              "in_progress",
+              "queued",
+              "requested",
+              "waiting",
+              "pending"
+            ]
+          }
+        },
+        "required":[
+          "owner",
+          "repo"
+        ]
+      },
+      "name":"list_workflow_runs"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "owner":{
+            "description":"Repository owner (username or organization)",
+            "type":"string"
+          },
+          "repo":{
+            "description":"Repository name",
+            "type":"string"
+          },
+          "runId":{
+            "description":"The ID of the workflow run",
+            "type":"number"
+          }
+        },
+        "required":[
+          "owner",
+          "repo",
+          "runId"
+        ]
+      },
+      "name":"get_workflow_run"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "owner":{
+            "description":"Repository owner (username or organization)",
+            "type":"string"
+          },
+          "filter":{
+            "description":"Filter jobs by their completed_at date",
+            "type":"string",
+            "enum":[
+              "latest",
+              "all"
+            ]
+          },
+          "perPage":{
+            "description":"Results per page (max 100)",
+            "type":"number"
+          },
+          "repo":{
+            "description":"Repository name",
+            "type":"string"
+          },
+          "runId":{
+            "description":"The ID of the workflow run",
+            "type":"number"
+          },
+          "page":{
+            "description":"Page number for pagination",
+            "type":"number"
+          }
+        },
+        "required":[
+          "owner",
+          "repo",
+          "runId"
+        ]
+      },
+      "name":"get_workflow_run_jobs"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "owner":{
+            "description":"Repository owner (username or organization)",
+            "type":"string"
+          },
+          "ref":{
+            "description":"The reference of the workflow run (branch, tag, or SHA)",
+            "type":"string"
+          },
+          "inputs":{
+            "description":"Input parameters for the workflow",
+            "additionalProperties":{
+              "type":"string"
+            },
+            "type":"object"
+          },
+          "repo":{
+            "description":"Repository name",
+            "type":"string"
+          },
+          "workflowId":{
+            "description":"The ID of the workflow or filename (string or number)",
+            "type":"string"
+          }
+        },
+        "required":[
+          "owner",
+          "repo",
+          "workflowId",
+          "ref"
+        ]
+      },
+      "name":"trigger_workflow"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "owner":{
+            "description":"Repository owner (username or organization)",
+            "type":"string"
+          },
+          "repo":{
+            "description":"Repository name",
+            "type":"string"
+          },
+          "runId":{
+            "description":"The ID of the workflow run",
+            "type":"number"
+          }
+        },
+        "required":[
+          "owner",
+          "repo",
+          "runId"
+        ]
+      },
+      "name":"cancel_workflow_run"
+    },
+    {
+      "inputSchema":{
+        "$schema":"http://json-schema.org/draft-07/schema#",
+        "additionalProperties":false,
+        "type":"object",
+        "properties":{
+          "owner":{
+            "description":"Repository owner (username or organization)",
+            "type":"string"
+          },
+          "repo":{
+            "description":"Repository name",
+            "type":"string"
+          },
+          "runId":{
+            "description":"The ID of the workflow run",
+            "type":"number"
+          }
+        },
+        "required":[
+          "owner",
+          "repo",
+          "runId"
+        ]
+      },
+      "name":"rerun_workflow"
+    }
+  ]
+}

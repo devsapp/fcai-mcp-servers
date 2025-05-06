@@ -1,0 +1,8 @@
+services:
+  start-mcp-variflight:
+    VARIFLIGHT_API_KEY:
+      title: VARIFLIGHT_API_KEY
+      type: string
+      default: ''
+      description: 需要前往 https://mcp.variflight.com 获取 API Key
+      required: true

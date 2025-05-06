@@ -1,0 +1,10 @@
+start-mcp-variflight:
+  default:
+    rootPath: ./code
+    languages:
+      - nodejs20
+    cache:
+      paths:
+        - "~/.npm"
+    steps:
+      - run: npm install

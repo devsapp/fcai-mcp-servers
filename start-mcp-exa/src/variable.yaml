@@ -1,0 +1,9 @@
+services:
+  start-mcp-exa:
+    EXA_API_KEY:
+      title: EXA_API_KEY
+      type: string
+      default: ''
+      sensitive: 'true'
+      pattern: ^[a-zA-Z0-9_][a-zA-Z0-9_\-.]*$
+      description: 获取 Exa API 密钥 https://dashboard.exa.ai/api-keys
