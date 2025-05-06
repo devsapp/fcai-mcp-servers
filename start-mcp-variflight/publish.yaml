@@ -9,6 +9,7 @@ HomePage: https://github.com/devsapp/fcai-mcp-servers/tree/main/start-mcp-varifl
 Tags: #标签详情
   - MCP
   - Serverless Devs
+  - Develop-Fold
 Category: MCP服务 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
 Service: # 使用的服务
   函数计算: # 取值内容参考：https://api.devsapp.cn/v3/common/args.html

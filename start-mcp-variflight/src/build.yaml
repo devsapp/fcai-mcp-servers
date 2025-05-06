@@ -8,4 +8,3 @@ start-mcp-variflight:
         - "~/.npm"
     steps:
       - run: npm install
-      - run: npm run build
