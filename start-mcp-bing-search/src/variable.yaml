@@ -1,0 +1,8 @@
+services:
+  start-mcp-bing-search:
+    BING_API_KEY:
+      title: BING_API_KEY
+      type: string
+      default: ''
+      description: 获取 <a href="https://portal.azure.com/" target="_blank" rel="">Bing Search API Key</a>
+      required: true
