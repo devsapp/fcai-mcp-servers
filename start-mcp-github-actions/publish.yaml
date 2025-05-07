@@ -1,10 +1,10 @@
 Edition: 3.0.0
 Type: Project
 Name: fcai-start-mcp-github-actions
-Version: 0.0.1
+Version: 0.0.2
 Provider:
   - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
-Description: GitHub 官方提供的MCP Server
+Description: GitHub Action 官方提供的MCP Server
 HomePage: https://github.com/devsapp/fcai-mcp-servers/tree/main/start-mcp-github-actions
 Tags: #标签详情
   - MCP
@@ -31,3 +31,5 @@ Parameters:
       enum:
         - cn-beijing
         - cn-hangzhou
+        - cn-shanghai
+        - cn-shenzhen

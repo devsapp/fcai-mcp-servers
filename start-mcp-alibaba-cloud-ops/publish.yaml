@@ -1,10 +1,10 @@
 Edition: 3.0.0
 Type: Project
 Name: fcai-start-mcp-alibaba-cloud-ops
-Version: 0.0.2
+Version: 0.0.3
 Provider:
   - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
-Description: MCP Server 模版
+Description: Alibaba Cloud ops MCP Server 模板
 HomePage: https://github.com/devsapp/fcai-mcp-servers/tree/main/start-mcp-alibaba-cloud-ops
 Tags: #标签详情
   - MCP

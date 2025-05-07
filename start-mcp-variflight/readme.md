@@ -5,7 +5,7 @@
 
 <description>
 
-MCP Server 模版
+Variflight MCP Server 模版
 
 </description>
 
@@ -144,8 +144,6 @@ searchFlightItineraries({
   depDate: "2025-04-20"
 })
 ```
-
-
 
 </appdetail>
 

@@ -1,7 +1,7 @@
 Edition: 3.0.0
 Type: Project
 Name: aliyun-dataworks-mcp-server
-Version: 1.0.4
+Version: 1.0.5
 Provider:
   - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
 Description: DataWorks MCP Server 模版
@@ -34,6 +34,8 @@ Parameters:
       enum:
         - cn-beijing
         - cn-hangzhou
+        - cn-shenzhen
+        - cn-shanghai
     REGION:
       title: DataWorks实例地域
       type: string
@@ -43,6 +45,8 @@ Parameters:
       enum:
         - cn-beijing
         - cn-hangzhou
+        - cn-shenzhen
+        - cn-shanghai
     ALIBABA_CLOUD_ACCESS_KEY_ID:
       title: 阿里云账号AK
       type: string
