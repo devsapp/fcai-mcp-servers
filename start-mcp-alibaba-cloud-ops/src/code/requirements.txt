@@ -1,1 +1,1 @@
-alibaba-cloud-ops-mcp-server==0.8.0
+alibaba-cloud-ops-mcp-server==0.8.2
