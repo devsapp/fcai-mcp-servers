@@ -5,7 +5,7 @@
 
 <description>
 
-MCP Server 模版
+通晓 MCP Server 模版
 
 </description>
 

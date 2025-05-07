@@ -5,7 +5,7 @@
 
 <description>
 
-MCP Server 模版
+Alibaba Cloud ops MCP Server 模板
 
 </description>
 

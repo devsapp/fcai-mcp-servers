@@ -1,10 +1,10 @@
 Edition: 3.0.0
 Type: Project
 Name: fcai-start-mcp-exa
-Version: 0.0.1
+Version: 0.0.2
 Provider:
   - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
-Description: MCP Server
+Description: Exa MCP Server
 HomePage: https://github.com/devsapp/fcai-mcp-servers/tree/main/start-mcp-exa
 Tags: #标签详情
   - MCP
@@ -31,3 +31,5 @@ Parameters:
       enum:
         - cn-beijing
         - cn-hangzhou
+        - cn-shenzhen
+        - cn-shanghai

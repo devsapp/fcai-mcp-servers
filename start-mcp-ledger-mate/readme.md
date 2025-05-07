@@ -5,7 +5,7 @@
 
 <description>
 
-Time MCP Server 模版
+Ledger Mate MCP Server 模版
 
 </description>
 
@@ -68,7 +68,6 @@ Time MCP Server 模版
 - bill_update - 修改已存在的账单记录。不过暂时不支持修改，我们建议先删除再重新添加。
 
 - bill_add - 添加一笔或多笔支出、收入或转账的账单记录。
-
 
 </appdetail>
 
