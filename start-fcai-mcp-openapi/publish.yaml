@@ -21,6 +21,7 @@ Parameters:
   additionalProperties: false # 不允许增加其他属性
   required: # 必填项
     - region
+    - OpenApiSpec
   properties:
     region:
       title: 地域
@@ -58,10 +59,10 @@ Parameters:
             }
           }
         }
-      Security:
-        title: OpenApi 安全配置
-        type: string
-        required: false
-        x-input-type: json
-        description: JSON 格式的 OpenApi 安全配置
+    Security:
+      title: OpenApi 安全配置
+      type: string
+      required: false
+      x-input-type: json
+      description: JSON 格式的 OpenApi 安全配置
 
