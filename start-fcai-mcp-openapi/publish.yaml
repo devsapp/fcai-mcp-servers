@@ -42,17 +42,27 @@ Parameters:
         {
           "openapi": "3.0.0",
           "info": {
-            "title": "My API",
+            "title": "Hello World API",
+            "description": "一个简单的返回 hello world 的 API",
             "version": "1.0.0"
           },
           "paths": {
             "/hello": {
               "get": {
-                "summary": "Hello World",
-                "operationId": "helloWorld",
+                "summary": "返回 hello world",
+                "description": "这个接口返回字符串 'hello world'",
+                "operationId": "getHelloWorld",
                 "responses": {
                   "200": {
-                    "description": "A hello world response"
+                    "description": "成功响应",
+                    "content": {
+                      "text/plain": {
+                        "schema": {
+                          "type": "string",
+                          "example": "hello world"
+                        }
+                      }
+                    }
                   }
                 }
               }
