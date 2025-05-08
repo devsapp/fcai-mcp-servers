@@ -7,28 +7,12 @@ resources:
   nodejs-stdio-hello-world:
     component: fcai-mcp-server
     props:
-      region: ${vars.region} 
+      region: ${vars.region}
       description: mcp server deployed by devs
-      transport: sse # stidio | sse
+      transport: stdio # stdio | sse
       runtime: nodejs20
       cpu: 1
       memorySize: 1024
-      rootDir: ./code
-      source: 
-        oss: auto
-      build:
-        default: #默认构建器
-          # 构建环境
-          languages:
-            - nodejs20
-          # 执行步骤
-          steps:
-            - run: npm install
-            - run: npm run build
+      port: 8080
       startCommand: "node ./dist/index.js" # 启动命令
       instanceQuota: 1 # 实例数配额
-      environmentVariables: # 环境变量
-        OPENAPI_SPEC: '{{OpenApiSpec}}'
-        OPENAPI_SECURITY: '{{Security}}'
-
-

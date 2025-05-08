@@ -1,7 +1,7 @@
 Edition: 3.0.0
 Type: Project
 Name: start-fcai-mcp-openapi
-Version: dev
+Version: 0.0.1
 Provider:
   - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
 Description: OpenAPI Spec 转化为 MCP Server
@@ -21,7 +21,6 @@ Parameters:
   additionalProperties: false # 不允许增加其他属性
   required: # 必填项
     - region
-    - OpenApiSpec
   properties:
     region:
       title: 地域
@@ -32,47 +31,3 @@ Parameters:
       enum:
         - cn-beijing
         - cn-hangzhou
-    OpenApiSpec:
-      title: OpenApi 规范
-      type: string
-      required: true
-      x-input-type: json
-      description: JSON 格式的 OpenApi 规范
-      default: |
-        {
-          "openapi": "3.0.0",
-          "info": {
-            "title": "Hello World API",
-            "description": "一个简单的返回 hello world 的 API",
-            "version": "1.0.0"
-          },
-          "paths": {
-            "/hello": {
-              "get": {
-                "summary": "返回 hello world",
-                "description": "这个接口返回字符串 'hello world'",
-                "operationId": "getHelloWorld",
-                "responses": {
-                  "200": {
-                    "description": "成功响应",
-                    "content": {
-                      "text/plain": {
-                        "schema": {
-                          "type": "string",
-                          "example": "hello world"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-    Security:
-      title: OpenApi 安全配置
-      type: string
-      required: false
-      x-input-type: json
-      description: JSON 格式的 OpenApi 安全配置
-

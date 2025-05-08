@@ -5,11 +5,11 @@ import { OpenApiMCPSeverConverter } from "openapi-mcp-converter";
 // Create a new server instance every time a new connection is made to ensure concurrency
 const createServer = () => {
   // Create server instance
-  const spec = process.env.OPENAPI_SPEC;
+  const spec = process.env.OpenApiSpec;
   if (!spec) {
     throw new Error("OPENAPI_SPEC is not set");
   }
-  const security = process.env.OPENAPI_SECURITY;
+  const security = process.env.Security;
   const openApiSpec = JSON.parse(spec);
   const openApiSecurity = security ? JSON.parse(security) : undefined;
   const converter = new OpenApiMCPSeverConverter(openApiSpec, {
