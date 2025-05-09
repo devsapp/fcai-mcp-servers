@@ -14,7 +14,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.7.0",
     "express": "^5.0.1",
-    "openapi-mcp-converter": "^0.0.7",
+    "openapi-mcp-converter": "^0.0.8",
     "zod": "^3.24.2"
   },
   "devDependencies": {
