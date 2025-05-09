@@ -6,8 +6,10 @@
     "sourceMap": true,
     "outDir": "./dist",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "rootDir": "src"
   },
   "include": [
     "src/**/*"

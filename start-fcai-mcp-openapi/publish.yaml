@@ -21,6 +21,7 @@ Parameters:
   additionalProperties: false # 不允许增加其他属性
   required: # 必填项
     - region
+    - OpenApiSpec
   properties:
     region:
       title: 地域
@@ -31,3 +32,61 @@ Parameters:
       enum:
         - cn-beijing
         - cn-hangzhou
+    OpenApiSpec:
+      title: OpenApi 规范
+      type: string
+      required: true
+      x-input-type: json
+      description: JSON 格式的 OpenApi 规范
+      default: |
+        {
+          "openapi": "3.0.0",
+          "info": {
+            "title": "Baidu API",
+            "description": "一个简单的请求百度的 API",
+            "version": "1.0.0"
+          },
+          "servers": [
+            {
+              "url": "https://www.baidu.com"
+            }
+          ],
+          "paths": {
+            "/": {
+              "get": {
+                "summary": "请求百度",
+                "description": "请求百度的首页",
+                "operationId": "getBaidu",
+                "responses": {
+                  "200": {
+                    "description": "成功",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "code": {
+                              "type": "integer",
+                              "example": 200
+                            },
+                            "message": {
+                              "type": "string",
+                              "example": "success"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    Security:
+      title: OpenApi 安全配置
+      type: string
+      required: false
+      x-input-type: json
+      description: JSON 格式的 OpenApi 安全配置
+      default: ''
