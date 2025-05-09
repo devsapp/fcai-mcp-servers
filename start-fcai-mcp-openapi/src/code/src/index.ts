@@ -27,7 +27,7 @@ const transport = new StdioServerTransport();
 server
   .connect(transport)
   .then(() => {
-    console.log("Server started");
+    console.log("{\"message\": \"Server started\"}");
   })
   .catch((err) => {
     console.error("Error starting server:", err);
