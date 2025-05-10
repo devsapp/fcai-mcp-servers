@@ -52,7 +52,7 @@ OpenAPI Spec 转化为 MCP Server
 
 <appdetail id="flushContent">
 
-这是一个将 OpenAPI Spec 转化为 MCP Server 实例的模板。
+这是一个将 OpenAPI Spec 转化为 MCP Server 实例的模板。能够将您的 OpenAPI 转化为一个 MCP Server 实例并运行在 FunctionAI 上。
 
 </appdetail>
 
@@ -66,7 +66,17 @@ OpenAPI Spec 转化为 MCP Server
 
 <usedetail id="flushContent">
 
-部署完成拿到 URL 后，准备好支持 SSE 的 MCP Client，通过 SSETransport 进行连接。
+1. 在 OpenApi 规范 输入框输入你的服务的 OpenAPI 3.0 Spec。可以从 Apifox，Postman 等软件一键导出。
+
+![](https://img.alicdn.com/imgextra/i2/O1CN01k5ZJ1R1ZNrjS067GO_!!6000000003183-2-tps-2656-754.png)
+
+2. 在 OpenApi 安全配置 输入框输入你的服务Auth配置。
+
+![](https://img.alicdn.com/imgextra/i4/O1CN01A7siQs27d9tQckoBU_!!6000000007819-2-tps-2532-770.png)
+
+部署完成拿到 URL 后，准备好支持 SSE 的 MCP Client，通过 SSETransport 进行连接。接入大模型后，即可直接调用服务:
+
+![](https://img.alicdn.com/imgextra/i4/O1CN01uFBwZM1dLoQ44Fq3o_!!6000000003720-2-tps-2166-802.png)
 
 </usedetail>
 
@@ -74,7 +84,7 @@ OpenAPI Spec 转化为 MCP Server
 
 <development id="flushContent">
 
-您可基于此样例 Tool 进行二次开发。
+暂无
 
 </development>
 

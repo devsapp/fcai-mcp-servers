@@ -6,7 +6,7 @@ vars:
   OpenApiSpec: '{{OpenApiSpec}}'
   Security: '{{Security}}'
 resources:
-  nodejs-stdio-hello-world:
+  openapi-mcp-server:
     component: fcai-mcp-server
     actions:
       pre-deploy: 
