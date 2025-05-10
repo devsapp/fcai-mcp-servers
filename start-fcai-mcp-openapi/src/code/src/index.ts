@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { OpenApiMCPSeverConverter } from "openapi-mcp-converter";
+import { OpenApiMCPSeverConverter } from "@serverless-devs/openapi-mcp-converter";
 
 // Create a new server instance every time a new connection is made to ensure concurrency
 import fs from "fs";
