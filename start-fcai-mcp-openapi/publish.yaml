@@ -1,0 +1,91 @@
+Edition: 3.0.0
+Type: Project
+Name: start-fcai-mcp-openapi
+Version: 0.0.1
+Provider:
+  - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
+Description: OpenAPI Spec 转化为 MCP Server
+HomePage: https://github.com/devsapp/fcai-mcp-servers/tree/main/start-fcai-mcp-openapi
+Tags: #标签详情
+  - MCP
+Category: MCP服务 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
+Service: # 使用的服务
+  函数计算: # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
+    Authorities: #权限描述
+      - AliyunFCFullAccess # 所需要的权限，例如AliyunFCFullAccess
+Organization: 阿里云函数计算（FC） # 所属组织
+Effective: Public # 是否公开，取值：Public，Private，Organization
+Parameters:
+  type: object
+  additionalProperties: false # 不允许增加其他属性
+  required: # 必填项
+    - region
+    - OpenApiSpec
+  properties:
+    region:
+      title: 地域
+      type: string
+      default: cn-hangzhou
+      description: 创建应用所在的地区
+      required: true
+      enum:
+        - cn-beijing
+        - cn-hangzhou
+    OpenApiSpec:
+      title: OpenApi 规范
+      type: string
+      required: true
+      x-input-type: json
+      description: JSON 格式的 OpenApi 规范
+      default: |
+        {
+          "openapi": "3.0.0",
+          "info": {
+            "title": "Baidu API",
+            "description": "一个简单的请求百度的 API",
+            "version": "1.0.0"
+          },
+          "servers": [
+            {
+              "url": "https://www.baidu.com"
+            }
+          ],
+          "paths": {
+            "/": {
+              "get": {
+                "summary": "请求百度",
+                "description": "请求百度的首页",
+                "operationId": "getBaidu",
+                "responses": {
+                  "200": {
+                    "description": "成功",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "code": {
+                              "type": "integer",
+                              "example": 200
+                            },
+                            "message": {
+                              "type": "string",
+                              "example": "success"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+    Security:
+      title: OpenApi 安全配置
+      type: string
+      required: false
+      x-input-type: json
+      description: JSON 格式的 OpenApi 安全配置
+      default: ''
