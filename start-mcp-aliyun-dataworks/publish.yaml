@@ -1,14 +1,14 @@
 Edition: 3.0.0
 Type: Project
 Name: aliyun-dataworks-mcp-server
-Version: 1.0.5
+Version: 1.0.6
 Provider:
   - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
 Description: DataWorks MCP Server 模版
 HomePage: https://github.com/devsapp/fcai-mcp-servers/tree/main/start-mcp-aliyun-dataworks
 Tags: #标签详情
   - MCP
-  - Serverless Devs
+  - Node.js
   - AliyunMCP
 Category: MCP服务 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
 Service: # 使用的服务
@@ -34,8 +34,9 @@ Parameters:
       enum:
         - cn-beijing
         - cn-hangzhou
-        - cn-shenzhen
         - cn-shanghai
+        - cn-shenzhen
+        - ap-southeast-1
     REGION:
       title: DataWorks实例地域
       type: string
