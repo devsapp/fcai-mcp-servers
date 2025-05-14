@@ -38,6 +38,7 @@ mcp servers on serverless
 - [fcai-start-mcp-alibaba-cloud-ops](./start-mcp-alibaba-cloud-ops)
 - [fcai-start-mcp-cappt](./start-mcp-cappt)
 - [fcai-start-mcp-tongxiao](./start-mcp-tongxiao)
-
+- [fcai-start-mcp-aliyun-polardb-mysql](./start-mcp-aliyun-polardb-mysql)
+- [fcai-start-mcp-aliyun-polardb-postgresql](./start-mcp-aliyun-polardb-postgresql)
 
 
