@@ -1,14 +1,14 @@
 Edition: 3.0.0
 Type: Project
 Name: fcai-start-mcp-openweather
-Version: 0.0.2
+Version: 0.0.3
 Provider:
   - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
 Description: OpenWeather MCP Server 模版
 HomePage: https://github.com/devsapp/fcai-mcp-servers/tree/main/start-mcp-openweather
 Tags: #标签详情
   - MCP
-  - Serverless Devs
+  - Python
   - Develop-Fold
 Category: MCP服务 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
 Service: # 使用的服务
