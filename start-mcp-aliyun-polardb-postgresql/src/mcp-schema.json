@@ -1,0 +1,20 @@
+{
+  "tools":[
+    {
+      "inputSchema":{
+        "type":"object",
+        "properties":{
+          "query":{
+            "description":"The SQL query to execute",
+            "type":"string"
+          }
+        },
+        "required":[
+          "query"
+        ]
+      },
+      "name":"execute_sql",
+      "description":"Execute an SQL query on the PolarDB PostgreSQL server"
+    }
+  ]
+}
