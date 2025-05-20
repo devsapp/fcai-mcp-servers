@@ -11,12 +11,12 @@ resources:
     actions:
       pre-deploy: 
         - run: |
-            decoded_spec=$(echo '${vars.OpenApiSpec}' | sed 's/&#34;/"/g; s/&#34;/"/g; s/&amp;/\&/g; s/&lt;/</g; s/&gt;/>/g')
-            printf "%s" "$decoded_spec" > ./src/openapi.json
+            decoded_spec=$(echo '${vars.OpenApiSpec}' | sed 's/&#34;/"/g; s/&amp;/\&/g; s/&lt;/</g; s/&gt;/>/g')
+            printf "%s" "$decoded_spec" | sed ':a;N;$!ba;s/\n/\\n/g' > ./src/openapi.json
           path: ./code
         - run: |
-            decoded_spec=$(echo '${vars.Security}' | sed 's/&#34;/"/g; s/&#34;/"/g; s/&amp;/\&/g; s/&lt;/</g; s/&gt;/>/g')
-            printf "%s" "$decoded_spec" > ./src/security.json
+            decoded_spec=$(echo '${vars.Security}' | sed 's/&#34;/"/g; s/&amp;/\&/g; s/&lt;/</g; s/&gt;/>/g')
+            printf "%s" "$decoded_spec" | sed ':a;N;$!ba;s/\n/\\n/g' > ./src/security.json
           path: ./code
         - run: export PATH=/usr/local/versions/node/v20.8.1/bin:$PATH && npm install
           path: ./code
