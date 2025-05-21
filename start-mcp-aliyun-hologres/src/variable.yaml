@@ -1,21 +1,21 @@
 services:
   hologres-mcp-server:
     HOLOGRES_HOST:
-      title: Hologres实例公网Host
+      title: Hologres实例Host
       type: string
       default: ''
       sensitive: false
-      description: hologres host
+      description: 默认填写VPC网络Host，如果选择公网访问，则填写公网Host。当通过VPC访问时，需要确保MCP服务部署的地域与Hologres实例的地域一致。
     HOLOGRES_PORT:
       title: Hologres实例端口
       type: string
-      default: ''
+      default: '80'
       sensitive: false
-      description: hologres port
+      description: Hologres实例端口号。
     HOLOGRES_DATABASE:
       title: Hologres数据库名称
       type: string
       default: ''
       sensitive: false
-      description: hologres database
+      description: Hologres数据库名称。
   
