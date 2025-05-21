@@ -9,18 +9,9 @@ services:
       enum:
         - cn-beijing
         - cn-hangzhou
-    ALIBABA_CLOUD_ACCESS_KEY_ID:
-      title: 阿里云账号AK
-      type: string
-      default: ''
-      sensitive: true
-      description: 调用DataWorks API的阿里云账号AK
-    ALIBABA_CLOUD_ACCESS_KEY_SECRET:
-      title:  阿里云账号SK
-      type: string
-      default: ''
-      sensitive: true
-      description: 调用DataWorks API的阿里云账号SK
+        - cn-shanghai
+        - cn-shenzhen
+        - ap-southeast-1
     TOOL_CATEGORIES:
       title: 工具种类
       type: string
