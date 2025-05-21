@@ -1,7 +1,7 @@
 Edition: 3.0.0
 Type: Project
 Name: aliyun-hologres-mcp-server
-Version: 0.0.9
+Version: 0.1.0
 Provider:
   - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
 Description: Hologres MCP Server 模版
@@ -39,9 +39,43 @@ Parameters:
       type: string
       default: "AliyunFCDefaultRole"
       pattern: "^acs:ram::[0-9]*:role/.*$"
-      description: 函数中需要基于此角色访问 Hologres，需要在 Hologres 控制台中使用该角色创建用户，详情参考 https://help.aliyun.com/zh/hologres/user-guide/manage-users
+      description: 函数中需要基于此角色访问 Hologres，需要在 Hologres 控制台中使用该角色创建用户。<a href="https://help.aliyun.com/zh/hologres/user-guide/manage-users" target="_blank">详情参考</a>
       required: true
       x-role:
         name: AliyunFCDefaultRole
         service: FC
-      
+    ENABLE_PUBLIC:
+      title: 访问公网Hologres
+      type: boolean
+      default: false
+      description: MCP服务默认使用指定VPC的网络类型访问Hologres，如果需要使用公网访问，请开启此选项。
+    disableURLInternet:
+      title: 禁用公网访问URL
+      type: boolean
+      default: false
+      description: MCP服务地址默认允许被公网访问，如果需要禁用公网地址，请开启此选项。
+    vpcID:
+      title: VPC ID
+      type: string
+      default: ""
+      description: Hologres实例所在的专有网络VPC ID。
+      cond: ENABLE_PUBLIC==false
+      x-vpc:
+        denpendency:
+          - region
+    vSwitchID:
+      title: 交换机ID
+      type: string
+      default: ""
+      description: |
+        访问Hologres实例的专有网络交换机ID，需要在FC支持的可用区。<a href="https://help.aliyun.com/zh/functioncompute/fc-2-0/user-guide/configure-network-settings?spm=a2c4g.11186623.0.0.97aa13cdniUQNm#section-40g-39j-s9a" target="_blank">查看FC支持可用区列表</a>
+        <br>
+        如果您的数据库实例不在函数计算支持的可用区内，可以在指定VPC中创建一个与函数计算相同可用区的vSwitch，由于同一VPC内不同vSwitch之间私网互通，因此函数计算可以通过该vSwitch访问在其他可用区VPC内资源。
+        
+      cond: ENABLE_PUBLIC==false
+    secuirtyGroupID:
+      title: 安全组ID
+      type: string
+      default: ""
+      description: 访问Hologres的指定安全组ID。
+      cond: ENABLE_PUBLIC==false

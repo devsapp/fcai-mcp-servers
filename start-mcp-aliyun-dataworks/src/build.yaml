@@ -1,6 +1,6 @@
 aliyun-dataworks-mcp-server:
   default:
-    rootPath: ./code
+    rootPath: ./
     languages:
       - nodejs20
     cache:

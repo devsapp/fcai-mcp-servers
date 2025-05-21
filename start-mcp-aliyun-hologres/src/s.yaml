@@ -19,3 +19,12 @@ resources:
       instanceQuota: 1
       enableAuth: true
       role: {{ serviceRole }}
+      networkConfig:
+        disableURLInternet: {{ disableURLInternet }}
+      {{if  ENABLE_PUBLIC == 'false' }}
+        vpcConfig:        
+          vpcId: {{ vpcID }}
+          vSwitchIds: 
+            - {{ vSwitchID }}
+          securityGroupId: {{ secuirtyGroupID }}
+      {{/if}}
