@@ -1,0 +1,20 @@
+edition: 3.0.0
+name: mcp-server-app
+access: "{{ access }}"
+
+vars: #
+  region: "{{ region }}"
+
+resources:
+  aliyun-rds-mcp-server:
+    component: fcai-mcp-server
+    props:
+      region: ${vars.region}
+      description: mcp server deployed by devs
+      transport: stdio
+      runtime: python3.12
+      startCommand: '/code/python/bin/alibabacloud-rds-openapi-mcp-server'
+      cpu: 1
+      memorySize: 1024
+      role: {{ serviceRole }}
+      enableAuth: true
