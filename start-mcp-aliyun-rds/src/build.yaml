@@ -1,0 +1,11 @@
+aliyun-rds-mcp-server:
+  default:
+    rootPath: .
+    languages:
+      - python3.12
+    cache:
+      paths:
+        - "~/.cache"
+    steps:
+      - run: mkdir -p python
+      - run: export PATH=/root/.local/share/uv/python/cpython-3.12.10-linux-x86_64-gnu/bin:$PATH && pip install alibabacloud-rds-openapi-mcp-server --ignore-requires-python
