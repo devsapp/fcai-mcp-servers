@@ -8,4 +8,5 @@ aliyun-rds-mcp-server:
         - "~/.cache"
     steps:
       - run: mkdir -p python
-      - run: export PATH=/root/.local/share/uv/python/cpython-3.12.10-linux-x86_64-gnu/bin:$PATH && pip install alibabacloud-rds-openapi-mcp-server --ignore-requires-python
+      - run: pip install alibabacloud-rds-openapi-mcp-server -t python
+      - run: find ./python/bin -type f -perm -u+x -exec sed -i '1{/^#!.*/ s|.*|#!/usr/bin/env python3|}' {} \;
