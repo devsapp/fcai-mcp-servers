@@ -1,4 +1,4 @@
-python-sse-hello-world:
+python-stdio-hello-world:
   default:
     rootPath: ./code
     languages:
@@ -8,4 +8,4 @@ python-sse-hello-world:
         - "~/.cache"
     steps:
       - run: mkdir -p python
-      - run: pip install -r requirements.txt -t ./python    
+      - run: pip install -r requirements.txt -t ./python
