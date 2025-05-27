@@ -1,189 +1,46 @@
 {
   "tools": [
     {
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "address": {
-            "description": "待解析的地址（最多支持84个字节。可以输入两种样式的值，分别是：1、标准的结构化地址信息，如北京市海淀区上地十街十号【推荐，地址结构越完整，解析精度越高】2、支持“*路与*路交叉口”描述方式，如北一环路和阜阳路的交叉路口第二种方式并不总是有返回结果，只有当地址库中存在该地址描述时才有返回。）",
-            "type": "string"
+      "inputSchema":{
+        "type":"object",
+        "properties":{
+          "timezone":{
+            "description":"IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'Asia/Shanghai' as local timezone if no timezone provided by the user.",
+            "type":"string"
           }
         },
-        "required": [
-          "address"
+        "required":[
+          "timezone"
         ]
       },
-      "name": "map_geocode",
-      "description": "地理编码服务"
+      "name":"get_current_time",
+      "description":"Get current time in a specific timezones"
     },
     {
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "latitude": {
-            "description": "Latitude coordinate",
-            "type": "number"
+      "inputSchema":{
+        "type":"object",
+        "properties":{
+          "target_timezone":{
+            "description":"Target IANA timezone name (e.g., 'Asia/Tokyo', 'America/San_Francisco'). Use 'Asia/Shanghai' as local timezone if no target timezone provided by the user.",
+            "type":"string"
           },
-          "longitude": {
-            "description": "Longitude coordinate",
-            "type": "number"
+          "source_timezone":{
+            "description":"Source IANA timezone name (e.g., 'America/New_York', 'Europe/London'). Use 'Asia/Shanghai' as local timezone if no source timezone provided by the user.",
+            "type":"string"
+          },
+          "time":{
+            "description":"Time to convert in 24-hour format (HH:MM)",
+            "type":"string"
           }
         },
-        "required": [
-          "latitude",
-          "longitude"
+        "required":[
+          "source_timezone",
+          "time",
+          "target_timezone"
         ]
       },
-      "name": "map_reverse_geocode",
-      "description": "全球逆地理编码"
-    },
-    {
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "query": {
-            "description": "检索关键字",
-            "type": "string"
-          },
-          "bounds": {
-            "description": "检索多边形区域",
-            "type": "string"
-          },
-          "location": {
-            "description": "圆形区域检索中心点，不支持多个点",
-            "type": "string"
-          },
-          "region": {
-            "description": "检索行政区划区域",
-            "type": "string"
-          }
-        },
-        "required": [
-          "query"
-        ]
-      },
-      "name": "map_search_places",
-      "description": "地点检索服务（包括城市检索、圆形区域检索、多边形区域检索）"
-    },
-    {
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "uid": {
-            "description": "poi的uid",
-            "type": "string"
-          },
-          "scope": {
-            "description": "检索结果详细程度。取值为1 或空，则返回基本信息；取值为2，返回检索POI详细信息",
-            "type": "string"
-          }
-        },
-        "required": [
-          "uid"
-        ]
-      },
-      "name": "map_place_details",
-      "description": "地点详情检索服务"
-    },
-    {
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "mode": {
-            "description": "路线类型，可选值：driving（驾车）、walking（步行）、riding（骑行）、motorcycle（摩托车）",
-            "type": "string",
-            "enum": [
-              "driving",
-              "walking",
-              "riding",
-              "motorcycle"
-            ]
-          },
-          "destinations": {
-            "description": "终点的纬度,经度。",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "origins": {
-            "description": "起点的纬度,经度。",
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": [
-          "origins",
-          "destinations"
-        ]
-      },
-      "name": "map_distance_matrix",
-      "description": "计算多个出发地和目的地的距离和路线用时"
-    },
-    {
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "mode": {
-            "description": "路线规划类型，可选值：driving（驾车）、walking（步行）、riding（骑行）、transit（公交）",
-            "type": "string",
-            "enum": [
-              "driving",
-              "walking",
-              "riding",
-              "transit"
-            ]
-          },
-          "origin": {
-            "description": "起点经纬度，格式为：纬度,经度；小数点后不超过6位，40.056878,116.30815",
-            "type": "string"
-          },
-          "destination": {
-            "description": "终点经纬度，格式为：纬度,经度；小数点后不超过6位，40.056878,116.30815",
-            "type": "string"
-          }
-        },
-        "required": [
-          "origin",
-          "destination"
-        ]
-      },
-      "name": "map_directions",
-      "description": "路线规划服务， 计算出发地到目的地的距离、路线用时、路线方案"
-    },
-    {
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "districtId": {
-            "description": "行政区划代码（适用于区、县级别）",
-            "type": "string"
-          }
-        },
-        "required": [
-          "districtId"
-        ]
-      },
-      "name": "map_weather",
-      "description": "通过行政区划代码获取实时天气信息和未来5天天气预报"
-    },
-    {
-      "inputSchema": {
-        "type": "object",
-        "properties": {
-          "ip": {
-            "description": "IP地址",
-            "type": "string"
-          }
-        },
-        "required": [
-          "ip"
-        ]
-      },
-      "name": "map_ip_location",
-      "description": "通过IP地址获取位置信息"
+      "name":"convert_time",
+      "description":"Convert time between timezones"
     }
   ]
 }
