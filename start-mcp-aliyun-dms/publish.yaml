@@ -1,10 +1,10 @@
 Edition: 3.0.0
 Type: Project
 Name: aliyun-dms-mcp-server
-Version: 0.0.2
+Version: 0.0.3
 Provider:
   - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
-Description: 阿里云DMS MCP 服务
+Description: 阿里云推荐的统一数据库访问网关，自适应30+数据源的安全访问及丰富工具能力：数据权限管理、安全数据访问，数据资产查询及智能数据库运维。
 HomePage: https://github.com/aliyun/alibabacloud-dms-mcp-server/tree/main
 Tags: #标签详情
   - MCP

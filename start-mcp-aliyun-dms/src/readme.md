@@ -76,6 +76,14 @@
 - **取数**：通过SQL自动路由准确数据源获得数据，为上层业务提供数据支持  
 - **安全**：精细的访问控制和可审计性  
 
+## 使用案例
+1. 代码生成：通过DMS获取表的元数据信息，辅助准确生成DAO相关的代码
+2. 问数：通过DMS的NL2SQL和取数工具，通过自然语言执行SQL获取取数结果
+
+DMS&Lingma 生成DAO代码
+<video controls width="640" height="360">
+  <source src="https://cloud.video.taobao.com/vod/-Tj9eikaD8OkcWx-aMtfrvjQ76u4MxaUVEcQR4tCBSY.mp4" type="video/mp4">
+</video>
 
 ## 工具清单
 
@@ -169,54 +177,7 @@
 
 ## 快速开始
 
-### 方案一 使用源码运行
-#### 下载代码
-```bash
-git clone https://github.com/aliyun/alibabacloud-dms-mcp-server.git
-```
 
-#### 配置MCP客户端
-在配置文件中添加以下内容：
-```json
-{
-  "mcpServers": {
-    "dms-mcp-server": {
-      "command": "uv",
-      "args": [
-        "--directory",
-        "/path/to/alibabacloud-dms-mcp-server/src/alibabacloud_dms_mcp_server",
-        "run",
-        "server.py"
-      ],
-      "env": {
-        "ALIBABA_CLOUD_ACCESS_KEY_ID": "access_id",
-        "ALIBABA_CLOUD_ACCESS_KEY_SECRET": "access_key",
-        "ALIBABA_CLOUD_SECURITY_TOKEN": "sts_security_token optional, required when using STS Token"
-      }
-    }
-  }
-}
-```
-
-### 方案二 使用PyPI包运行
-```json
-{
-  "mcpServers": {
-    "dms-mcp-server": {
-      "command": "uvx",
-      "args": [
-        "alibabacloud-dms-mcp-server@latest"
-      ],
-      "env": {
-        "ALIBABA_CLOUD_ACCESS_KEY_ID": "access_id",
-        "ALIBABA_CLOUD_ACCESS_KEY_SECRET": "access_key",
-        "ALIBABA_CLOUD_SECURITY_TOKEN": "sts_security_token optional, required when using STS Token"
-      }
-    }
-  }
-}
-```
----
 
 ## Contact us
 
@@ -234,14 +195,20 @@ git clone https://github.com/aliyun/alibabacloud-dms-mcp-server.git
 ## 使用流程
 
 <usedetail id="flushContent">
-   
-1. 部署完成拿到 URL 后，准备好支持 SSE 的 MCP Client，通过 SSETransport 进行连接。
 
-2. DMS mcp server不支持创建数据库，需要先在控制台上创建好数据库，如果是在RDS控制上创建的，需要在DMS上同步下
-![image](https://img.alicdn.com/imgextra/i4/O1CN018McKDh1MHpVoFF47u_!!6000000001410-2-tps-660-690.png)
+### 步骤一   
+通过[FunctionAI MCP市场](https://cap.console.aliyun.com/mcp/274) 部署完成后，在集成向导中复制MCP Client的连接配置，准备好支持 SSE 的 MCP Client，通过 SSETransport 进行连接。
+<img src=https://img.alicdn.com/imgextra/i1/O1CN01i7EuVJ1SZ8ARiPSj1_!!6000000002260-0-tps-3414-1576.jpg alt="MCP Server" width="60%">
+<img src="https://img.alicdn.com/imgextra/i4/O1CN01vbDOML1LI02jGV936_!!6000000001275-2-tps-1888-1446.png" alt="MCP Client" width="60%">
 
-1. 准备好数据库账号，账号要完成[安全托管](https://help.aliyun.com/zh/dms/product-overview/security-hosting?scm=20140722.S_help%40%40%E6%96%87%E6%A1%A3%40%402637012.S_BB1%40bl%2BRQW%40ag0%2BBB2%40ag0%2Bhot%2Bos0.ID_2637012-RL_%E5%AE%89%E5%85%A8%E6%89%98%E7%AE%A1-LOC_doc%7EUND%7Eab-OR_ser-PAR1_212a5d3d17482482327868236d8f90-V_4-P0_0-P1_0&spm=a2c4g.11186623.help-search.i50)，否则tools会报错
+### 步骤二
+在通过 DMS 访问数据库实例之前，请先将实例添加至 DMS 中。可以通过以下两种方式进行实例添加：
 
-2. DMS mcp server 不依赖数据库开公网，DMS网关会打通数据库内网
+方法一：使用 DMS MCP Server 提供的"addInstance"工具快速添加实例。
+方法二：通过 [DMS 控制台](https://dms.aliyun.com/?spm=5176.28197581.d_mcp.1.64c25a9e1lLUHz) 添加实例，具体操作请参考使用文档：[云数据库录入](https://help.aliyun.com/zh/dms/getting-started/register-an-apsaradb-instance?spm=5176.28197581.d_mcp.2.64c25a9e1lLUHz&scm=20140722.H_178692._.OR_help-T_cn~zh-V_1)
+
+### 步骤三
+准备好数据库账号，账号要完成[安全托管](https://help.aliyun.com/zh/dms/product-overview/security-hosting?scm=20140722.S_help%40%40%E6%96%87%E6%A1%A3%40%402637012.S_BB1%40bl%2BRQW%40ag0%2BBB2%40ag0%2Bhot%2Bos0.ID_2637012-RL_%E5%AE%89%E5%85%A8%E6%89%98%E7%AE%A1-LOC_doc%7EUND%7Eab-OR_ser-PAR1_212a5d3d17482482327868236d8f90-V_4-P0_0-P1_0&spm=a2c4g.11186623.help-search.i50)
+
 
 </usedetail>
