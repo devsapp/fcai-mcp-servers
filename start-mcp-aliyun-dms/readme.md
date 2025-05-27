@@ -84,6 +84,14 @@ DMS&Lingma 生成DAO代码
 <video controls width="640" height="360">
   <source src="https://cloud.video.taobao.com/vod/-Tj9eikaD8OkcWx-aMtfrvjQ76u4MxaUVEcQR4tCBSY.mp4" type="video/mp4">
 </video>
+## 使用案例
+1. 代码生成：通过DMS获取表的元数据信息，辅助准确生成DAO相关的代码
+2. 问数：通过DMS的NL2SQL和取数工具，通过自然语言执行SQL获取取数结果
+
+DMS&Lingma 生成DAO代码
+<video controls width="640" height="360">
+  <source src="https://cloud.video.taobao.com/vod/-Tj9eikaD8OkcWx-aMtfrvjQ76u4MxaUVEcQR4tCBSY.mp4" type="video/mp4">
+</video>
 
 ## 工具清单
 
@@ -198,8 +206,10 @@ DMS&Lingma 生成DAO代码
 
 ### 步骤一   
 通过[FunctionAI MCP市场](https://cap.console.aliyun.com/mcp/274) 部署完成后，在集成向导中复制MCP Client的连接配置，准备好支持 SSE 的 MCP Client，通过 SSETransport 进行连接。
-<img src=https://img.alicdn.com/imgextra/i1/O1CN01i7EuVJ1SZ8ARiPSj1_!!6000000002260-0-tps-3414-1576.jpg alt="MCP Server" width="60%">
-<img src="https://img.alicdn.com/imgextra/i4/O1CN01vbDOML1LI02jGV936_!!6000000001275-2-tps-1888-1446.png" alt="MCP Client" width="60%">
+
+<img src="https://img.alicdn.com/imgextra/i1/O1CN01i7EuVJ1SZ8ARiPSj1_!!6000000002260-0-tps-3414-1576.jpg" alt="MCP Server" width="80%">
+
+<img src="https://img.alicdn.com/imgextra/i4/O1CN01vbDOML1LI02jGV936_!!6000000001275-2-tps-1888-1446.png" alt="MCP Client" width="80%">
 
 ### 步骤二
 在通过 DMS 访问数据库实例之前，请先将实例添加至 DMS 中。可以通过以下两种方式进行实例添加：
