@@ -84,14 +84,6 @@ DMS&Lingma 生成DAO代码
 <video controls width="640" height="360">
   <source src="https://cloud.video.taobao.com/vod/-Tj9eikaD8OkcWx-aMtfrvjQ76u4MxaUVEcQR4tCBSY.mp4" type="video/mp4">
 </video>
-## 使用案例
-1. 代码生成：通过DMS获取表的元数据信息，辅助准确生成DAO相关的代码
-2. 问数：通过DMS的NL2SQL和取数工具，通过自然语言执行SQL获取取数结果
-
-DMS&Lingma 生成DAO代码
-<video controls width="640" height="360">
-  <source src="https://cloud.video.taobao.com/vod/-Tj9eikaD8OkcWx-aMtfrvjQ76u4MxaUVEcQR4tCBSY.mp4" type="video/mp4">
-</video>
 
 ## 工具清单
 
