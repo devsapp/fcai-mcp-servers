@@ -1,0 +1,270 @@
+{
+	"tools": [
+    {
+			"inputSchema": {
+				"type": "object",
+				"title": "addInstanceArguments",
+				"properties": {
+					"port": {
+						"anyOf": [{
+								"type": "string"
+							},
+							{
+								"type": "null"
+							}
+						],
+						"title": "Port"
+					},
+					"db_user": {
+						"title": "Db User",
+						"type": "string"
+					},
+					"host": {
+						"anyOf": [{
+								"type": "string"
+							},
+							{
+								"type": "null"
+							}
+						],
+						"title": "Host"
+					},
+					"region": {
+						"anyOf": [{
+								"type": "string"
+							},
+							{
+								"type": "null"
+							}
+						],
+						"title": "Region"
+					},
+					"db_password": {
+						"title": "Db Password",
+						"type": "string"
+					},
+					"instance_resource_id": {
+						"anyOf": [{
+								"type": "string"
+							},
+							{
+								"type": "null"
+							}
+						],
+						"title": "Instance Resource Id"
+					}
+				},
+				"required": [
+					"db_user",
+					"db_password"
+				]
+			},
+			"name": "addInstance",
+			"description": "\n          Add an instance to DMS. If the instance already exists, it will return the existing instance information.\n          Parameters:\n            db_user (str): The username used to connect to the database.\n            db_password (str): The password used to connect to the database.\n            instance_resource_id (str, optional): The resource id of the instance, typically assigned by the cloud provider.\n            host (str, optional): The hostname of the database instance.\n            port (str, optional): The connection port number.\n            region (str, optional): The region where the instance is located (e.g., \"cn-hangzhou\").\n            Returns:\n                Dict[str, Any]: A dictionary containing instance details with these keys:\n                    - instance_id: Unique instance identifier in DMS.\n                    - host: The hostname of the database instance.\n                    - port: The connection port number.\n            "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "getInstanceArguments",
+				"properties": {
+					"port": {
+						"title": "Port",
+						"type": "string"
+					},
+					"host": {
+						"title": "Host",
+						"type": "string"
+					},
+					"sid": {
+						"anyOf": [{
+								"type": "string"
+							},
+							{
+								"type": "null"
+							}
+						],
+						"title": "Sid"
+					}
+				},
+				"required": [
+					"host",
+					"port"
+				]
+			},
+			"name": "getInstance",
+			"description": "\n          Retrieve detailed instance information from DMS.     \n          Parameters:\n            host (str): The hostname of the database instance.\n            port (str): The connection port number.\n            sid (Optional[str]): Required for Oracle like databases. Defaults to None.\n            Returns:\n                Dict[str, Any]: A dictionary containing instance details with these keys:\n                    - InstanceId: Unique instance identifier in DMS\n                    - State: Current operational status\n                    - InstanceType: Database Engine type\n                    - InstanceAlias: Instance alias in DMS\n            "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "searchDatabaseArguments",
+				"properties": {
+					"page_number": {
+						"default": 1,
+						"title": "Page Number",
+						"type": "integer"
+					},
+					"search_key": {
+						"title": "Search Key",
+						"type": "string"
+					},
+					"page_size": {
+						"default": 200,
+						"title": "Page Size",
+						"type": "integer"
+					}
+				},
+				"required": [
+					"search_key"
+				]
+			},
+			"name": "searchDatabase",
+			"description": "\n            Search databases in DMS based on schemaName.\n            This tool allows searching for database instances in the DMS\n    using a provided search key(schemaName). It supports pagination to handle large result sets efficiently.\n            Parameters:\n                search_key (str): schemaName.\n                page_number (int, optional): The page number to retrieve (starting from 1). Defaults to 1.\n                page_size (int, optional): Number of results per page, up to a maximum of 1000. Defaults to 200.\n            Returns:\n                List[Dict[str, Any]]: A list of dictionaries, each representing a matched database with fields such as:\n                    - DatabaseId: Unique database identifier in DMS\n                    - Host: Hostname or IP address of the database instance\n                    - Port: Connection port number\n                    - SchemaName: Name of the database schema\n                    - DbType: Database Engine type      \n          "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "getDatabaseArguments",
+				"properties": {
+					"port": {
+						"title": "Port",
+						"type": "string"
+					},
+					"host": {
+						"title": "Host",
+						"type": "string"
+					},
+					"schema_name": {
+						"title": "Schema Name",
+						"type": "string"
+					},
+					"sid": {
+						"anyOf": [{
+								"type": "string"
+							},
+							{
+								"type": "null"
+							}
+						],
+						"title": "Sid"
+					}
+				},
+				"required": [
+					"host",
+					"port",
+					"schema_name"
+				]
+			},
+			"name": "getDatabase",
+			"description": "\n          Retrieve detailed information about a specific database from DMS.\n          This tool fetches metadata for a database instance in the DMS\n    based on connection parameters and schema name. Supports Oracle-specific SID specification.\n    If you don't know host port, please use searchDatabase tool instead.\n          Parameters:\n            host (str): Hostname or IP address of the database instance.\n            port (str): Connection port number (valid range: 1-65535).\n            schema_name (str): Name of the database schema.\n            sid (Optional[str], optional): Required for Oracle like databases. Defaults to None.\n         Returns:\n            Dict[str, Any]: A dictionary containing database metadata with the following keys:\n                - DatabaseId: Unique database identifier in DMS\n                - SchemaName: Name of the database schema\n                - DbType: Database Engine type    \n                - InstanceAlias: Instance alias in DMS\n                - InstanceId: Instance identifier in DMS\n                - State: Current operational status\n          "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "listTablesArguments",
+				"properties": {
+					"page_number": {
+						"default": 1,
+						"title": "Page Number",
+						"type": "integer"
+					},
+					"database_id": {
+						"title": "Database Id",
+						"type": "string"
+					},
+					"search_name": {
+						"title": "Search Name",
+						"type": "string"
+					},
+					"page_size": {
+						"default": 200,
+						"title": "Page Size",
+						"type": "integer"
+					}
+				},
+				"required": [
+					"database_id",
+					"search_name"
+				]
+			},
+			"name": "listTable",
+			"description": "\n          Search for database tables in DMS based on databaseId and tableName.\n          This tool allows searching for database tables in the DMS if databaseId is known. \n          If you don't known databaseId, you could obtained via getDatabase tool.\n          Parameters:\n            database_id (str): Required databaseId (obtained via getDatabase tool) to scope the search.\n            search_name (str): A non-empty string used as the search keyword. Used to match table names.\n            page_number (int, optional): Pagination page number (default: 1).\n            page_size (int, optional): Number of results per page (default: 200, max: 200).\n          Returns:\n            Dict[str, Any] containing:\n              TableList (Dict): Container for matching tables with structure:\n                Table (List[Dict]): Array of table metadata objects containing:\n                  - DatabaseId (int): ID of parent database\n                  - TableGuid (str): Unique table identifier, with format: dmsTableId.schemaName.tableName.\n                  - TableName (str): Name of table\n                  - Description (str): Table description\n                  - TableType (str): Type classification (NORMAL/VIEW/etc.)\n              TotalCount (int): Total number of matching tables across all pages\n\n          "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "getMetaTableDetailInfoArguments",
+				"properties": {
+					"table_guid": {
+						"title": "Table Guid",
+						"type": "string"
+					}
+				},
+				"required": [
+					"table_guid"
+				]
+			},
+			"name": "getTableDetailInfo",
+			"description": "\n            Retrieve detailed metadata information about a specific database table including schema and index details.\n          Parameters:\n            table_guid (str): Unique table identifier(format: dmsTableId.schemaName.tableName). Obtained via searchTable or listTable tool.\n          Returns:\n            Dict[str, Any] containing:\n                ColumnList: List of column metadata dictionaries with fields:\n                    - ColumnName(str): Name of the column\n                    - ColumnType (str): Full SQL type declaration (e.g., 'varchar(32)', 'bigint(20)')\n                    - AutoIncrement (bool): Whether the column is an auto-increment field\n                    - Description (str): Column comment/description text\n                    - Nullable (bool): Whether NULL values are allowed\n                IndexList: List of index metadata dictionaries with fields:\n                    - IndexColumns (List[str]): List of column names included in the index\n                    - IndexName (str): Name of the index\n                    - IndexType (str): Type of index ('Primary', 'Unique', etc.)\n                    - Unique (bool): Whether the index enforces uniqueness\n          "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "executeScriptArguments",
+				"properties": {
+					"database_id": {
+						"title": "Database Id",
+						"type": "string"
+					},
+					"logic": {
+						"default": false,
+						"title": "Logic",
+						"type": "boolean"
+					},
+					"script": {
+						"title": "Script",
+						"type": "string"
+					}
+				},
+				"required": [
+					"database_id",
+					"script"
+				]
+			},
+			"name": "executeScript",
+			"description": "\n             Execute SQL script against a database in DMS and return structured results.\n          Parameters:\n            database_id (str): Required DMS databaseId. Obtained via getDatabase tool.\n            script (str): SQL script to execute.\n          Returns:\n            Dict[str, Any] containing:\n                - RequestId (str): Unique request identifier\n                - Results (List[Dict]): List of result sets from executed script:\n                    Each result set contains:\n                        - ColumnNames (List[str]): Ordered list of column names\n                        - RowCount (int): Number of rows returned\n                        - Rows (List[Dict[str, str]]): List of rows with column name -> value mapping\n                        - Success (bool): Whether this result set was successfully retrieved\n            - Success (bool): Overall operation success status    \n\n          "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "nl2sqlArguments",
+				"properties": {
+					"question": {
+						"title": "Question",
+						"type": "string"
+					},
+					"database_id": {
+						"title": "Database Id",
+						"type": "string"
+					},
+					"knowledge": {
+						"anyOf": [{
+								"type": "string"
+							},
+							{
+								"type": "null"
+							}
+						],
+						"title": "Knowledge"
+					}
+				},
+				"required": [
+					"database_id",
+					"question"
+				]
+			},
+			"name": "nl2sql",
+			"description": "Generate SQL from natural language questions about database data.\n\n          This tool converts natural language questions into SQL queries that can be executed against a database.\n          If you don't have the database_id, use the searchDatabase tool first to identify the correct database.\n          The sql generated could be executed via DMS executeScript tool provided in this server if necessary.\n\n          Parameters:\n            question (str): Natural language question about the database that needs to be converted to SQL.\n            database_id (int): DMS databaseId. If not provided, searchDatabase will be used first.\n            knowledge (Optional[str]): Additional context or database knowledge to improve SQL generation.\n\n          Returns:\n            Dict[str, Any]: A dictionary containing:\n              - Sql (str): The generated SQL query based on the natural language question\n          "
+		}
+	]
+}

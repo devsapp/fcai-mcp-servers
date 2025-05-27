@@ -1,0 +1,822 @@
+{
+	"tools": [{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_db_instancesArguments",
+				"properties": {
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id"
+				]
+			},
+			"name": "describe_db_instances",
+			"description": "\n    Queries instances.\n    Args:\n        region_id: queries instances in region id(e.g. cn-hangzhou)\n    :return:\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_db_instance_attributeArguments",
+				"properties": {
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"db_instance_id": {
+						"title": "Db Instance Id",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"db_instance_id"
+				]
+			},
+			"name": "describe_db_instance_attribute",
+			"description": "\n    Queries the details of an instance.\n    Args:\n        region_id: db instance region(e.g. cn-hangzhou)\n        db_instance_id: db instance id(e.g. rm-xxx)\n    :return:\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_db_instance_performanceArguments",
+				"properties": {
+					"db_type": {
+						"title": "Db Type",
+						"type": "string"
+					},
+					"start_time": {
+						"title": "Start Time",
+						"type": "string"
+					},
+					"perf_keys": {
+						"title": "Perf Keys",
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"end_time": {
+						"title": "End Time",
+						"type": "string"
+					},
+					"db_instance_id": {
+						"title": "Db Instance Id",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"db_instance_id",
+					"db_type",
+					"perf_keys",
+					"start_time",
+					"end_time"
+				]
+			},
+			"name": "describe_db_instance_performance",
+			"description": "\n    Queries the performance data of an instance.\n    Args:\n        region_id: db instance region(e.g. cn-hangzhou)\n        db_instance_id: db instance id(e.g. rm-xxx)\n        db_type: the db instance database type(e.g. mysql,pgsql,sqlserver)\n        perf_keys: Performance Key  (e.g. [\"MemCpuUsage\", \"QPSTPS\", \"Sessions\", \"COMDML\", \"RowDML\", \"ThreadStatus\", \"MBPS\", \"DetailedSpaceUsage\"])\n        start_time: start time(e.g. 2023-01-01 00:00)\n        end_time: end time(e.g. 2023-01-01 00:00)\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "modify_parameterArguments",
+				"properties": {
+					"client_token": {
+						"title": "Client Token",
+						"type": "string"
+					},
+					"dbinstance_id": {
+						"title": "Dbinstance Id",
+						"type": "string"
+					},
+					"switch_time": {
+						"title": "Switch Time",
+						"type": "string"
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"forcerestart": {
+						"default": false,
+						"title": "Forcerestart",
+						"type": "boolean"
+					},
+					"parameter_group_id": {
+						"title": "Parameter Group Id",
+						"type": "string"
+					},
+					"parameters": {
+						"additionalProperties": {
+							"type": "string"
+						},
+						"title": "Parameters",
+						"type": "object"
+					},
+					"switch_time_mode": {
+						"default": "Immediate",
+						"title": "Switch Time Mode",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"dbinstance_id"
+				]
+			},
+			"name": "modify_parameter",
+			"description": "Modify RDS instance parameters.\n\n    Args:\n        region_id: The region ID of the RDS instance.\n        dbinstance_id: The ID of the RDS instance.\n        parameters (Dict[str, str], optional): Parameters and their values in JSON format.\n            Example: {\"delayed_insert_timeout\": \"600\", \"max_length_for_sort_data\": \"2048\"}\n        parameter_group_id: Parameter template ID.\n        forcerestart: Whether to force restart the database. Default: False.\n        switch_time_mode: Execution time mode. Values: Immediate, MaintainTime, ScheduleTime. Default: Immediate.\n        switch_time: Scheduled execution time in format: yyyy-MM-ddTHH:mm:ssZ (UTC time).\n        client_token: Client token for idempotency, max 64 ASCII characters.\n\n    Returns:\n        Dict[str, Any]: The response containing the request ID.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "modify_db_instance_specArguments",
+				"properties": {
+					"effective_time": {
+						"title": "Effective Time",
+						"type": "string"
+					},
+					"dbinstance_id": {
+						"title": "Dbinstance Id",
+						"type": "string"
+					},
+					"max_capacity": {
+						"title": "Max Capacity",
+						"type": "number"
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"switch_force": {
+						"title": "Switch Force",
+						"type": "boolean"
+					},
+					"source_biz": {
+						"title": "Source Biz",
+						"type": "string"
+					},
+					"dedicated_host_group_id": {
+						"title": "Dedicated Host Group Id",
+						"type": "string"
+					},
+					"auto_pause": {
+						"title": "Auto Pause",
+						"type": "boolean"
+					},
+					"switch_time_mode": {
+						"title": "Switch Time Mode",
+						"type": "string"
+					},
+					"zone_id": {
+						"title": "Zone Id",
+						"type": "string"
+					},
+					"client_token": {
+						"title": "Client Token",
+						"type": "string"
+					},
+					"switch_time": {
+						"title": "Switch Time",
+						"type": "string"
+					},
+					"instance_network_type": {
+						"title": "Instance Network Type",
+						"type": "string"
+					},
+					"dbinstance_storage": {
+						"title": "Dbinstance Storage",
+						"type": "integer"
+					},
+					"vswitch_id": {
+						"title": "Vswitch Id",
+						"type": "string"
+					},
+					"pay_type": {
+						"title": "Pay Type",
+						"type": "string"
+					},
+					"category": {
+						"title": "Category",
+						"type": "string"
+					},
+					"min_capacity": {
+						"title": "Min Capacity",
+						"type": "number"
+					},
+					"dbinstance_class": {
+						"title": "Dbinstance Class",
+						"type": "string"
+					},
+					"direction": {
+						"title": "Direction",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"dbinstance_id"
+				]
+			},
+			"name": "modify_db_instance_spec",
+			"description": "Modify RDS instance specifications.\n\n    Args:\n        region_id: The region ID of the RDS instance.\n        dbinstance_id: The ID of the RDS instance.\n        dbinstance_class: Target instance specification.\n        dbinstance_storage: Target storage space in GB.\n        pay_type: Instance payment type. Values: Postpaid, Prepaid, Serverless.\n        effective_time: When the new configuration takes effect. Values: Immediate, MaintainTime, ScheduleTime.\n        switch_time: Scheduled switch time in format: yyyy-MM-ddTHH:mm:ssZ (UTC time).\n        switch_time_mode: Switch time mode. Values: Immediate, MaintainTime, ScheduleTime.\n        source_biz: Source business type.\n        dedicated_host_group_id: Dedicated host group ID.\n        zone_id: Zone ID.\n        vswitch_id: VSwitch ID.\n        category: Instance category.\n        instance_network_type: Instance network type.\n        direction: Specification change direction. Values: UP, DOWN.\n        auto_pause: Whether to enable auto pause for Serverless instances.\n        max_capacity: Maximum capacity for Serverless instances.\n        min_capacity: Minimum capacity for Serverless instances.\n        switch_force: Whether to force switch for Serverless instances.\n        client_token: Client token for idempotency, max 64 ASCII characters.\n\n    Returns:\n        Dict[str, Any]: The response containing the request ID.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_available_classesArguments",
+				"properties": {
+					"zone_id": {
+						"title": "Zone Id",
+						"type": "string"
+					},
+					"dbinstance_id": {
+						"title": "Dbinstance Id",
+						"type": "string"
+					},
+					"commodity_code": {
+						"title": "Commodity Code",
+						"type": "string"
+					},
+					"instance_charge_type": {
+						"title": "Instance Charge Type",
+						"type": "string"
+					},
+					"engine": {
+						"title": "Engine",
+						"type": "string"
+					},
+					"dbinstance_storage_type": {
+						"title": "Dbinstance Storage Type",
+						"type": "string"
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"engine_version": {
+						"title": "Engine Version",
+						"type": "string"
+					},
+					"category": {
+						"title": "Category",
+						"type": "string"
+					},
+					"order_type": {
+						"title": "Order Type",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"zone_id",
+					"instance_charge_type",
+					"engine",
+					"engine_version",
+					"dbinstance_storage_type",
+					"category"
+				]
+			},
+			"name": "describe_available_classes",
+			"description": "Query the RDS instance class_code and storage space that can be purchased in the inventory.\n\n    Args:\n        region_id: The region ID of the RDS instance.\n        zone_id: The zone ID of the RDS instance. Query available zones by `describe_available_zones`.\n        instance_charge_type: Instance payment type. Values: Prepaid, Postpaid, Serverless.\n        engine: Database engine type. Values: MySQL, SQLServer, PostgreSQL, MariaDB.\n        engine_version: Database version.\n        dbinstance_storage_type: Storage type. Values: local_ssd,general_essd,cloud_essd,cloud_essd2,cloud_essd3\n        category: Instance category. Values: Basic, HighAvailability, cluster, AlwaysOn, Finance, serverless_basic, serverless_standard, serverless_ha.\n        dbinstance_id: The ID of the RDS instance.\n        order_type: Order type. Currently only supports \"BUY\".\n        commodity_code: Commodity code for read-only instances.\n\n    Returns:\n        Dict[str, Any]: The response containing available instance classes and storage ranges.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "create_db_instanceArguments",
+				"properties": {
+					"resource_group_id": {
+						"title": "Resource Group Id",
+						"type": "string"
+					},
+					"vpc_id": {
+						"title": "Vpc Id",
+						"type": "string"
+					},
+					"security_ip_list": {
+						"default": "127.0.0.1",
+						"title": "Security Ip List",
+						"type": "string"
+					},
+					"serverless_config": {
+						"additionalProperties": true,
+						"title": "Serverless Config",
+						"type": "object"
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"zone_id_slave2": {
+						"title": "Zone Id Slave2",
+						"type": "string"
+					},
+					"tde_status": {
+						"title": "Tde Status",
+						"type": "string"
+					},
+					"zone_id_slave1": {
+						"title": "Zone Id Slave1",
+						"type": "string"
+					},
+					"zone_id": {
+						"title": "Zone Id",
+						"type": "string"
+					},
+					"client_token": {
+						"title": "Client Token",
+						"type": "string"
+					},
+					"instance_network_type": {
+						"default": "VPC",
+						"title": "Instance Network Type",
+						"type": "string"
+					},
+					"engine": {
+						"title": "Engine",
+						"type": "string"
+					},
+					"dbinstance_storage": {
+						"title": "Dbinstance Storage",
+						"type": "integer"
+					},
+					"dbinstance_storage_type": {
+						"title": "Dbinstance Storage Type",
+						"type": "string"
+					},
+					"vswitch_id": {
+						"title": "Vswitch Id",
+						"type": "string"
+					},
+					"system_db_charset": {
+						"title": "System Db Charset",
+						"type": "string"
+					},
+					"encryption_key": {
+						"title": "Encryption Key",
+						"type": "string"
+					},
+					"pay_type": {
+						"default": "Postpaid",
+						"title": "Pay Type",
+						"type": "string"
+					},
+					"private_ip_address": {
+						"title": "Private Ip Address",
+						"type": "string"
+					},
+					"engine_version": {
+						"title": "Engine Version",
+						"type": "string"
+					},
+					"dbinstance_net_type": {
+						"default": "Internet",
+						"title": "Dbinstance Net Type",
+						"type": "string"
+					},
+					"category": {
+						"default": "Basic",
+						"title": "Category",
+						"type": "string"
+					},
+					"dbinstance_class": {
+						"title": "Dbinstance Class",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"engine",
+					"engine_version",
+					"dbinstance_class",
+					"dbinstance_storage",
+					"vpc_id",
+					"vswitch_id",
+					"zone_id"
+				]
+			},
+			"name": "create_db_instance",
+			"description": "Create an RDS instance.\n\n    Args:\n        region_id: Region ID.\n        engine: Database type (MySQL, SQLServer, PostgreSQL, MariaDB).\n        engine_version: Database version.\n        dbinstance_class: Instance specification. Query available class_codes by `describe_available_classes`.\n        dbinstance_storage: Storage space in GB.\n        security_ip_list: IP whitelist, separated by commas. Default: \"127.0.0.1\".\n        instance_network_type: Network type (Classic, VPC). Default: VPC.\n        zone_id: Zone ID. Query available zones by `describe_available_zones`.\n        zone_id_slave1: Slave Node1 Zone ID. Query available zones by `describe_available_zones`.\n        zone_id_slave2: Slave Node2 Zone ID. Query available zones by `describe_available_zones`.\n        pay_type: Payment type (Postpaid, Prepaid). Default: Postpaid.\n        instance_charge_type: Instance charge type.\n        system_db_charset: Character set.\n        dbinstance_net_type: Network connection type (Internet, Intranet). Default: Internet.\n        category: Instance category. Default: Basic.\n        dbinstance_storage_type: Storage type. (e.g. local_ssd,general_essd,cloud_essd,cloud_essd2,cloud_essd3)\n        vpc_id: VPC ID.\n        vswitch_id: VSwitch ID.\n        private_ip_address: Private IP address.\n        client_token: Idempotence token.\n        resource_group_id: Resource group ID.\n        tde_status: TDE status (Enable, Disable).\n        encryption_key: Custom encryption key.\n        serverless_config: Serverless instance configuration.\n\n    Returns:\n        Dict[str, Any]: Response containing the created instance details.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_available_zonesArguments",
+				"properties": {
+					"zone_id": {
+						"title": "Zone Id",
+						"type": "string"
+					},
+					"commodity_code": {
+						"title": "Commodity Code",
+						"type": "string"
+					},
+					"engine": {
+						"title": "Engine",
+						"type": "string"
+					},
+					"dbinstance_name": {
+						"title": "Dbinstance Name",
+						"type": "string"
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"dispense_mode": {
+						"title": "Dispense Mode",
+						"type": "string"
+					},
+					"engine_version": {
+						"title": "Engine Version",
+						"type": "string"
+					},
+					"category": {
+						"title": "Category",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"engine"
+				]
+			},
+			"name": "describe_available_zones",
+			"description": "Query available zones for RDS instances.\n\n    Args:\n        region_id: Region ID.\n        engine: Database type (MySQL, SQLServer, PostgreSQL, MariaDB).\n        engine_version: Database version.\n            MySQL: 5.5, 5.6, 5.7, 8.0\n            SQL Server: 2008r2, 2012, 2014, 2016, 2017, 2019\n            PostgreSQL: 10.0, 11.0, 12.0, 13.0, 14.0, 15.0\n            MariaDB: 10.3\n        commodity_code: Commodity code.\n            bards: Pay-as-you-go primary instance (China site)\n            rds: Subscription primary instance (China site)\n            rords: Pay-as-you-go read-only instance (China site)\n            rds_rordspre_public_cn: Subscription read-only instance (China site)\n            bards_intl: Pay-as-you-go primary instance (International site)\n            rds_intl: Subscription primary instance (International site)\n            rords_intl: Pay-as-you-go read-only instance (International site)\n            rds_rordspre_public_intl: Subscription read-only instance (International site)\n            rds_serverless_public_cn: Serverless instance (China site)\n            rds_serverless_public_intl: Serverless instance (International site)\n        zone_id: Zone ID.\n        dispense_mode: Whether to return zones that support single-zone deployment.\n            1: Return (default)\n            0: Do not return\n        dbinstance_name: Primary instance ID. Required when querying read-only instance resources.\n        category: Instance category.\n            Basic: Basic Edition\n            HighAvailability: High-availability Edition\n            cluster: MySQL Cluster Edition\n            AlwaysOn: SQL Server Cluster Edition\n            Finance: Enterprise Edition\n            serverless_basic: Serverless Basic Edition\n            serverless_standard: MySQL Serverless High-availability Edition\n            serverless_ha: SQL Server Serverless High-availability Edition\n\n    Returns:\n        Dict[str, Any]: Response containing available zones information.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_vpcsArguments",
+				"properties": {
+					"vpc_owner_id": {
+						"title": "Vpc Owner Id",
+						"type": "integer"
+					},
+					"vpc_name": {
+						"title": "Vpc Name",
+						"type": "string"
+					},
+					"page_number": {
+						"default": 1,
+						"title": "Page Number",
+						"type": "integer"
+					},
+					"resource_group_id": {
+						"title": "Resource Group Id",
+						"type": "string"
+					},
+					"vpc_id": {
+						"title": "Vpc Id",
+						"type": "string"
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"page_size": {
+						"default": 10,
+						"title": "Page Size",
+						"type": "integer"
+					},
+					"tags": {
+						"title": "Tags",
+						"type": "array",
+						"items": {
+							"additionalProperties": {
+								"type": "string"
+							},
+							"type": "object"
+						}
+					}
+				},
+				"required": [
+					"region_id"
+				]
+			},
+			"name": "describe_vpcs",
+			"description": "Query VPC list.\n\n    Args:\n        region_id: The region ID of the VPC.\n        vpc_id: The ID of the VPC. Up to 20 VPC IDs can be specified, separated by commas.\n        vpc_name: The name of the VPC.\n        resource_group_id: The resource group ID of the VPC to query.\n        page_number: The page number of the list. Default: 1.\n        page_size: The number of entries per page. Maximum value: 50. Default: 10.\n        vpc_owner_id: The Alibaba Cloud account ID of the VPC owner.\n        tags: The tags of the resource.\n\n    Returns:\n        Dict[str, Any]: The response containing the list of VPCs.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_vswitchesArguments",
+				"properties": {
+					"zone_id": {
+						"title": "Zone Id",
+						"type": "string"
+					},
+					"page_number": {
+						"default": 1,
+						"title": "Page Number",
+						"type": "integer"
+					},
+					"resource_group_id": {
+						"title": "Resource Group Id",
+						"type": "string"
+					},
+					"vpc_id": {
+						"title": "Vpc Id",
+						"type": "string"
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"vswitch_id": {
+						"title": "Vswitch Id",
+						"type": "string"
+					},
+					"vswitch_name": {
+						"title": "Vswitch Name",
+						"type": "string"
+					},
+					"is_default": {
+						"title": "Is Default",
+						"type": "boolean"
+					},
+					"page_size": {
+						"default": 10,
+						"title": "Page Size",
+						"type": "integer"
+					}
+				}
+			},
+			"name": "describe_vswitches",
+			"description": "Query VSwitch list.\n\n    Args:\n        region_id: The region ID of the VSwitch. At least one of region_id or vpc_id must be specified.\n        vpc_id: The ID of the VPC to which the VSwitch belongs. At least one of region_id or vpc_id must be specified.\n        vswitch_id: The ID of the VSwitch to query.\n        zone_id: The zone ID of the VSwitch.\n        vswitch_name: The name of the VSwitch.\n        resource_group_id: The resource group ID of the VSwitch.\n        page_number: The page number of the list. Default: 1.\n        page_size: The number of entries per page. Maximum value: 50. Default: 10.\n\n    Returns:\n        Dict[str, Any]: The response containing the list of VSwitches.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_slow_log_recordsArguments",
+				"properties": {
+					"start_time": {
+						"title": "Start Time",
+						"type": "string"
+					},
+					"dbinstance_id": {
+						"title": "Dbinstance Id",
+						"type": "string"
+					},
+					"page_number": {
+						"default": 1,
+						"title": "Page Number",
+						"type": "integer"
+					},
+					"db_name": {
+						"title": "Db Name",
+						"type": "string"
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"end_time": {
+						"title": "End Time",
+						"type": "string"
+					},
+					"sqlhash": {
+						"title": "Sqlhash",
+						"type": "string"
+					},
+					"page_size": {
+						"default": 30,
+						"title": "Page Size",
+						"type": "integer"
+					},
+					"node_id": {
+						"title": "Node Id",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"dbinstance_id",
+					"start_time",
+					"end_time"
+				]
+			},
+			"name": "describe_slow_log_records",
+			"description": "Query slow log records for an RDS instance.\n\n    Args:\n        region_id: The region ID of the RDS instance.\n        dbinstance_id: The ID of the RDS instance.\n        start_time: Start time in format: yyyy-MM-dd HH:mm.\n            Cannot be earlier than 30 days before the current time.\n        end_time: End time in format: yyyy-MM-dd HH:mm.\n            Must be later than the start time.\n        sqlhash: The unique identifier of the SQL statement in slow log statistics.\n            Used to get slow log details for a specific SQL statement.\n        db_name: The name of the database.\n        page_size: Number of records per page. Range: 30-100. Default: 30.\n        page_number: Page number. Must be greater than 0 and not exceed Integer max value. Default: 1.\n        node_id: Node ID. Only applicable to cluster instances.\n            If not specified, logs from the primary node are returned by default.\n\n    Returns:\n        Dict[str, Any]: The response containing slow log records.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_error_logsArguments",
+				"properties": {
+					"start_time": {
+						"title": "Start Time",
+						"type": "string"
+					},
+					"page_number": {
+						"default": 1,
+						"title": "Page Number",
+						"type": "integer"
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"end_time": {
+						"title": "End Time",
+						"type": "string"
+					},
+					"db_instance_id": {
+						"title": "Db Instance Id",
+						"type": "string"
+					},
+					"page_size": {
+						"default": 30,
+						"title": "Page Size",
+						"type": "integer"
+					}
+				},
+				"required": [
+					"region_id",
+					"db_instance_id",
+					"start_time",
+					"end_time"
+				]
+			},
+			"name": "describe_error_logs",
+			"description": "\n    Query error logs of an RDS instance.\n    Args:\n        region_id: The region ID of the RDS instance.\n        db_instance_id: The ID of the RDS instance.\n        start_time: The start time of the query. Format: yyyy-MM-dd HH:mm.\n        end_time: The end time of the query. Format: yyyy-MM-dd HH:mm.\n        page_size: The number of records per page. Range: 30~100. Default: 30.\n        page_number: The page number. Default: 1.\n    Returns:\n        Dict[str, Any]: A dictionary containing error log information\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_db_instance_net_infoArguments",
+				"properties": {
+					"db_instance_ids": {
+						"title": "Db Instance Ids",
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"db_instance_ids"
+				]
+			},
+			"name": "describe_db_instance_net_info",
+			"description": "\n    Batch retrieves network configuration details for multiple RDS instances.\n    Args:\n        region_id: The region ID of the RDS instance.\n        db_instance_ids: List of DB instance identifiers (e.g., [\"rm-uf6wjk5****\", \"db-instance-01\"])\n    Returns:\n        list[dict]: A list of dictionaries containing network configuration details for each instance.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_db_instance_ip_allowlistArguments",
+				"properties": {
+					"db_instance_ids": {
+						"title": "Db Instance Ids",
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"db_instance_ids"
+				]
+			},
+			"name": "describe_db_instance_ip_allowlist",
+			"description": "\n    Batch retrieves IP allowlist configurations for multiple RDS instances.\n    Args:\n        region_id: The region ID of the RDS instance.\n        db_instance_ids: List of DB instance identifiers (e.g., [\"rm-uf6wjk5****\", \"db-instance-01\"])\n    Returns:\n        list[dict]: A list of dictionaries containing network configuration details for each instance.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_db_instance_databasesArguments",
+				"properties": {
+					"db_instance_ids": {
+						"title": "Db Instance Ids",
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"db_instance_ids"
+				]
+			},
+			"name": "describe_db_instance_databases",
+			"description": "\n    Batch retrieves database information for multiple RDS instances.\n    Args:\n        region_id: The region ID of the RDS instance.\n        db_instance_ids: List of DB instance identifiers (e.g., [\"rm-uf6wjk5****\", \"db-instance-01\"])\n    Returns:\n        list[dict]: A list of dictionaries containing database information for each instance.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_db_instance_accountsArguments",
+				"properties": {
+					"db_instance_ids": {
+						"title": "Db Instance Ids",
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					}
+				},
+				"required": [
+					"region_id",
+					"db_instance_ids"
+				]
+			},
+			"name": "describe_db_instance_accounts",
+			"description": "\n    Batch retrieves account information for multiple RDS instances.\n    Args:\n        region_id: The region ID of the RDS instance.\n        db_instance_ids: List of DB instance identifiers (e.g., [\"rm-uf6wjk5****\", \"db-instance-01\"])\n    Returns:\n        list[dict]: A list of dictionaries containing account information for each instance.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_db_instance_parametersArguments",
+				"properties": {
+					"db_instance_ids": {
+						"title": "Db Instance Ids",
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"region_id": {
+						"title": "Region Id",
+						"type": "string"
+					},
+					"paramters": {
+						"title": "Paramters",
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				},
+				"required": [
+					"region_id",
+					"db_instance_ids"
+				]
+			},
+			"name": "describe_db_instance_parameters",
+			"description": "\n    Batch retrieves parameter information for multiple RDS instances.\n    Args:\n        region_id: The region ID of the RDS instance.\n        db_instance_ids: List of DB instance identifiers (e.g., [\"rm-uf6wjk5****\", \"db-instance-01\"])\n        paramters: List of parameter names (e.g., [\"max_connections\", \"innodb_buffer_pool_size\"])\n    Returns:\n        list[dict]: A list of dictionaries containing parameter information(ParamGroupInfo,ConfigParameters,RunningParameters) foreach instance.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "describe_billsArguments",
+				"properties": {
+					"billing_cycles": {
+						"title": "Billing Cycles",
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"db_instance_id": {
+						"title": "Db Instance Id",
+						"type": "string"
+					},
+					"is_billing_item": {
+						"default": false,
+						"title": "Is Billing Item",
+						"type": "boolean"
+					}
+				},
+				"required": [
+					"billing_cycles"
+				]
+			},
+			"name": "describe_bills",
+			"description": "\n    Query the consumption summary of all product instances or billing items for a user within a specific billing period.\n    Args:\n        billing_cycles: bill cycle YYYY－MM, e.g. 2020-03\n        db_instance_id: DB instance id (e.g., \"rm-xxx\")\n        is_billing_item: Whether to pull data according to the billing item dimension.\n    Returns:\n        str: billing information.\n    "
+		},
+		{
+			"inputSchema": {
+				"type": "object",
+				"title": "get_current_timeArguments",
+				"properties": {}
+			},
+			"name": "get_current_time",
+			"description": "Get the current time.\n\n    Returns:\n        Dict[str, Any]: The response containing the current time.\n    "
+		}
+	]
+}
