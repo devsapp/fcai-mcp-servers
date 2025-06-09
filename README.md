@@ -7,6 +7,7 @@ mcp servers on serverless
 - [aliyun-hologres-mcp-server](./start-mcp-aliyun-hologres)
 - [aliyun-observability-mcp-server](./start-mcp-aliyun-observability)
 - [aliyun-tablestore-mcp-server](./start-mcp-aliyun-tablestore)
+- [aliyun-fc-mcp-server](./start-mcp-aliyun-fc)
 - [fcai-start-mcp-amap-maps](./start-mcp-amap-maps)
 - [fcai-start-mcp-ever-art](./start-mcp-ever-art)
 - [fcai-start-mcp-everything](./start-mcp-everything)

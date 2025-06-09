@@ -1,0 +1,9 @@
+services:
+  aliyun-fc-mcp-server:
+    REMOTE_MODE:
+      title: 远程模式
+      type: string
+      default: 'true'
+      sensitive: false
+      description: 必须使用远程模式
+  
