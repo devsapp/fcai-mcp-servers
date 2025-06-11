@@ -5,7 +5,7 @@
 
 <description>
 
-devops mcp server
+阿里云云效 MCP 服务
 
 </description>
 
@@ -53,102 +53,99 @@ devops mcp server
 <appdetail id="flushContent">
 
 ## alibabacloud-devops-mcp-server
-[![smithery badge](https://smithery.ai/badge/@aliyun/alibabacloud-devops-mcp-server)](https://smithery.ai/server/@aliyun/alibabacloud-devops-mcp-server)
+[云效](https://www.aliyun.com/product/yunxiao)mcp-server工具为 AI 助手提供了与云效平台交互的能力，能够让 AI 助手可以读取项目中工作项的内容，在理解需求后自动编写代码，并提交代码合并请求。企业研发团队可以使用它协助代码审查、优化任务管理、减少重复性操作，从而专注于更重要的创新和产品交付。
 
-[AlibabaCloud Devops](https://www.aliyun.com/product/yunxiao) MCP Server provides AI assistants with the ability to interact with the Yunxiao platform, enabling them to read work item contents in projects, automatically write code after understanding requirements, and submit code merge requests. Enterprise development teams can use it to assist with code reviews, optimize task management, reduce repetitive operations, and thus focus on more important innovation and product delivery.
+### 功能特性
 
-### Features
+alibabacloud-devops-mcp-server提供了以下功能，让AI助手能够：
 
-alibabacloud-devops-mcp-server provides the following capabilities for AI assistants:
+* **代码仓库管理**：查询代码仓库及其分支、创建分支
+* **文件操作**：创建、更新、删除和获取代码文件内容
+* **代码评审**：创建和管理代码评审流程
+* **项目管理**：搜索项目、获取项目详情
+* **流水线管理**：获取流水线详情、获取流水线列表、运行流水线、获取最近一次流水线运行信息、获取流水线运行实例、获取流水线运行实例列表、查询/运行流水线部署任务
+* **制品仓库管理**：查看制品仓库信息、查询制品信息、查看单个制品信息
 
-* **Code Repository Management**: Query code repositories and their branches, create branches
-* **File Operations**: Create, update, delete, and retrieve code file content
-* **Code Review**: Create and manage code review processes
-* **Project Management**: Search projects, get project details
-* **Pipeline Management**: Get pipeline details, get pipeline list, create a pipeline run instance, get the latest pipeline run instance, get pipeline run details, get pipeline run list, Query / Run a pipeline deployment task
-* **Package Management**: Get package repository details list, Get artifacts details list, Get single artifact details
+### 工具列表
 
-### Tools
+alibabacloud-devops-mcp-server集成了多种工具，包括：
 
-alibabacloud-devops-mcp-server integrates various tools, including:
+#### 组织
+- `get_current_organization_Info`: 获取当前用户所在组织信息
+- `get_user_organizations`: 获取当前用户加入的组织列表
 
-#### Organization
-- `get_current_organization_Info`: Get current user's organization information
-- `get_user_organizations`: Get the list of organizations the current user has joined
+#### 代码管理工具
 
-#### Code Management Tools
+- `create_branch`: 创建分支
+- `delete_branch`: 删除分支
+- `get_branch`: 获取分支信息
+- `list_branches`: 获取分支列表
+- `create_file`: 创建文件
+- `delete_file`: 删除文件
+- `get_file_blobs`: 获取文件内容
+- `list_files`: 查询文件树
+- `update_file`: 更新文件内容
+- `create_change_request`: 创建合并请求
+- `create_change_request_comment`: 创建合并请求评论
+- `get_change_request`: 查询合并请求
+- `list_change_request_patch_sets`: 查询合并请求版本列表
+- `list_change_request`: 查询合并请求列表
+- `list_change_request_comments`: 查询合并请求评论列表
+- `get_compare`: 代码比较
+- `get_repository`: 获取仓库详情
+- `list_repositories`: 获取仓库列表
 
-- `create_branch`: Create a branch
-- `delete_branch`: Delete a branch
-- `get_branch`: Get branch information
-- `list_branches`: Get branch list
-- `create_file`: Create a file
-- `delete_file`: Delete a file
-- `get_file_blobs`: Get file content
-- `list_files`: Query file tree
-- `update_file`: Update file content
-- `create_change_request`: Create a merge request
-- `create_change_request_comment`: Create a comment on a merge request
-- `get_change_request`: Query merge request
-- `list_change_request_patch_sets`: Query merge request version list
-- `list_change_request`: Query merge request list
-- `list_change_request_comments`: Query merge request comment list
-- `get_compare`: Compare code
-- `get_repository`: Get repository details
-- `list_repositories`: Get repository list
+#### 项目管理工具
 
-#### Project Management Tools
+- `get_project`: 获取项目详情
+- `search_projects`: 搜索项目
+- `get_work_item`: 获取工作项详情
+- `search_workitems`: 搜索工作项
 
-- `get_project`: Get project details
-- `search_projects`: Search projects
-- `get_work_item`: Get work item details
-- `search_workitems`: Search work items
+####  流水线工具
+- `get_pipeline` - 获取流水线详情
+- `list_pipelines` - 获取流水线列表
+- `smart_list_pipelines` - 智能查询流水线（支持自然语言时间）
+- `create_pipeline_run` - 运行流水线
+- `get_latest_pipeline_run` - 获取最新运行信息
+- `get_pipeline_run` - 获取运行详情
+- `list_pipeline_runs` - 获取运行历史
+- `list_pipeline_jobs_by_category` - 获取流水线任务
+- `list_pipeline_job_historys` - 获取任务历史
+- `execute_pipeline_job_run` - 手动运行任务
+- `get_pipeline_job_run_log` - 获取任务日志
+- `list_service_connections` - 获取服务连接列表
+- `generate_pipeline_yaml`:   生成流水线 YAML
+- `create_pipeline_from_description`: 根据自然语言描述生成流水线 YAML 并创建流水线
 
-#### Pipeline Management Tools
+#### 制品仓库工具
 
-- `get_pipeline`: Get pipeline details
-- `list_pipelines`: Get pipeline list
-- `smart_list_pipelines`: Smart pipeline search with natural language time references
-- `create_pipeline_run`: Create a pipeline run instance
-- `get_latest_pipeline_run`: Get the latest pipeline run instance
-- `get_pipeline_run`: Get pipeline run details
-- `list_pipeline_runs`: Get pipeline run list
-- `list_pipeline_jobs_by_category`: Get pipeline execution tasks by category
-- `list_pipeline_job_historys`: Get the execution history of a pipeline task
-- `execute_pipeline_job_run`: Manually run a pipeline task
-- `get_pipeline_job_run_log`: Get the execution logs of a pipeline job
-- `list_service_connections`: List service connections in organization
-- `generate_pipeline_yaml`:   Automatically generates YAML configuration
-- `create_pipeline_from_description`: Automatically generates YAML configuration and creates pipeline
+- `list_package_repositories`: 查看制品仓库信息
+- `list_artifacts`: 查询制品信息
+- `get_artifact`: 查看单个制品信息
 
-#### Packages Management Tools
+### 用法
 
-- `list_package_repositories`: Get package repositories details list
-- `list_artifacts`: Get artifacts details list
-- `get_artifact`: Get single artifact details
+#### 先决条件
+* node 版本  >= 16.0.0
+* 阿里云[云效](https://www.aliyun.com/product/yunxiao)个人访问令牌，[点击前往](https://help.aliyun.com/zh/yunxiao/developer-reference/obtain-personal-access-token)，授予组织管理、项目协作、代码管理、流水线、制品仓库、应用交付、测试管理下所有api的读写权限。令牌的到期时间注意选择一个长期有效的时间。
+  
+  ![个人令牌授权页面](https://agent-install-beijing.oss-cn-beijing.aliyuncs.com/alibabacloud-devops-mcp-server/img_8.jpg)
 
-### Usage
+#### 在 Smithery.ai 中使用云效 MCP 服务
 
-#### Prerequisites
-* node version >= 16.0.0
-* [AlibabaCloud Devops](https://www.aliyun.com/product/yunxiao) Personal Access Token, [click here to obtain](https://help.aliyun.com/zh/yunxiao/developer-reference/obtain-personal-access-token). Grant read and write permissions to all APIs under organization management, project collaboration, code management, pipeline management, artifact repository management, application delivery and testing management.
-
-  ![The personal token authorization page](https://agent-install-beijing.oss-cn-beijing.aliyuncs.com/alibabacloud-devops-mcp-server/img_8.jpg)
-
-#### Installing via Smithery
-
-To install [AlibabaCloud DevOps](https://www.aliyun.com/product/yunxiao) Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@aliyun/alibabacloud-devops-mcp-server):
+云效 MCP 服务已部署到 Smithery.ai 中，可以按照下列命令安装使用 [Smithery](https://smithery.ai/server/@aliyun/alibabacloud-devops-mcp-server):
 
 ```bash
 npx -y @smithery/cli install @aliyun/alibabacloud-devops-mcp-server --client claude
 ```
 
-#### Install Yunxiao MCP server via MCP marketplace
-The MCP market built into Lingma (AlibabaCloud Tongyi Lingma) has already provided the AlibabaCloud Devops MCP service. To install it, simply enter the MCP market in Lingma and search for "Yunxiao DevOps", then click install.
+#### 通过 MCP市场 安装[云效](https://www.aliyun.com/product/yunxiao) MCP 服务
+通义灵码内置的MCP市场中已经提供了云效的MCP服务，在通义灵码中进入MCP市场并且找到「云效DevOps」，直接安装即可。
 
-![Install AlibabaCloud Devops MCP Service from the MCP Market](https://agent-install-beijing.oss-cn-beijing.aliyuncs.com/alibabacloud-devops-mcp-server/img_9.png)
+![MCP市场安装云效MCP服务](https://agent-install-beijing.oss-cn-beijing.aliyuncs.com/alibabacloud-devops-mcp-server/img_9.png)
 
-#### Run MCP Server via NPX
+#### 通过 NPX 运行 MCP 服务器
 ```json
 {
   "mcpServers": {
@@ -165,13 +162,12 @@ The MCP market built into Lingma (AlibabaCloud Tongyi Lingma) has already provid
   }
 }
 ```
-
-#### Run MCP Server via Docker Container
-1. Docker build
+#### 通过 Docker 容器运行 MCP 服务器
+1.Docker build
 ```shell
 docker build -t alibabacloud/alibabacloud-devops-mcp-server .
 ```
-2. Configure MCP Server
+2.配置 MCP 服务器
 ```json
 {
   "mcpServers": {
@@ -193,10 +189,10 @@ docker build -t alibabacloud/alibabacloud-devops-mcp-server .
 }
 ```
 
-### Related Links
-- [AlibabaCloud DevOps](https://www.aliyun.com/product/yunxiao)
-- [MCP market](https://modelscope.cn/mcp/servers/@aliyun/alibabacloud-devops-mcp-server)
-- [Example Use Cases](https://mp.weixin.qq.com/s/KQsN6dQlnNeCNATC-QD7pg)
+### 相关链接
+- [阿里云云效](https://www.aliyun.com/product/yunxiao)
+- [MCP 市场](https://modelscope.cn/mcp/servers/@aliyun/alibabacloud-devops-mcp-server)
+- [使用场景示例](https://mp.weixin.qq.com/s/KQsN6dQlnNeCNATC-QD7pg)
 
 
 </appdetail>
@@ -211,11 +207,10 @@ docker build -t alibabacloud/alibabacloud-devops-mcp-server .
 
 <usedetail id="flushContent">
 
-### 步骤一   
+
 通过[FunctionAI MCP市场](https://cap.console.aliyun.com/mcp/274) 部署完成后，在集成向导中复制MCP Client的连接配置，准备好支持 SSE 的 MCP Client，通过 SSETransport 进行连接。
 
 <img src="https://img.alicdn.com/imgextra/i4/O1CN01vbDOML1LI02jGV936_!!6000000001275-2-tps-1888-1446.png" alt="MCP Client" width="80%">
-
 
 </usedetail>
 
