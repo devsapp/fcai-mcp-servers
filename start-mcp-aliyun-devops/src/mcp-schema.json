@@ -1,0 +1,2211 @@
+{
+	"tools":[
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"ref":{
+						"default":"master",
+						"description":"Source branch name, the new branch will be created based on this branch, default value is master",
+						"type":"string"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"branch":{
+						"description":"Name of the branch to be created",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"branch"
+				]
+			},
+			"name":"create_branch",
+			"description":"[Code Management] Create a new branch in a Codeup repository"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"branchName":{
+						"description":"Branch name (if it contains special characters, use URL encoding), example: master or feature%2Fdev",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"branchName"
+				]
+			},
+			"name":"get_branch",
+			"description":"[Code Management] Get information about a branch in a Codeup repository"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"branchName":{
+						"description":"Branch name (use URL-Encoder for encoding, example: feature%2Fdev)",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"branchName"
+				]
+			},
+			"name":"delete_branch",
+			"description":"[Code Management] Delete a branch from a Codeup repository"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"search":{
+						"description":"Search query",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"perPage":{
+						"default":20,
+						"description":"Items per page",
+						"type":"integer"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"page":{
+						"default":1,
+						"description":"Page number",
+						"type":"integer"
+					},
+					"sort":{
+						"default":"name_asc",
+						"description":"Sort order: name_asc - name ascending, name_desc - name descending, updated_asc - update time ascending, updated_desc - update time descending",
+						"type":"string",
+						"enum":[
+							"name_asc",
+							"name_desc",
+							"updated_asc",
+							"updated_desc"
+						]
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId"
+				]
+			},
+			"name":"list_branches",
+			"description":"[Code Management] List branches in a Codeup repository"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"ref":{
+						"description":"Reference name, usually branch name, can be branch name, tag name or commit SHA. If not provided, the default branch of the repository will be used, such as master",
+						"type":"string"
+					},
+					"filePath":{
+						"description":"File path, needs to be URL encoded, for example: /src/main/java/com/aliyun/test.java",
+						"type":"string"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"filePath",
+					"ref"
+				]
+			},
+			"name":"get_file_blobs",
+			"description":"[Code Management] Get file content from a Codeup repository"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"commitMessage":{
+						"description":"Commit message, not empty, no more than 102400 characters",
+						"type":"string"
+					},
+					"filePath":{
+						"description":"File path, needs to be URL encoded, for example: /src/main/java/com/aliyun/test.java",
+						"type":"string"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"encoding":{
+						"description":"Encoding rule, options {text, base64}, default is text",
+						"type":"string"
+					},
+					"branch":{
+						"description":"Branch name",
+						"type":"string"
+					},
+					"content":{
+						"description":"File content",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"filePath",
+					"content",
+					"commitMessage",
+					"branch"
+				]
+			},
+			"name":"create_file",
+			"description":"[Code Management] Create a new file in a Codeup repository"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"commitMessage":{
+						"description":"Commit message, not empty, no more than 102400 characters",
+						"type":"string"
+					},
+					"filePath":{
+						"description":"File path, needs to be URL encoded, for example: /src/main/java/com/aliyun/test.java",
+						"type":"string"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"encoding":{
+						"default":"text",
+						"description":"Encoding rule, options {text, base64}, default is text",
+						"type":"string"
+					},
+					"branch":{
+						"description":"Branch name",
+						"type":"string"
+					},
+					"content":{
+						"description":"File content",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"filePath",
+					"content",
+					"commitMessage",
+					"branch"
+				]
+			},
+			"name":"update_file",
+			"description":"[Code Management] Update an existing file in a Codeup repository"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"commitMessage":{
+						"description":"Commit message",
+						"type":"string"
+					},
+					"filePath":{
+						"description":"File path, needs to be URL encoded, for example: /src/main/java/com/aliyun/test.java",
+						"type":"string"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"branch":{
+						"description":"Branch name",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"filePath",
+					"commitMessage",
+					"branch"
+				]
+			},
+			"name":"delete_file",
+			"description":"[Code Management] Delete a file from a Codeup repository"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"straight":{
+						"anyOf":[
+							{
+								"default":"false",
+								"type":"string"
+							},
+							{
+								"type":"null"
+							}
+						],
+						"description":"Whether to use Merge-Base: straight=false means using Merge-Base; straight=true means not using Merge-Base; default is false, meaning using Merge-Base"
+					},
+					"sourceType":{
+						"description":"Options: branch, tag; if it's a commit comparison, you can omit this; if it's a branch comparison, you need to provide: branch, or you can omit it but ensure there are no branch or tag name conflicts; if it's a tag comparison, you need to provide: tag; if there are branches and tags with the same name, you need to strictly provide branch or tag",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"from":{
+						"description":"Can be CommitSHA, branch name or tag name",
+						"type":"string"
+					},
+					"targetType":{
+						"description":"Options: branch, tag; if it's a commit comparison, you can omit this; if it's a branch comparison, you need to provide: branch, or you can omit it but ensure there are no branch or tag name conflicts; if it's a tag comparison, you need to provide: tag; if there are branches and tags with the same name, you need to strictly provide branch or tag",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"to":{
+						"description":"Can be CommitSHA, branch name or tag name",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"from",
+					"to"
+				]
+			},
+			"name":"compare",
+			"description":"[Code Management] Query code to compare content"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId"
+				]
+			},
+			"name":"get_repository",
+			"description":"[Code Management] Get information about a Codeup repository"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"archived":{
+						"default":false,
+						"description":"Whether archived",
+						"type":"boolean"
+					},
+					"search":{
+						"description":"Search keyword, used to fuzzy match repository paths",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"perPage":{
+						"default":20,
+						"description":"Items per page, default 20, value range [1, 100]",
+						"type":"integer"
+					},
+					"orderBy":{
+						"default":"created_at",
+						"description":"Sort field, options include {created_at, name, path, last_activity_at}, default is created_at",
+						"type":"string"
+					},
+					"page":{
+						"default":1,
+						"description":"Page number, default starts from 1, generally should not exceed 150 pages",
+						"type":"integer"
+					},
+					"sort":{
+						"default":"desc",
+						"description":"Sort order, options include {asc, desc}, default is desc",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId"
+				]
+			},
+			"name":"list_repositories",
+			"description":"[Code Management] Get the CodeUp Repository List.\n\nA Repository serves as a unit for managing source code and is distinct from a Project.\n\nUse Case:\n\nView my repositories"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"localId":{
+						"description":"Local ID, represents the nth merge request in the repository",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"localId"
+				]
+			},
+			"name":"get_change_request",
+			"description":"[Code Management] Get information about a change request"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"reviewerIds":{
+						"description":"Reviewer user ID list, multiple separated by commas",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"search":{
+						"description":"Title keyword search",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"perPage":{
+						"default":20,
+						"description":"Items per page",
+						"type":"integer"
+					},
+					"orderBy":{
+						"default":"updated_at",
+						"description":"Sort field. Possible values: created_at (creation time), updated_at (update time, default)",
+						"type":"string"
+					},
+					"page":{
+						"default":1,
+						"description":"Page number",
+						"type":"integer"
+					},
+					"projectIds":{
+						"description":"Repository ID or a combination of organization ID and repository name list, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F), multiple separated by commas",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"state":{
+						"description":"Merge request filter status. Possible values: opened, merged, closed. Default is null, which queries all statuses",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"sort":{
+						"default":"desc",
+						"description":"Sort order. Possible values: asc (ascending), desc (descending, default)",
+						"type":"string"
+					},
+					"createdBefore":{
+						"description":"Start creation time, time format is ISO 8601, for example: 2019-03-15T08:00:00Z",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"createdAfter":{
+						"description":"End creation time, time format is ISO 8601, for example: 2019-03-15T08:00:00Z",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"authorIds":{
+						"description":"Creator user ID list, multiple separated by commas",
+						"type":[
+							"string",
+							"null"
+						]
+					}
+				},
+				"required":[
+					"organizationId"
+				]
+			},
+			"name":"list_change_requests",
+			"description":"[Code Management] List change requests"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"createFrom":{
+						"default":"WEB",
+						"description":"Creation source. Possible values: WEB (created from web page), COMMAND_LINE (created from command line). Default is WEB",
+						"type":"string"
+					},
+					"targetBranch":{
+						"description":"Target branch name",
+						"type":"string"
+					},
+					"sourceBranch":{
+						"description":"Source branch name",
+						"type":"string"
+					},
+					"sourceProjectId":{
+						"description":"Source repository ID (if not provided, will try to get automatically)",
+						"type":"number"
+					},
+					"targetProjectId":{
+						"description":"Target repository ID (if not provided, will try to get automatically)",
+						"type":"number"
+					},
+					"reviewerUserIds":{
+						"anyOf":[
+							{
+								"type":"array",
+								"items":{
+									"type":"string"
+								}
+							},
+							{
+								"type":"null"
+							}
+						],
+						"description":"Reviewer user ID list"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"description":{
+						"description":"Description, no more than 10000 characters",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"title":{
+						"description":"Title, no more than 256 characters",
+						"type":"string"
+					},
+					"workItemIds":{
+						"anyOf":[
+							{
+								"type":"array",
+								"items":{
+									"type":"string"
+								}
+							},
+							{
+								"type":"null"
+							}
+						],
+						"description":"Associated work item ID list"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"title",
+					"sourceBranch",
+					"targetBranch"
+				]
+			},
+			"name":"create_change_request",
+			"description":"[Code Management] Create a new change request"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"file_path":{
+						"description":"File name, only for inline comments",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"parent_comment_biz_id":{
+						"description":"Parent comment ID",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"localId":{
+						"description":"Local ID, represents the nth merge request in the repository",
+						"type":"string"
+					},
+					"content":{
+						"description":"Comment content, length must be between 1 and 65535",
+						"type":"string"
+					},
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"from_patchset_biz_id":{
+						"description":"Start version ID for comparison, required for INLINE_COMMENT type",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"comment_type":{
+						"default":"GLOBAL_COMMENT",
+						"description":"Comment type. Possible values: GLOBAL_COMMENT, INLINE_COMMENT",
+						"type":"string"
+					},
+					"line_number":{
+						"anyOf":[
+							{
+								"type":"integer"
+							},
+							{
+								"type":"null"
+							}
+						],
+						"description":"Line number, only for inline comments"
+					},
+					"draft":{
+						"default":false,
+						"description":"Whether it is a draft comment",
+						"type":"boolean"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"to_patchset_biz_id":{
+						"description":"Target version ID for comparison, required for INLINE_COMMENT type",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"resolved":{
+						"default":false,
+						"description":"Whether to mark as resolved",
+						"type":"boolean"
+					},
+					"patchset_biz_id":{
+						"description":"Associated version ID, if it's INLINE_COMMENT, choose one from from_patchset_biz_id or to_patchset_biz_id",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"localId",
+					"content",
+					"patchset_biz_id"
+				]
+			},
+			"name":"create_change_request_comment",
+			"description":"[Code Management] Create a comment on a change request"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"patchSetBizIds":{
+						"anyOf":[
+							{
+								"type":"array",
+								"items":{
+									"type":"string"
+								}
+							},
+							{
+								"type":"null"
+							}
+						],
+						"description":"Associated version ID list, each comment is associated with a version, indicating which version the comment was posted on, for global comments, it's associated with the latest merge source version"
+					},
+					"filePath":{
+						"description":"Filter by file path (for inline comments)",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"commentType":{
+						"default":"GLOBAL_COMMENT",
+						"description":"Comment type. Possible values: GLOBAL_COMMENT, INLINE_COMMENT",
+						"type":"string"
+					},
+					"state":{
+						"default":"OPENED",
+						"description":"Comment state. Possible values: OPENED, DRAFT",
+						"type":"string"
+					},
+					"localId":{
+						"description":"Change request local ID",
+						"type":"string"
+					},
+					"resolved":{
+						"default":false,
+						"description":"Whether marked as resolved",
+						"type":"boolean"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"localId"
+				]
+			},
+			"name":"list_change_request_comments",
+			"description":"[Code Management] List comments on a change request"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"repositoryId":{
+						"description":"Repository ID or a combination of organization ID and repository name, for example: 2835387 or organizationId%2Frepo-name (Note: slashes need to be URL encoded as %2F)",
+						"type":"string"
+					},
+					"localId":{
+						"description":"Local ID, represents the nth merge request in the repository",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repositoryId",
+					"localId"
+				]
+			},
+			"name":"list_change_request_patch_sets",
+			"description":"[Code Management] List patch sets for a change request"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{}
+			},
+			"name":"get_current_organization_info",
+			"description":"Get information about the current user and organization based on the token. In the absence of an explicitly specified organization ID, this result will take precedence."
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{}
+			},
+			"name":"get_user_organizations",
+			"description":"Get the list of organizations the current user belongs to"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{}
+			},
+			"name":"get_current_user",
+			"description":"Get information about the current user based on the token. In the absence of an explicitly specified user ID, this result will take precedence."
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID",
+						"type":"string"
+					},
+					"id":{
+						"description":"Project unique identifier",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"id"
+				]
+			},
+			"name":"get_project",
+			"description":"[Project Management] Get information about a Yunxiao project"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"adminUserId":{
+						"description":"Project administrator user ID, should use userId returned from getCurrentOrganizationInfoFunc or user-provided user ID, multiple IDs separated by commas",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"advancedConditions":{
+						"description":"Advanced filter conditions, JSON format",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"creator":{
+						"description":"Creator",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"orderBy":{
+						"default":"gmtCreate",
+						"description":"Sort field, default is gmtCreate, supports: gmtCreate (creation time), name (name)",
+						"type":"string"
+					},
+					"sort":{
+						"default":"desc",
+						"description":"Sort order, default is desc, options: desc (descending), asc (ascending)",
+						"type":"string"
+					},
+					"createdAfter":{
+						"description":"Created not earlier than, format: YYYY-MM-DD",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"userId":{
+						"description":"User ID to use with scenarioFilter, should be the userId returned from getCurrentOrganizationInfoFunc",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"organizationId":{
+						"description":"Organization ID",
+						"type":"string"
+					},
+					"perPage":{
+						"default":20,
+						"description":"Pagination parameter, page size, 0-200, default value is 20",
+						"type":"integer"
+					},
+					"logicalStatus":{
+						"description":"Logical status, e.g., NORMAL",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"extraConditions":{
+						"description":"Additional filter conditions as JSON string. Should be constructed similar to the conditions parameter. For common scenarios: 1) For 'projects I manage': use fieldIdentifier 'project.admin' with the user ID; 2) For 'projects I participate in': use fieldIdentifier 'users' with the user ID; 3) For 'projects I favorited': use fieldIdentifier 'collectMembers' with the user ID. Example: JSON.stringify({conditionGroups:[[{className:'user',fieldIdentifier:'project.admin',format:'multiList',operator:'CONTAINS',value:[userId]}]]})",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"name":{
+						"description":"Text contained in project name",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"scenarioFilter":{
+						"anyOf":[
+							{
+								"type":"string",
+								"enum":[
+									"manage",
+									"participate",
+									"favorite"
+								]
+							},
+							{
+								"type":"null"
+							}
+						],
+						"description":"Predefined filter scenarios: 'manage' (projects I manage), 'participate' (projects I participate in), 'favorite' (projects I favorited). Will be used to construct appropriate extraConditions. Requires userId from getCurrentOrganizationInfoFunc."
+					},
+					"createdBefore":{
+						"description":"Created not later than, format: YYYY-MM-DD",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"page":{
+						"default":1,
+						"description":"Pagination parameter, page number",
+						"type":"integer"
+					},
+					"status":{
+						"description":"Project status ID, multiple separated by commas",
+						"type":[
+							"string",
+							"null"
+						]
+					}
+				},
+				"required":[
+					"organizationId"
+				]
+			},
+			"name":"search_projects",
+			"description":"[Project Management] Search for Yunxiao Project List. A Project is a project management unit that includes work items and sprints, and it is different from a code repository (Repository).\n\nUse Cases:\n\nQuery projects I am involved in\nQuery projects I have created"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"workItemId":{
+						"description":"Work item unique identifier, required parameter",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"workItemId"
+				]
+			},
+			"name":"get_work_item",
+			"description":"[Project Management] Get information about a work item"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"trackers":{
+						"description":"CC user IDs",
+						"type":"array",
+						"items":{
+							"type":"string"
+						}
+					},
+					"subject":{
+						"description":"Work item title",
+						"type":"string"
+					},
+					"sprint":{
+						"description":"Associated sprint ID",
+						"type":"string"
+					},
+					"description":{
+						"description":"Work item description",
+						"type":"string"
+					},
+					"assignedTo":{
+						"description":"Assignee user ID",
+						"type":"string"
+					},
+					"parentId":{
+						"description":"Parent work item ID",
+						"type":"string"
+					},
+					"labels":{
+						"description":"Associated label IDs",
+						"type":"array",
+						"items":{
+							"type":"string"
+						}
+					},
+					"organizationId":{
+						"description":"Organization ID",
+						"type":"string"
+					},
+					"spaceId":{
+						"description":"Space ID, project unique identifier",
+						"type":"string"
+					},
+					"customFieldValues":{
+						"description":"Custom field values",
+						"additionalProperties":{
+							"type":"string"
+						},
+						"type":"object"
+					},
+					"versions":{
+						"description":"Associated version IDs",
+						"type":"array",
+						"items":{
+							"type":"string"
+						}
+					},
+					"workitemTypeId":{
+						"description":"Work item type ID",
+						"type":"string"
+					},
+					"verifier":{
+						"description":"Verifier user ID",
+						"type":"string"
+					},
+					"participants":{
+						"description":"Participant user IDs",
+						"type":"array",
+						"items":{
+							"type":"string"
+						}
+					}
+				},
+				"required":[
+					"organizationId",
+					"spaceId",
+					"subject",
+					"workitemTypeId",
+					"assignedTo"
+				]
+			},
+			"name":"create_work_item",
+			"description":"[Project Management] Create a work item"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"advancedConditions":{
+						"description":"Advanced filter conditions, JSON format",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"updatedAfter":{
+						"description":"Updated not earlier than, format: YYYY-MM-DD",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"creator":{
+						"description":"Creator user ID, multiple values separated by commas. Special value 'self' can be used to represent the current user",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"subject":{
+						"description":"Text contained in the title",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"orderBy":{
+						"default":"gmtCreate",
+						"description":"Sort field, default is gmtCreate. Possible values: gmtCreate, subject, status, priority, assignedTo",
+						"type":"string"
+					},
+					"createdAfter":{
+						"description":"Created not earlier than, format: YYYY-MM-DD",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"assignedTo":{
+						"description":"Assignee user ID, multiple values separated by commas. Special value 'self' can be used to represent the current user",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"organizationId":{
+						"description":"Organization ID",
+						"type":"string"
+					},
+					"spaceId":{
+						"description":"Project ID, project unique identifier",
+						"type":"string"
+					},
+					"updatedBefore":{
+						"description":"Updated not later than, format: YYYY-MM-DD",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"createdBefore":{
+						"description":"Created not later than, format: YYYY-MM-DD",
+						"type":[
+							"string",
+							"null"
+						]
+					},
+					"category":{
+						"description":"Search for work item types, such as Req (requirement), Task (task), Bug (defect), etc., multiple values separated by commas",
+						"type":"string"
+					},
+					"includeDetails":{
+						"description":"Set to true when you need work item descriptions/detailed content. This automatically fetches missing descriptions instead of requiring separate get_work_item calls. RECOMMENDED: Use includeDetails=true when user asks for 'detailed content', 'descriptions', or 'full information' of work items. This is more efficient than calling get_work_item multiple times. Default is false",
+						"type":"boolean"
+					},
+					"status":{
+						"description":"Status ID, multiple separated by commas. Status names and their IDs: Pending Confirmation (28), Pending Processing (100005), Reopened (30), Deferred Fix (34), Confirmed (32), Selected (625489), In Analysis (154395), Analysis Complete (165115), In Progress (100010), In Design (156603), Design Complete (307012), In Development (142838), Development Complete (100011), In Testing (100012)",
+						"type":[
+							"string",
+							"null"
+						]
+					}
+				},
+				"required":[
+					"organizationId",
+					"category",
+					"spaceId"
+				]
+			},
+			"name":"search_workitems",
+			"description":"[Project Management] Search work items with various filter conditions"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID",
+						"type":"string"
+					},
+					"id":{
+						"description":"Project unique identifier",
+						"type":"string"
+					},
+					"category":{
+						"description":"Work item type category, optional values: Req, Bug, Task, etc.",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"id",
+					"category"
+				]
+			},
+			"name":"get_work_item_types",
+			"description":"[Project Management] Get the list of work item types for a project"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"pipelineId":{
+						"description":"Pipeline ID",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"pipelineId"
+				]
+			},
+			"name":"get_pipeline",
+			"description":"[Pipeline Management] Get details of a specific pipeline in an organization"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"pipelineName":{
+						"description":"Pipeline name for filtering",
+						"type":"string"
+					},
+					"createStartTime":{
+						"description":"Creation start time in milliseconds timestamp format (e.g., 1729178040000). For filtering pipelines created after this time.",
+						"type":"integer"
+					},
+					"perPage":{
+						"default":10,
+						"maximum":30,
+						"description":"Number of items per page, default 10, max 30",
+						"type":"integer",
+						"minimum":1
+					},
+					"statusList":{
+						"description":"Pipeline status list, comma separated (SUCCESS,RUNNING,FAIL,CANCELED,WAITING)",
+						"type":"string"
+					},
+					"createEndTime":{
+						"description":"Creation end time in milliseconds timestamp format (e.g., 1729178040000). For filtering pipelines created before this time.",
+						"type":"integer"
+					},
+					"executeEndTime":{
+						"description":"Execution end time in milliseconds timestamp format (e.g., 1729178040000). For filtering pipelines executed before this time.",
+						"type":"integer"
+					},
+					"page":{
+						"default":1,
+						"description":"Page number, default 1",
+						"type":"integer",
+						"minimum":1
+					},
+					"executeStartTime":{
+						"description":"Execution start time in milliseconds timestamp format (e.g., 1729178040000). For filtering pipelines executed after this time.",
+						"type":"integer"
+					}
+				},
+				"required":[
+					"organizationId"
+				]
+			},
+			"name":"list_pipelines",
+			"description":"[Pipeline Management] Get a list of pipelines in an organization with filtering options"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"pythonVersion":{
+						"description":"Python version for Python projects (LLM should read from .python-version or pyproject.toml). Options: 3.9, 3.12. Default: 3.12",
+						"type":"string"
+					},
+					"dockerImage":{
+						"description":"Docker image name for container deployment",
+						"type":"string"
+					},
+					"pauseStrategy":{
+						"description":"Pause strategy for VM deployment. firstBatchPause: The first batch is paused. noPause: No pause. eachBatchPause: Pause each batch. Default: firstBatchPause",
+						"type":"string",
+						"enum":[
+							"firstBatchPause",
+							"noPause",
+							"eachBatchPause"
+						]
+					},
+					"jdkVersion":{
+						"description":"JDK version for Java projects (LLM should read from pom.xml or gradle.properties). Options: 1.6, 1.7, 1.8, 11, 17, 21. Default: 1.8",
+						"type":"string"
+					},
+					"goVersion":{
+						"description":"Go version for Go projects (LLM should read from go.mod). Options: 1.19.x, 1.20.x, 1.21.x. Default: 1.21.x",
+						"type":"string"
+					},
+					"kubectlVersion":{
+						"description":"Kubectl version for Kubernetes apply. Options: 1.25.16, 1.26.12, 1.27.9. Default: 1.27.9",
+						"type":"string"
+					},
+					"branch":{
+						"description":"Git branch (LLM should get from 'git branch --show-current')",
+						"type":"string"
+					},
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"includePathInArtifact":{
+						"description":"Whether to include full path in artifact. Default: false",
+						"type":"boolean"
+					},
+					"artifactName":{
+						"description":"Custom artifact name. Default: 'Artifacts_${PIPELINE_ID}'",
+						"type":"string"
+					},
+					"buildTool":{
+						"description":"Build tool (REQUIRED). LLM should infer from buildLanguage and project files: java+pom.xml→maven, java+build.gradle→gradle, nodejs+package-lock.json→npm, nodejs+yarn.lock→yarn, python→pip, go→go, dotnet→dotnet",
+						"type":"string",
+						"enum":[
+							"maven",
+							"gradle",
+							"npm",
+							"yarn",
+							"pip",
+							"go",
+							"dotnet"
+						]
+					},
+					"uploadType":{
+						"description":"Artifact upload type. flowPublic: Yunxiao public storage space, packages: Organization private generic package repository. Default: packages",
+						"type":"string",
+						"enum":[
+							"flowPublic",
+							"packages"
+						]
+					},
+					"mavenVersion":{
+						"description":"Maven version for Java projects. Options: 3.6.1, 3.6.3, 3.8.4, 3.9.3. Default: 3.6.3",
+						"type":"string"
+					},
+					"kubernetesClusterId":{
+						"description":"Kubernetes cluster ID for K8s deployment (required when deployTarget=k8s)",
+						"type":"string"
+					},
+					"batchNumber":{
+						"description":"Number of batches for VM deployment. Default: 2",
+						"type":"integer"
+					},
+					"repoUrl":{
+						"description":"Repository URL (LLM should get from 'git config --get remote.origin.url')",
+						"type":"string"
+					},
+					"deployCommand":{
+						"description":"Custom deploy command for VM deployment",
+						"type":"string"
+					},
+					"buildCommand":{
+						"description":"Custom build command to override default",
+						"type":"string"
+					},
+					"artifactVersion":{
+						"description":"Artifact version number, required when uploadType is packages. Default: '1.0'",
+						"type":"string"
+					},
+					"testCommand":{
+						"description":"Custom test command to override default",
+						"type":"string"
+					},
+					"nodeVersion":{
+						"description":"Node.js version for Node projects (LLM should read from package.json engines.node or .nvmrc). Options: 16.8, 18.12, 20. Default: 18.12",
+						"type":"string"
+					},
+					"buildLanguage":{
+						"description":"Programming language (REQUIRED). LLM should detect from project files: pom.xml→java, package.json→nodejs, requirements.txt→python, go.mod→go, *.csproj→dotnet",
+						"type":"string",
+						"enum":[
+							"java",
+							"nodejs",
+							"python",
+							"go",
+							"dotnet"
+						]
+					},
+					"serviceName":{
+						"description":"Service name (LLM can derive from repository name or project directory name)",
+						"type":"string"
+					},
+					"yamlPath":{
+						"description":"Path to Kubernetes YAML file for K8s deployment",
+						"type":"string"
+					},
+					"deployTarget":{
+						"description":"Deployment target from user description. vm: Virtual Machine/Host deployment, k8s: Kubernetes deployment, none: Build only without deployment. Default: none",
+						"type":"string",
+						"enum":[
+							"vm",
+							"k8s",
+							"none"
+						]
+					},
+					"machineGroupId":{
+						"description":"Machine group UUID for VM deployment (required when deployTarget=vm)",
+						"type":"string"
+					},
+					"packagesRepoId":{
+						"description":"Packages generic repository ID, required when uploadType is packages. Default: 'flow_generic_repo'",
+						"type":"string"
+					},
+					"packagesServiceConnection":{
+						"description":"Packages service connection UUID, required when uploadType is packages",
+						"type":"string"
+					},
+					"serviceConnectionId":{
+						"description":"Service connection UUID for repository access",
+						"type":"string"
+					},
+					"name":{
+						"description":"Pipeline name (required). LLM should generate a meaningful name based on user's request",
+						"type":"string",
+						"maxLength":60
+					},
+					"namespace":{
+						"description":"Kubernetes namespace for K8s deployment",
+						"type":"string"
+					},
+					"artifactDownloadPath":{
+						"description":"Path to download artifacts on target machine for VM deployment. Default: /home/admin/app/package.tgz",
+						"type":"string"
+					},
+					"executeUser":{
+						"description":"User for executing deployment scripts (root, admin). Default: root",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"name",
+					"buildLanguage",
+					"buildTool"
+				]
+			},
+			"name":"generate_pipeline_yaml",
+			"description":"[Pipeline Management] Generate only the YAML configuration for a pipeline without creating it.\n\n**📋 Use Cases:**\n- Preview YAML before creating pipeline\n- Generate YAML for manual deployment\n- Debug pipeline configuration\n\n**📖 Recommended Workflow:**\n1. 🎯 Parse user description for explicit parameters\n2. 🔍 If missing context, prefer IDE detection (terminal + file reading) over API calls\n3. 🚀 Call this tool with collected parameters\n\n**💡 Parameter Collection Strategy:**\n- For QUICK pipeline creation: Use IDE detection (git config, file reading)\n- For PRECISE parameter selection: Consider list_repositories, list_service_connections when needed\n- Balance efficiency vs. accuracy based on user intent\n\n**⚡ Built-in capabilities:** Handles default service connections internally, auto-extracts project name from repo URL"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"pythonVersion":{
+						"description":"Python version for Python projects (LLM should read from .python-version or pyproject.toml). Options: 3.9, 3.12. Default: 3.12",
+						"type":"string"
+					},
+					"dockerImage":{
+						"description":"Docker image name for container deployment",
+						"type":"string"
+					},
+					"pauseStrategy":{
+						"description":"Pause strategy for VM deployment. firstBatchPause: The first batch is paused. noPause: No pause. eachBatchPause: Pause each batch. Default: firstBatchPause",
+						"type":"string",
+						"enum":[
+							"firstBatchPause",
+							"noPause",
+							"eachBatchPause"
+						]
+					},
+					"jdkVersion":{
+						"description":"JDK version for Java projects (LLM should read from pom.xml or gradle.properties). Options: 1.6, 1.7, 1.8, 11, 17, 21. Default: 1.8",
+						"type":"string"
+					},
+					"goVersion":{
+						"description":"Go version for Go projects (LLM should read from go.mod). Options: 1.19.x, 1.20.x, 1.21.x. Default: 1.21.x",
+						"type":"string"
+					},
+					"kubectlVersion":{
+						"description":"Kubectl version for Kubernetes apply. Options: 1.25.16, 1.26.12, 1.27.9. Default: 1.27.9",
+						"type":"string"
+					},
+					"branch":{
+						"description":"Git branch (LLM should get from 'git branch --show-current')",
+						"type":"string"
+					},
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"includePathInArtifact":{
+						"description":"Whether to include full path in artifact. Default: false",
+						"type":"boolean"
+					},
+					"artifactName":{
+						"description":"Custom artifact name. Default: 'Artifacts_${PIPELINE_ID}'",
+						"type":"string"
+					},
+					"buildTool":{
+						"description":"Build tool (REQUIRED). LLM should infer from buildLanguage and project files: java+pom.xml→maven, java+build.gradle→gradle, nodejs+package-lock.json→npm, nodejs+yarn.lock→yarn, python→pip, go→go, dotnet→dotnet",
+						"type":"string",
+						"enum":[
+							"maven",
+							"gradle",
+							"npm",
+							"yarn",
+							"pip",
+							"go",
+							"dotnet"
+						]
+					},
+					"uploadType":{
+						"description":"Artifact upload type. flowPublic: Yunxiao public storage space, packages: Organization private generic package repository. Default: packages",
+						"type":"string",
+						"enum":[
+							"flowPublic",
+							"packages"
+						]
+					},
+					"mavenVersion":{
+						"description":"Maven version for Java projects. Options: 3.6.1, 3.6.3, 3.8.4, 3.9.3. Default: 3.6.3",
+						"type":"string"
+					},
+					"kubernetesClusterId":{
+						"description":"Kubernetes cluster ID for K8s deployment (required when deployTarget=k8s)",
+						"type":"string"
+					},
+					"batchNumber":{
+						"description":"Number of batches for VM deployment. Default: 2",
+						"type":"integer"
+					},
+					"repoUrl":{
+						"description":"Repository URL (LLM should get from 'git config --get remote.origin.url')",
+						"type":"string"
+					},
+					"deployCommand":{
+						"description":"Custom deploy command for VM deployment",
+						"type":"string"
+					},
+					"buildCommand":{
+						"description":"Custom build command to override default",
+						"type":"string"
+					},
+					"artifactVersion":{
+						"description":"Artifact version number, required when uploadType is packages. Default: '1.0'",
+						"type":"string"
+					},
+					"testCommand":{
+						"description":"Custom test command to override default",
+						"type":"string"
+					},
+					"nodeVersion":{
+						"description":"Node.js version for Node projects (LLM should read from package.json engines.node or .nvmrc). Options: 16.8, 18.12, 20. Default: 18.12",
+						"type":"string"
+					},
+					"buildLanguage":{
+						"description":"Programming language (REQUIRED). LLM should detect from project files: pom.xml→java, package.json→nodejs, requirements.txt→python, go.mod→go, *.csproj→dotnet",
+						"type":"string",
+						"enum":[
+							"java",
+							"nodejs",
+							"python",
+							"go",
+							"dotnet"
+						]
+					},
+					"serviceName":{
+						"description":"Service name (LLM can derive from repository name or project directory name)",
+						"type":"string"
+					},
+					"yamlPath":{
+						"description":"Path to Kubernetes YAML file for K8s deployment",
+						"type":"string"
+					},
+					"deployTarget":{
+						"description":"Deployment target from user description. vm: Virtual Machine/Host deployment, k8s: Kubernetes deployment, none: Build only without deployment. Default: none",
+						"type":"string",
+						"enum":[
+							"vm",
+							"k8s",
+							"none"
+						]
+					},
+					"machineGroupId":{
+						"description":"Machine group UUID for VM deployment (required when deployTarget=vm)",
+						"type":"string"
+					},
+					"packagesRepoId":{
+						"description":"Packages generic repository ID, required when uploadType is packages. Default: 'flow_generic_repo'",
+						"type":"string"
+					},
+					"packagesServiceConnection":{
+						"description":"Packages service connection UUID, required when uploadType is packages",
+						"type":"string"
+					},
+					"serviceConnectionId":{
+						"description":"Service connection UUID for repository access",
+						"type":"string"
+					},
+					"name":{
+						"description":"Pipeline name (required). LLM should generate a meaningful name based on user's request",
+						"type":"string",
+						"maxLength":60
+					},
+					"namespace":{
+						"description":"Kubernetes namespace for K8s deployment",
+						"type":"string"
+					},
+					"artifactDownloadPath":{
+						"description":"Path to download artifacts on target machine for VM deployment. Default: /home/admin/app/package.tgz",
+						"type":"string"
+					},
+					"executeUser":{
+						"description":"User for executing deployment scripts (root, admin). Default: root",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"name",
+					"buildLanguage",
+					"buildTool"
+				]
+			},
+			"name":"create_pipeline_from_description",
+			"description":"[Pipeline Management] Create a pipeline using structured parameters extracted from user descriptions and environment context.\n\n**🔧 Built-in Capabilities:**\n- ✅ Automatically retrieves default service connection IDs when not specified\n- ✅ Handles repository and service connection logic internally\n- ✅ Auto-extracts project name from repository URL (git@host:org/repo.git → repo)\n- ✅ Supports both IDE detection and explicit parameter specification\n\n**📖 Flexible Workflow Options:**\n1. 🎯 PARSE user description for explicit parameters\n2. 🔍 GATHER missing info using appropriate method:\n   - QUICK: IDE detection (git config, file reading) - recommended for most cases\n   - PRECISE: API calls (list_repositories, list_service_connections) when user needs specific selection\n3. 🚀 CALL this tool with collected parameters\n\n**🎯 Parameter Priority:**\n1. 👤 USER EXPLICIT (highest) - buildLanguage, buildTool, versions, deployTarget\n2. 🔍 CONTEXT DETECTION (flexible) - repoUrl, branch, serviceName, tech stack\n3. 🤖 TOOL DEFAULTS (automatic) - serviceConnectionId, organizationId\n\n**🔍 IDE Detection Rules (efficient for most cases):**\n- 📂 Repository: `git config --get remote.origin.url` → repoUrl\n- 🌿 Branch: `git branch --show-current` → branch\n- 🏷️ Service Name: Auto-extracted from repoUrl (git@host:org/repo.git → repo)\n- ☕ Java Maven: pom.xml exists → buildLanguage='java', buildTool='maven'\n- 🏗️ Java Gradle: build.gradle exists → buildLanguage='java', buildTool='gradle'\n- 🟢 Node npm: package.json + package-lock.json → buildLanguage='nodejs', buildTool='npm'\n- 🧶 Node yarn: package.json + yarn.lock → buildLanguage='nodejs', buildTool='yarn'\n- 🐍 Python: requirements.txt → buildLanguage='python', buildTool='pip'\n- 🐹 Go: go.mod → buildLanguage='go', buildTool='go'\n- 💙 .NET: *.csproj → buildLanguage='dotnet', buildTool='dotnet'\n\n**📝 Version Detection (from project files):**\n- ☕ JDK: Read pom.xml <maven.compiler.source> → jdkVersion\n- 🟢 Node: Read package.json engines.node → nodeVersion\n- 🐍 Python: Read .python-version, pyproject.toml → pythonVersion\n- 🐹 Go: Read go.mod go directive → goVersion\n\n**🎯 Deployment Parsing:**\n- '部署到主机/VM/虚拟机' → deployTarget='vm'\n- '部署到Kubernetes/K8s' → deployTarget='k8s'\n- '只构建/构建制品' → deployTarget='none'\n\n**🔗 Service Connection Strategy (3 scenarios):**\n1. **User specifies ID explicitly** (e.g., '使用服务连接ID abc123')\n   → ✅ Pass serviceConnectionId=abc123 directly, NO list_service_connections call needed\n2. **User doesn't specify any ID** (most common case)\n   → ✅ Pass serviceConnectionId=null, tool will auto-retrieve default ID internally\n3. **User wants to choose from available options** (e.g., '显示可用的服务连接让我选择')\n   → 🔍 Call list_service_connections first, then let user choose, then create pipeline\n\n**🤔 When to Use Other Tools:**\n- User asks to \"select from available repositories\" → use list_repositories first\n- User wants to \"choose from service connections\" → use list_service_connections first\n- User wants to see options before deciding → gather info first, then create\n- For quick creation with current repo → directly use IDE detection\n\n**✅ Required:** organizationId, name, buildLanguage, buildTool"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID",
+						"type":"string"
+					},
+					"pipelineName":{
+						"description":"Pipeline name filter",
+						"type":"string"
+					},
+					"perPage":{
+						"default":10,
+						"maximum":30,
+						"description":"Number of items per page",
+						"type":"integer",
+						"minimum":1
+					},
+					"statusList":{
+						"description":"Pipeline status list, comma separated (SUCCESS,RUNNING,FAIL,CANCELED,WAITING)",
+						"type":"string"
+					},
+					"page":{
+						"default":1,
+						"description":"Page number",
+						"type":"integer",
+						"minimum":1
+					},
+					"timeReference":{
+						"description":"Natural language time reference such as 'today', 'yesterday', 'this week', 'last month', etc.",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId"
+				]
+			},
+			"name":"smart_list_pipelines",
+			"description":"[Pipeline Management] Intelligently search pipelines with natural language time references (e.g., 'today', 'this week')"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"branchMode":{
+						"description":"Whether to run in branch mode",
+						"type":"boolean"
+					},
+					"repositories":{
+						"description":"Specific repository configurations",
+						"type":"array",
+						"items":{
+							"additionalProperties":false,
+							"type":"object",
+							"properties":{
+								"tag":{
+									"description":"Tag to use for this repository",
+									"type":"string"
+								},
+								"branch":{
+									"description":"Branch to use for this repository",
+									"type":"string"
+								},
+								"url":{
+									"description":"Repository URL",
+									"type":"string"
+								}
+							},
+							"required":[
+								"url"
+							]
+						}
+					},
+					"environmentVariables":{
+						"description":"Environment variables for the pipeline run",
+						"additionalProperties":{
+							"type":"string"
+						},
+						"type":"object"
+					},
+					"description":{
+						"description":"Natural language description of how to run the pipeline, e.g. 'Run pipeline using branch mode with branches main and develop'",
+						"type":"string"
+					},
+					"releaseBranch":{
+						"description":"Specific release branch to use",
+						"type":"string"
+					},
+					"params":{
+						"description":"Pipeline run parameters in JSON string format. Can include: branchModeBranchs(array), envs(object), runningBranchs(object), runningTags(object), runningPipelineArtifacts(object), runningAcrArtifacts(object), runningPackagesArtifacts(object), comment(string), needCreateBranch(boolean), releaseBranch(string)",
+						"type":"string"
+					},
+					"branches":{
+						"description":"Branches to use in branch mode or specific branches for repositories",
+						"type":"array",
+						"items":{
+							"type":"string"
+						}
+					},
+					"pipelineId":{
+						"description":"Pipeline ID to run",
+						"type":"string"
+					},
+					"createReleaseBranch":{
+						"description":"Whether to create a release branch",
+						"type":"boolean"
+					}
+				},
+				"required":[
+					"organizationId",
+					"pipelineId"
+				]
+			},
+			"name":"create_pipeline_run",
+			"description":"[Pipeline Management] Run a pipeline with optional parameters"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"pipelineId":{
+						"description":"Pipeline ID to get the latest run information",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"pipelineId"
+				]
+			},
+			"name":"get_latest_pipeline_run",
+			"description":"[Pipeline Management] Get information about the latest pipeline run"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"pipelineRunId":{
+						"description":"Pipeline run ID to retrieve details for",
+						"type":"string"
+					},
+					"pipelineId":{
+						"description":"Pipeline ID",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"pipelineId",
+					"pipelineRunId"
+				]
+			},
+			"name":"get_pipeline_run",
+			"description":"[Pipeline Management] Get details of a specific pipeline run instance"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"perPage":{
+						"default":10,
+						"maximum":30,
+						"description":"Number of items per page, default 10, max 30",
+						"type":"integer",
+						"minimum":1
+					},
+					"startTime":{
+						"description":"Execution start time filter in milliseconds timestamp format",
+						"type":"integer"
+					},
+					"page":{
+						"default":1,
+						"description":"Page number, default 1",
+						"type":"integer",
+						"minimum":1
+					},
+					"endTime":{
+						"description":"Execution end time filter in milliseconds timestamp format",
+						"type":"integer"
+					},
+					"triggerMode":{
+						"description":"Trigger mode filter: 1-Manual, 2-Scheduled, 3-Code commit, 5-Pipeline, 6-Webhook",
+						"type":"integer"
+					},
+					"pipelineId":{
+						"description":"Pipeline ID to list runs for",
+						"type":"string"
+					},
+					"status":{
+						"description":"Run status filter: FAIL, SUCCESS, or RUNNING",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"pipelineId"
+				]
+			},
+			"name":"list_pipeline_runs",
+			"description":"[Pipeline Management] Get a list of pipeline run instances with filtering options"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"category":{
+						"description":"Task category, currently only supports DEPLOY",
+						"type":"string"
+					},
+					"pipelineId":{
+						"description":"Pipeline ID",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"pipelineId",
+					"category"
+				]
+			},
+			"name":"list_pipeline_jobs_by_category",
+			"description":"[Pipeline Management] Get pipeline execution tasks by category. Currently only supports DEPLOY category."
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"identifier":{
+						"description":"Task identifier",
+						"type":"string"
+					},
+					"perPage":{
+						"default":10,
+						"maximum":30,
+						"description":"Number of items per page, default 10, max 30",
+						"type":"integer",
+						"minimum":1
+					},
+					"page":{
+						"default":1,
+						"description":"Page number, default 1",
+						"type":"integer",
+						"minimum":1
+					},
+					"category":{
+						"description":"Task category, currently only supports DEPLOY",
+						"type":"string"
+					},
+					"pipelineId":{
+						"description":"Pipeline ID",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"pipelineId",
+					"category",
+					"identifier"
+				]
+			},
+			"name":"list_pipeline_job_historys",
+			"description":"[Pipeline Management] Get the execution history of a pipeline task. Retrieve all execution records for a specific task in a pipeline."
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"jobId":{
+						"description":"Job ID for the pipeline run task",
+						"type":"string"
+					},
+					"pipelineRunId":{
+						"description":"Pipeline run instance ID",
+						"type":"string"
+					},
+					"pipelineId":{
+						"description":"Pipeline ID",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"pipelineId",
+					"pipelineRunId",
+					"jobId"
+				]
+			},
+			"name":"execute_pipeline_job_run",
+			"description":"[Pipeline Management] Manually run a pipeline task. Start a specific job in a pipeline run instance."
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID, can be found in the basic information page of the organization admin console",
+						"type":"string"
+					},
+					"jobId":{
+						"description":"Job ID of the pipeline run task",
+						"type":"string"
+					},
+					"pipelineRunId":{
+						"description":"Pipeline run instance ID",
+						"type":"string"
+					},
+					"pipelineId":{
+						"description":"Pipeline ID",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"pipelineId",
+					"pipelineRunId",
+					"jobId"
+				]
+			},
+			"name":"get_pipeline_job_run_log",
+			"description":"[Pipeline Management] Get the execution logs of a pipeline job. Retrieve the log content for a specific job in a pipeline run."
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID",
+						"type":"string"
+					},
+					"perPage":{
+						"default":8,
+						"description":"Number of items per page, default value is 8",
+						"type":"integer"
+					},
+					"repoTypes":{
+						"description":"Repository types, available values: GENERIC/DOCKER/MAVEN/NPM/NUGET, multiple types can be separated by commas",
+						"type":"string"
+					},
+					"page":{
+						"default":1,
+						"description":"Current page number",
+						"type":"integer"
+					},
+					"repoCategories":{
+						"description":"Repository modes, available values: Hybrid/Local/Proxy/ProxyCache/Group, multiple modes can be separated by commas",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId"
+				]
+			},
+			"name":"list_package_repositories",
+			"description":"[Packages Management] List package repositories in an organization with filtering options"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID",
+						"type":"string"
+					},
+					"repoId":{
+						"description":"Repository ID",
+						"type":"string"
+					},
+					"repoType":{
+						"description":"Repository type, available values: GENERIC/DOCKER/MAVEN/NPM/NUGET",
+						"type":"string"
+					},
+					"search":{
+						"description":"Search by package name",
+						"type":"string"
+					},
+					"perPage":{
+						"default":8,
+						"description":"Number of items per page, default is 10",
+						"type":"integer"
+					},
+					"orderBy":{
+						"default":"latestUpdate",
+						"description":"Sort method: latestUpdate - by latest update time; gmtDownload - by latest download time",
+						"type":"string"
+					},
+					"page":{
+						"default":1,
+						"description":"Current page number",
+						"type":"integer"
+					},
+					"sort":{
+						"default":"desc",
+						"description":"Sort order: asc - ascending; desc - descending",
+						"type":"string"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repoId",
+					"repoType"
+				]
+			},
+			"name":"list_artifacts",
+			"description":"[Packages Management] List artifacts in a package repository with filtering options"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"Organization ID",
+						"type":"string"
+					},
+					"repoId":{
+						"description":"Repository ID",
+						"type":"string"
+					},
+					"repoType":{
+						"description":"Repository type, available values: GENERIC/DOCKER/MAVEN/NPM/NUGET/PYPI",
+						"type":"string"
+					},
+					"id":{
+						"description":"Artifact ID, can be obtained from ListArtifacts API",
+						"type":"integer"
+					}
+				},
+				"required":[
+					"organizationId",
+					"repoId",
+					"id",
+					"repoType"
+				]
+			},
+			"name":"get_artifact",
+			"description":"[Packages Management] Get information about a single artifact in a package repository"
+		},
+		{
+			"inputSchema":{
+				"$schema":"http://json-schema.org/draft-07/schema#",
+				"additionalProperties":false,
+				"type":"object",
+				"properties":{
+					"organizationId":{
+						"description":"组织ID，可在组织管理后台的基本信息页面获取",
+						"type":"string"
+					},
+					"serviceConnectionType":{
+						"description":"服务连接类型: aliyun_code-阿里云代码, codeup-Codeup, gitee-码云, github-Github, ack-容器服务Kubernetes（ACK）, docker_register_aliyun-容器镜像服务（ACR）, ecs-ECS主机, edas-企业级分布式应用（EDAS）, emas-移动研发平台（EMAS）, fc-阿里云函数计算（FC）, kubernetes-自建k8s集群, oss-对象存储（OSS）, packages-制品仓库, ros-资源编排服务（ROS）, sae-Serverless应用引擎（SAE）",
+						"type":"string",
+						"enum":[
+							"aliyun_code",
+							"codeup",
+							"gitee",
+							"github",
+							"ack",
+							"docker_register_aliyun",
+							"ecs",
+							"edas",
+							"emas",
+							"fc",
+							"kubernetes",
+							"oss",
+							"packages",
+							"ros",
+							"sae"
+						]
+					}
+				},
+				"required":[
+					"organizationId",
+					"serviceConnectionType"
+				]
+			},
+			"name":"list_service_connections",
+			"description":"[Service Connection Management] List service connections in an organization with filtering options"
+		}
+	]
+}
