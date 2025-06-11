@@ -1,0 +1,9 @@
+services:
+  aliyun-devops-mcp-server:
+    YUNXIAO_ACCESS_TOKEN:
+      title: YUNXIAO_ACCESS_TOKEN
+      type: string
+      default: ''
+      description: <a href="https://help.aliyun.com/zh/yunxiao/developer-reference/obtain-personal-access-token" target="_blank" rel="noopener noreferrer">获取阿里云 DevOps 个人访问令牌</a>
+      required: true
+      sensitive: true
