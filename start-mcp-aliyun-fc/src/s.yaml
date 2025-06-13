@@ -18,5 +18,5 @@ resources:
       memorySize: 1024
       instanceQuota: 1
       role: {{ serviceRole }}
-      enableAuth: true
+      enableAuth: false
       diskSize: 10240
