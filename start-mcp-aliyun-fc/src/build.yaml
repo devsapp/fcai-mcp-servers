@@ -1,0 +1,10 @@
+aliyun-fc-mcp-server:
+  default:
+    rootPath: ./
+    languages:
+      - nodejs20
+    cache:
+      paths:
+        - "~/.cache"
+    steps:
+      - run: npm install alibabacloud-fc-mcp-server
