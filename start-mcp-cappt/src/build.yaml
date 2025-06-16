@@ -1,4 +1,4 @@
-start-mcp-variflight:
+start-mcp-cappt:
   default:
     rootPath: ./code
     languages:
@@ -9,4 +9,3 @@ start-mcp-variflight:
     steps:
       - run: npm install
       - run: npm run build
-      
