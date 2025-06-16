@@ -1,8 +1,8 @@
 services:
-  start-mcp-variflight:
+  start-mcp-cappt:
     CAPPT_TOKEN:
       title: CAPPT_TOKEN
       type: string
-      default: ''
-      description: <a href="https://mcp.variflight.com" target="_blank" rel="noopener noreferrer">获取 Variflight API 密钥</a>
+      default: ""
+      description: <a href="https://www.cappt.cc/enterprise/api" target="_blank" rel="noopener noreferrer">获取 Cappt 密钥</a>
       required: true

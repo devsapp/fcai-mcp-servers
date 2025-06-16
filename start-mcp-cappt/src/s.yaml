@@ -6,7 +6,7 @@ vars: #
   region: "{{ region }}"
 
 resources:
-  start-mcp-variflight:
+  start-mcp-cappt:
     component: fcai-mcp-server
     props:
       region: ${vars.region}
