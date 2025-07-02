@@ -16,7 +16,6 @@ resources:
       startCommand: 'uv run --with hologres-mcp-server hologres-mcp-server'
       cpu: 0.5
       memorySize: 512
-      instanceQuota: 1
       enableAuth: true
       role: {{ serviceRole }}
       networkConfig:
