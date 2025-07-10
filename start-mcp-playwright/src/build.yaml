@@ -1,0 +1,10 @@
+playwright-mcp-server:
+  default:
+    rootPath: ./
+    languages:
+      - nodejs20
+    cache:
+      paths:
+        - "~/.cache"
+    steps:
+      - run: npm install @playwright/mcp
