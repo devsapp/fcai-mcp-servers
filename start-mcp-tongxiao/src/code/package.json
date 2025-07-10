@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@tongxiao/web-search-mcp-server": "^0.0.1"
+    "@tongxiao/common-search-mcp-server": "^0.1.0"
   }
 }
