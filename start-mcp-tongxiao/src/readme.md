@@ -69,9 +69,9 @@
              "args" : [
                  " -y " ,
                  " @tongxiao/common-search-mcp-server "
-            ]，
-            “env”：{
-                 “TONGXIAO_API_KEY”：“ ”
+            ],
+            "env": {
+                 "TONGXIAO_API_KEY": " "
             }
         }
     }
