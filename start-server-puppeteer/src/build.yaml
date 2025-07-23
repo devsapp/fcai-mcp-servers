@@ -1,0 +1,10 @@
+start-server-puppeteer:
+  default:
+    rootPath: ./code
+    languages:
+      - nodejs22
+    cache:
+      paths:
+        - "~/.npm"
+    steps:
+      - run: npm install

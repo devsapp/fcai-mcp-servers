@@ -1,0 +1,13 @@
+services:
+  start-server-puppeteer:
+    PUPPETEER_LAUNCH_OPTIONS:
+      title: PUPPETEER_LAUNCH_OPTIONS
+      type: string
+      default: '{ "headless":true, "executablePath": "/opt/google/chrome/chrome", "args": ["--no-sandbox", "--disable-setuid-sandbox"] }'
+      description: 使用 JSON 编码的字符串
+
+    ALLOW_DANGEROUS:
+      title: ALLOW_DANGEROUS
+      type: boolean
+      default: true
+      description: 允许执行危险操作
