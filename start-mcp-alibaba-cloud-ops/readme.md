@@ -40,7 +40,7 @@ Alibaba Cloud ops MCP Server 模板
 
 <appcenter>
    
-- :fire: 通过 [云原生应用开发平台 CAP](https://cap.console.aliyun.com/template-detail?template=fcai-start-mcp-alibaba-cloud-ops) ，[![Deploy with Severless Devs](https://img.alicdn.com/imgextra/i1/O1CN01w5RFbX1v45s8TIXPz_!!6000000006118-55-tps-95-28.svg)](https://cap.console.aliyun.com/template-detail?template=fcai-start-mcp-alibaba-cloud-ops) 该应用。
+- :fire: 通过 [云原生应用开发平台 CAP](https://functionai.console.aliyun.com/template-detail?template=fcai-start-mcp-alibaba-cloud-ops) ，[![Deploy with Severless Devs](https://img.alicdn.com/imgextra/i1/O1CN01w5RFbX1v45s8TIXPz_!!6000000006118-55-tps-95-28.svg)](https://functionai.console.aliyun.com/template-detail?template=fcai-start-mcp-alibaba-cloud-ops) 该应用。
    
 </appcenter>
 <deploy>
@@ -54,49 +54,47 @@ Alibaba Cloud ops MCP Server 模板
 
 ### 工具列表
 
-| **产品** | **工具** | **功能** | **实现方式** | **状态** |
-| --- | --- | --- | --- | --- |
-| ECS | RunCommand | 运行命令 | OOS | Done |
-|  | StartInstances | 启动实例 | OOS | Done |
-|  | StopInstances | 停止实例 | OOS | Done |
-|  | RebootInstances | 重启实例 | OOS | Done |
-|  | DescribeInstances | 查看实例 | API | Done |
-|  | DescribeRegions | 查看地域 | API | Done |
-|  | DescribeZones | 查看可用区 | API | Done |
-|  | DescribeAvailableResource | 查看资源库存 | API | Done |
-|  | DescribeImages | 查看镜像 | API | Done |
-|  | DescribeSecurityGroups | 查看安全组 | API | Done |
-|  | RunInstances | 创建实例 | OOS | Done |
-|  | DeleteInstances | 删除实例 | API | Done |
-|  | ResetPassword | 修改密码 | OOS | Done |
-|  | ReplaceSystemDisk | 更换操作系统 | OOS | Done |
-| VPC | DescribeVpcs | 查看VPC | API | Done |
-|  | DescribeVSwitches | 查看VSwitch | API | Done |
-| RDS | DescribeDBInstances | 查询数据库实例列表 | API | Done |
-|  | StartDBInstances | 启动RDS实例 | OOS | Done |
-|  | StopDBInstances | 暂停RDS实例 | OOS | Done |
-|  | RestartDBInstances | 重启RDS实例 | OOS | Done |
-| OSS | ListBuckets | 查看存储空间 | API | Done |
-|  | PutBucket | 创建存储空间 | API | Done |
-|  | DeleteBucket | 删除存储空间 | API | Done |
-|  | ListObjects | 查看存储空间中的文件信息 | API | Done |
-| CloudMonitor | GetCpuUsageData | 获取ECS实例的CPU使用率数据 | API | Done |
-|  | GetCpuLoadavgData | 获取CPU一分钟平均负载指标数据 | API | Done |
-|  | GetCpuloadavg5mData | 获取CPU五分钟平均负载指标数据 | API | Done |
-|  | GetCpuloadavg15mData | 获取CPU十五分钟平均负载指标数据 | API | Done |
-|  | GetMemUsedData | 获取内存使用量指标数据 | API | Done |
-|  | GetMemUsageData | 获取内存利用率指标数据 | API | Done |
-|  | GetDiskUsageData | 获取磁盘利用率指标数据 | API | Done |
-|  | GetDiskTotalData | 获取磁盘分区总容量指标数据 | API | Done |
-|  | GetDiskUsedData | 获取磁盘分区使用量指标数据 | API | Done |
-
+| **产品**     | **工具**                  | **功能**                          | **实现方式** | **状态** |
+| ------------ | ------------------------- | --------------------------------- | ------------ | -------- |
+| ECS          | RunCommand                | 运行命令                          | OOS          | Done     |
+|              | StartInstances            | 启动实例                          | OOS          | Done     |
+|              | StopInstances             | 停止实例                          | OOS          | Done     |
+|              | RebootInstances           | 重启实例                          | OOS          | Done     |
+|              | DescribeInstances         | 查看实例                          | API          | Done     |
+|              | DescribeRegions           | 查看地域                          | API          | Done     |
+|              | DescribeZones             | 查看可用区                        | API          | Done     |
+|              | DescribeAvailableResource | 查看资源库存                      | API          | Done     |
+|              | DescribeImages            | 查看镜像                          | API          | Done     |
+|              | DescribeSecurityGroups    | 查看安全组                        | API          | Done     |
+|              | RunInstances              | 创建实例                          | OOS          | Done     |
+|              | DeleteInstances           | 删除实例                          | API          | Done     |
+|              | ResetPassword             | 修改密码                          | OOS          | Done     |
+|              | ReplaceSystemDisk         | 更换操作系统                      | OOS          | Done     |
+| VPC          | DescribeVpcs              | 查看 VPC                          | API          | Done     |
+|              | DescribeVSwitches         | 查看 VSwitch                      | API          | Done     |
+| RDS          | DescribeDBInstances       | 查询数据库实例列表                | API          | Done     |
+|              | StartDBInstances          | 启动 RDS 实例                     | OOS          | Done     |
+|              | StopDBInstances           | 暂停 RDS 实例                     | OOS          | Done     |
+|              | RestartDBInstances        | 重启 RDS 实例                     | OOS          | Done     |
+| OSS          | ListBuckets               | 查看存储空间                      | API          | Done     |
+|              | PutBucket                 | 创建存储空间                      | API          | Done     |
+|              | DeleteBucket              | 删除存储空间                      | API          | Done     |
+|              | ListObjects               | 查看存储空间中的文件信息          | API          | Done     |
+| CloudMonitor | GetCpuUsageData           | 获取 ECS 实例的 CPU 使用率数据    | API          | Done     |
+|              | GetCpuLoadavgData         | 获取 CPU 一分钟平均负载指标数据   | API          | Done     |
+|              | GetCpuloadavg5mData       | 获取 CPU 五分钟平均负载指标数据   | API          | Done     |
+|              | GetCpuloadavg15mData      | 获取 CPU 十五分钟平均负载指标数据 | API          | Done     |
+|              | GetMemUsedData            | 获取内存使用量指标数据            | API          | Done     |
+|              | GetMemUsageData           | 获取内存利用率指标数据            | API          | Done     |
+|              | GetDiskUsageData          | 获取磁盘利用率指标数据            | API          | Done     |
+|              | GetDiskTotalData          | 获取磁盘分区总容量指标数据        | API          | Done     |
+|              | GetDiskUsedData           | 获取磁盘分区使用量指标数据        | API          | Done     |
 
 #### Configuration
 
-使用 [VS Code](https://code.visualstudio.com/) + [Cline](https://cline.bot/) 配置MCP Server
+使用 [VS Code](https://code.visualstudio.com/) + [Cline](https://cline.bot/) 配置 MCP Server
 
 To use alibaba-cloud-ops-mcp-server MCP Server with any other MCP Client, you can manually add this configuration and restart for changes to take effect:
-
 
 ```json
 {
@@ -104,9 +102,7 @@ To use alibaba-cloud-ops-mcp-server MCP Server with any other MCP Client, you ca
     "alibaba-cloud-ops-mcp-server": {
       "timeout": 600,
       "command": "uvx",
-      "args": [
-        "alibaba-cloud-ops-mcp-server@latest"
-      ],
+      "args": ["alibaba-cloud-ops-mcp-server@latest"],
       "env": {
         "ALIBABA_CLOUD_ACCESS_KEY_ID": "Your Access Key ID",
         "ALIBABA_CLOUD_ACCESS_KEY_SECRET": "Your Access Key SECRET"
@@ -114,6 +110,7 @@ To use alibaba-cloud-ops-mcp-server MCP Server with any other MCP Client, you ca
     }
   }
 }
+```
 
 </appdetail>
 
@@ -131,8 +128,10 @@ To use alibaba-cloud-ops-mcp-server MCP Server with any other MCP Client, you ca
 
 </usedetail>
 
+## 二次开发指南
 
-
+<development id="flushContent">
+</development>
 
 
 
