@@ -1,0 +1,155 @@
+{
+  "tools": [
+    {
+        "inputSchema": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+                "totalAmount": {
+                    "multipleOf": 0.01,
+                    "maximum": 100000000,
+                    "description": "该订单的支付金额，以元为单位",
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "minimum": 0.01
+                },
+                "outTradeNo": {
+                    "description": "创建订单参数-商户订单号",
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "orderTitle": {
+                    "description": "该订单的订单标题",
+                    "type": "string",
+                    "maxLength": 256
+                }
+            },
+            "required": [
+                "outTradeNo",
+                "totalAmount",
+                "orderTitle"
+            ]
+        },
+        "name": "create-mobile-alipay-payment",
+        "description": "创建一笔支付宝订单，返回带有支付链接的 Markdown 文本，该链接在手机浏览器中打开后可跳转到支付宝或直接在浏览器中支付。本工具适用于移动网站或移动 App。"
+    },
+    {
+        "inputSchema": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+                "totalAmount": {
+                    "multipleOf": 0.01,
+                    "maximum": 100000000,
+                    "description": "该订单的支付金额，以元为单位",
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "minimum": 0.01
+                },
+                "outTradeNo": {
+                    "description": "创建订单参数-商户订单号",
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "orderTitle": {
+                    "description": "该订单的订单标题",
+                    "type": "string",
+                    "maxLength": 256
+                }
+            },
+            "required": [
+                "outTradeNo",
+                "totalAmount",
+                "orderTitle"
+            ]
+        },
+        "name": "create-web-page-alipay-payment",
+        "description": "创建一笔支付宝订单，返回带有支付链接的 Markdown 文本，该链接在电脑浏览器中打开后会展示支付二维码，用户可扫码支付。本工具适用于桌面网站或电脑客户端。"
+    },
+    {
+        "inputSchema": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+                "outTradeNo": {
+                    "description": "商户订单号",
+                    "type": "string",
+                    "maxLength": 64
+                }
+            },
+            "required": [
+                "outTradeNo"
+            ]
+        },
+        "name": "query-alipay-payment",
+        "description": "查询一笔支付宝订单，并返回带有订单信息的文本。"
+    },
+    {
+        "inputSchema": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+                "outRequestNo": {
+                    "description": "退款请求号",
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "refundReason": {
+                    "description": "退款原因",
+                    "type": "string",
+                    "maxLength": 256
+                },
+                "outTradeNo": {
+                    "description": "商户订单号",
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "refundAmount": {
+                    "multipleOf": 0.01,
+                    "maximum": 100000000,
+                    "description": "退款金额",
+                    "type": "number",
+                    "exclusiveMinimum": 0,
+                    "minimum": 0.01
+                }
+            },
+            "required": [
+                "outTradeNo",
+                "refundAmount",
+                "outRequestNo"
+            ]
+        },
+        "name": "refund-alipay-payment",
+        "description": "对交易发起退款，并返回退款状态和退款金额"
+    },
+    {
+        "inputSchema": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "additionalProperties": false,
+            "type": "object",
+            "properties": {
+                "outRequestNo": {
+                    "description": "退款请求号",
+                    "type": "string",
+                    "maxLength": 64
+                },
+                "outTradeNo": {
+                    "description": "商户订单号",
+                    "type": "string",
+                    "maxLength": 64
+                }
+            },
+            "required": [
+                "outRequestNo",
+                "outTradeNo"
+            ]
+        },
+        "name": "query-alipay-refund",
+        "description": "查询一笔支付宝退款，并返回退款状态和退款金额"
+    }
+]
+}

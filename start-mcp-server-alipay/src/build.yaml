@@ -1,0 +1,10 @@
+start-mcp-server-alipay:
+  default:
+    rootPath: ./
+    languages:
+      - nodejs22
+    cache:
+      paths:
+        - "~/.npm"
+    steps:
+      - run: npm install @alipay/mcp-server-alipay
