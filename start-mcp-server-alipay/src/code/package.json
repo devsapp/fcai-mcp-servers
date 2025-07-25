@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@alipay/mcp-server-alipay": "^1.4.1"
+  }
+}
