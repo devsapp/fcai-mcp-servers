@@ -36,11 +36,7 @@ services:
     # AP_ENCRYPTION_ALGO:
     #   title: AP_ENCRYPTION_ALGO
     #   type: string
-    #   # enum:
-    #   #   - RSA2
-    #   #   - RSA
     #   # default: RSA2
-    #   default: ""
     #   description: 商户在开放平台配置的参数签名方式
 
     AP_CURRENT_ENV:
@@ -52,7 +48,7 @@ services:
     AP_SELECT_TOOLS:
       title: AP_SELECT_TOOLS
       type: string
-      default: "all"
+      default: all
       description: 允许使用的工具
 
     AP_LOG_ENABLED:
