@@ -4,7 +4,7 @@ Name: start-mcp-server-alipay
 Version: dev
 Provider:
   - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
-Description: Puppeteer MCP Server
+Description: 支付宝 MCP Server
 HomePage: https://github.com/devsapp/fcai-mcp-servers/tree/main/mcp-server-alipay
 Tags: #标签详情
   - MCP
