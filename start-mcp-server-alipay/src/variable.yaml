@@ -1,0 +1,48 @@
+services:
+  start-mcp-server-alipay:
+    AP_APP_ID:
+      title: AP_APP_ID
+      type: string
+      default: ""
+      required: true
+      description: 商户在开放平台申请的应用 ID(APPID)
+
+    AP_APP_KEY:
+      title: AP_APP_KEY
+      type: string
+      default: ""
+      required: true
+      sensitive: true
+      description: 商户在开放平台申请的应用私钥
+
+    AP_PUB_KEY:
+      title: AP_PUB_KEY
+      type: string
+      default: ""
+      required: true
+      sensitive: true
+      description: 用于验证支付宝服务端数据签名的支付宝公钥，在开放平台获取
+
+    AP_RETURN_URL:
+      title: AP_RETURN_URL
+      type: string
+      default: ""
+      description: 网页支付完成后对付款用户展示的「同步结果返回地址」
+
+    AP_NOTIFY_URL:
+      title: AP_NOTIFY_URL
+      type: string
+      default: ""
+      description: 支付完成后，用于告知开发者支付结果的「异步结果通知地址」
+
+    AP_SELECT_TOOLS:
+      title: AP_SELECT_TOOLS
+      type: string
+      default: all
+      description: 允许使用的工具
+
+    AP_LOG_ENABLED:
+      title: AP_LOG_ENABLED
+      type: boolean
+      default: true
+      description: 是否记录日志
