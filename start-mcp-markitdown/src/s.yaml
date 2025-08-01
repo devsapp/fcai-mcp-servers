@@ -1,0 +1,18 @@
+edition: 3.0.0
+name: start-mcp-markitdown
+access: "{{ access }}"
+
+vars:
+  region: "{{ region }}"
+
+resources:
+  start-mcp-markitdown:
+    component: fcai-mcp-server
+    props:
+      region: ${vars.region}
+      description: mcp server deployed by devs
+      transport: stdio
+      runtime: python3.10
+      startCommand: 'python3 -m markitdown_mcp'
+      cpu: 0.5
+      memorySize: 512
