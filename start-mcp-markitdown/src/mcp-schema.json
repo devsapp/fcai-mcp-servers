@@ -1,0 +1,21 @@
+{
+  "tools": [
+    {
+        "inputSchema": {
+            "type": "object",
+            "title": "convert_to_markdownArguments",
+            "properties": {
+                "uri": {
+                    "title": "Uri",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "uri"
+            ]
+        },
+        "name": "convert_to_markdown",
+        "description": "Convert a resource described by an http:, https:, file: or data: URI to markdown"
+    }
+]
+}
