@@ -1,0 +1,181 @@
+services:
+  mcp-tablestore-openmemory:
+    SERVER_HOST:
+      title: SERVER_HOST
+      type: string
+      default: 0.0.0.0
+      description: MCP server 的 host
+
+    SERVER_PORT:
+      title: SERVER_PORT
+      type: string
+      default: 8765
+      description: MCP server 的 port
+
+    TABLESTORE_INSTANCE_NAME:
+      title: TABLESTORE_INSTANCE_NAME
+      type: string
+      default: ""
+      required: true
+      description: 实例名
+
+    TABLESTORE_ENDPOINT:
+      title: TABLESTORE_ENDPOINT
+      type: string
+      default: ""
+      required: true
+      description: 实例访问地址
+
+    TABLESTORE_ACCESS_KEY_ID:
+      title: TABLESTORE_ACCESS_KEY_ID
+      type: string
+      default: ""
+      required: true
+      sensitive: true
+      description: 秘钥 ID
+
+    TABLESTORE_ACCESS_KEY_SECRET:
+      title: TABLESTORE_ACCESS_KEY_SECRET
+      type: string
+      default: ""
+      required: true
+      sensitive: true
+      description: 秘钥 SECRET
+
+    TABLESTORE_STS_TOKEN:
+      title: TABLESTORE_STS_TOKEN
+      type: string
+      default: ""
+      description: STS Token
+
+    TABLESTORE_VECTOR_DIMENSION:
+      title: TABLESTORE_VECTOR_DIMENSION
+      type: string
+      default: 1536
+      description: 向量维度
+
+    OPENAI_API_KEY:
+      title: OPENAI_API_KEY
+      type: string
+      default: ""
+      required: true
+      sensitive: true
+      description: 百炼API KEY
+
+    OPENAI_BASE_URL:
+      title: OPENAI_BASE_URL
+      type: string
+      default: ""
+      required: true
+      description: 兼容 OpenAI 的大模型的 URL
+
+    LLM_MODEL:
+      title: LLM_MODEL
+      type: string
+      default: qwen-plus
+      description: 大语言模型的名字
+
+    EMBEDDER_MODEL:
+      title: EMBEDDER_MODEL
+      type: string
+      default: text-embedding-v4
+      description: 编码模型的名字
+
+    TOOL_ADD_MEMORIES_DESCRIPTION:
+      title: TOOL_ADD_MEMORIES_DESCRIPTION
+      type: string
+      default: ""
+      description: 添加记忆的MCP TOOL描述文字
+
+    TOOL_SEARCH_MEMORIES_DESCRIPTION:
+      title: TOOL_SEARCH_MEMORIES_DESCRIPTION
+      type: string
+      default: ""
+      description: 检索记忆的MCP TOOL描述文字
+
+    TOOL_LIST_MEMORIES_DESCRIPTION:
+      title: TOOL_LIST_MEMORIES_DESCRIPTION
+      type: string
+      default: ""
+      description: 显示所有记忆的MCP TOOL描述文字
+
+    TOOL_DELETE_ALL_MEMORIES_DESCRIPTION:
+      title: TOOL_DELETE_ALL_MEMORIES_DESCRIPTION
+      type: string
+      default: ""
+      description: 删除所有记忆的MCP TOOL描述文字
+
+    MCP_STDIO_USER_ID:
+      title: MCP_STDIO_USER_ID
+      type: string
+      default: stdio_default_user
+      description: stdio模式下使用的用户id
+
+    MCP_STDIO_CLIENT_NAME:
+      title: MCP_STDIO_CLIENT_NAME
+      type: string
+      default: stdio_default_client
+      description: stdio模式下使用的客户端名
+
+
+
+
+    # TABLESTORE_TABLE_NAME:
+    #   title: TABLESTORE_TABLE_NAME
+    #   type: string
+    #   default: ts_mcp_server_py_v1
+    #   description: 表名
+
+    # TABLESTORE_INDEX_NAME:
+    #   title: TABLESTORE_INDEX_NAME
+    #   type: string
+    #   default: ts_mcp_server_py_index_v1
+    #   description: 索引名
+
+    # TABLESTORE_VECTOR_DIMENSION:
+    #   title: TABLESTORE_VECTOR_DIMENSION
+    #   type: string
+    #   default: 768
+    #   description: 向量维度
+
+    # TABLESTORE_TEXT_FIELD:
+    #   title: TABLESTORE_TEXT_FIELD
+    #   type: string
+    #   default: _content
+    #   description: 文本字段名
+
+    # TABLESTORE_VECTOR_FIELD:
+    #   title: TABLESTORE_VECTOR_FIELD
+    #   type: string
+    #   default: _embedding
+    #   description: 向量字段名
+
+    # EMBEDDING_PROVIDER_TYPE:
+    #   title: EMBEDDING_PROVIDER_TYPE
+    #   type: string
+    #   default: hugging_face
+    #   description: "Embedding 模型提供者: 目前包括：hugging_face、dashscope"
+
+    # EMBEDDING_MODEL_NAME:
+    #   title: EMBEDDING_MODEL_NAME
+    #   type: string
+    #   default: BAAI/bge-base-zh-v1.5
+    #   description: Embedding 模型名字
+
+    # DASHSCOPE_API_KEY:
+    #   title: DASHSCOPE_API_KEY
+    #   type: string
+    #   default: ""
+    #   description: 百炼的API_KEY(当EMBEDDING_PROVIDER_TYPE为 dashscope 时候，需要提供该参数)
+
+    # TOOL_STORE_DESCRIPTION:
+    #   title: TOOL_STORE_DESCRIPTION
+    #   type: string
+    #   default: ""
+    #   description: 写入的 MCP tool 的描述文字
+
+    # TOOL_SEARCH_DESCRIPTION:
+    #   title: TOOL_SEARCH_DESCRIPTION
+    #   type: string
+    #   default: ""
+    #   description: 查询的 MCP tool 的描述文字
