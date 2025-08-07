@@ -7,7 +7,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 const createServer = () => {
   // Create server instance
   const server = new McpServer({
-    name: "my-mcp-server",
+    name: "nodejs-stdio-hello-world",
     version: "1.0.0",
   });
   

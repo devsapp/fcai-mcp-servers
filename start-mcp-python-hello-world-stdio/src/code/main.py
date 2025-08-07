@@ -1,6 +1,6 @@
 from mcp.server.fastmcp import FastMCP
 
-mcp = FastMCP("My App")
+mcp = FastMCP("python-stdio-hello-world")
 
 @mcp.tool()
 async def hello() -> str:
