@@ -10,7 +10,7 @@ const sessionTransport: Map<string, SSEServerTransport> = new Map();
 const createServer = () => {
   // Create server instance
   const server = new McpServer({
-    name: "my-mcp-server",
+    name: "nodejs-sse-hello-world",
     version: "1.0.0",
   });
   

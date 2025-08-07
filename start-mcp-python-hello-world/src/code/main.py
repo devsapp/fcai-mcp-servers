@@ -3,7 +3,7 @@ from starlette.applications import Starlette
 from starlette.applications import Starlette
 from starlette.routing import Mount
 
-mcp = FastMCP("My App")
+mcp = FastMCP("python-sse-hello-world")
 
 @mcp.tool()
 async def hello() -> str:
