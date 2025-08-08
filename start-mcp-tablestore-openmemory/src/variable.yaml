@@ -1,0 +1,106 @@
+services:
+  mcp-tablestore-openmemory:
+    TABLESTORE_INSTANCE_NAME:
+      title: 实例名
+      type: string
+      default: ""
+      required: true
+      description: ""
+
+    TABLESTORE_ENDPOINT:
+      title: 实例访问地址
+      type: string
+      default: ""
+      required: true
+      description: ""
+
+    TABLESTORE_ACCESS_KEY_ID:
+      title: 秘钥 ID
+      type: string
+      default: ""
+      required: true
+      sensitive: true
+      description: ""
+
+    TABLESTORE_ACCESS_KEY_SECRET:
+      title: 秘钥 SECRET
+      type: string
+      default: ""
+      required: true
+      sensitive: true
+      description: ""
+
+    TABLESTORE_STS_TOKEN:
+      title: STS Token
+      type: string
+      default: ""
+      description: ""
+
+    TABLESTORE_VECTOR_DIMENSION:
+      title: 向量维度
+      type: string
+      default: 1536
+      description: ""
+
+    OPENAI_API_KEY:
+      title: 百炼API KEY
+      type: string
+      default: ""
+      required: true
+      sensitive: true
+      description: ""
+
+    OPENAI_BASE_URL:
+      title: 兼容 OpenAI 的大模型的 URL
+      type: string
+      default: ""
+      required: true
+      description: 如果使用百炼，可以使用： https://dashscope.aliyuncs.com/compatible-mode/v1
+
+    LLM_MODEL:
+      title: 大语言模型的名字
+      type: string
+      default: qwen-plus
+      description: ""
+
+    EMBEDDER_MODEL:
+      title: 编码模型的名字
+      type: string
+      default: text-embedding-v4
+      description: ""
+
+    TOOL_ADD_MEMORIES_DESCRIPTION:
+      title: 添加记忆的MCP TOOL描述文字
+      type: string
+      default: ""
+      description: ""
+
+    TOOL_SEARCH_MEMORIES_DESCRIPTION:
+      title: 检索记忆的MCP TOOL描述文字
+      type: string
+      default: ""
+      description: ""
+
+    TOOL_LIST_MEMORIES_DESCRIPTION:
+      title: 显示所有记忆的MCP TOOL描述文字
+      type: string
+      default: ""
+      description: ""
+
+    TOOL_DELETE_ALL_MEMORIES_DESCRIPTION:
+      title: 删除所有记忆的MCP TOOL描述文字
+      type: string
+      default: ""
+      description: ""
+
+    MCP_STDIO_USER_ID:
+      title: stdio模式下使用的用户id
+      type: string
+      default: stdio_default_user
+      description: ""
+
+    MCP_STDIO_CLIENT_NAME:
+      title: stdio模式下使用的客户端名
+      type: string
+      default: stdio_default_client
+      description: ""

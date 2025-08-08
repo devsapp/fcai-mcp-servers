@@ -9,3 +9,4 @@ start-mcp-markitdown:
     steps:
       - run: mkdir -p python
       - run: pip install -r requirements.txt -t ./python
+      - run: find ./python/bin -type f -perm -u+x -exec sed -i '1{/^#!.*/ s|.*|#!/usr/bin/env python3|}' {} \;
