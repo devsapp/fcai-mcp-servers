@@ -12,7 +12,7 @@ resources:
       region: ${vars.region}
       description: mcp server deployed by devs
       transport: stdio
-      runtime: python3.10
+      runtime: python3.12
       startCommand: 'uv run --with polardb-mysql-mcp-server run_polardb_mysql_mcp_server'
       cpu: 1
       memorySize: 2048
