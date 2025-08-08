@@ -1,0 +1,19 @@
+edition: 3.0.0
+name: mcp-server-app
+access: "{{ access }}"
+
+vars: #
+  region: "{{ region }}"
+
+resources:
+  mcp-tablestore-openmemory:
+    component: fcai-mcp-server
+    props:
+      region: ${vars.region}
+      description: mcp server deployed by devs
+      transport: stdio
+      runtime: python3.10
+      startCommand: 'tablestore-openmemory-mcp --local-timezone=$TZ'
+      cpu: 0.5
+      memorySize: 512
+      instanceQuota: 1
