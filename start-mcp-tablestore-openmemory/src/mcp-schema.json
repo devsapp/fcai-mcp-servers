@@ -1,0 +1,108 @@
+{
+  "tools": [
+    {
+      "outputSchema": {
+        "title": "add_memoriesOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "add_memoriesArguments",
+        "properties": {
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "name": "add_memories",
+      "description": ""
+    },
+    {
+      "outputSchema": {
+        "title": "search_memoriesOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "search_memoriesArguments",
+        "properties": {
+          "query": {
+            "title": "Query",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "name": "search_memories",
+      "description": ""
+    },
+    {
+      "outputSchema": {
+        "title": "list_memoriesOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "list_memoriesArguments",
+        "properties": {}
+      },
+      "name": "list_memories",
+      "description": ""
+    },
+    {
+      "outputSchema": {
+        "title": "delete_all_memoriesOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "delete_all_memoriesArguments",
+        "properties": {}
+      },
+      "name": "delete_all_memories",
+      "description": ""
+    }
+  ]
+}

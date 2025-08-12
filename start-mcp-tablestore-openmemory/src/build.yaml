@@ -1,0 +1,12 @@
+mcp-tablestore-openmemory:
+  default:
+    rootPath: ./code
+    languages:
+      - python3.10
+    cache:
+      paths:
+        - "~/.cache"
+    steps:
+      - run: pip install -r requirements.txt -t .
+      - run: rm -rf ./mem0*
+      - run: pip install ./tablestore_openmemory_mcp/mem0_wheel/mem0ai-0.1.114-py3-none-any.whl -t .
