@@ -1,10 +1,10 @@
 Edition: 3.0.0
 Type: Project
 Name: mcp-tablestore-openmemory
-Version: 0.0.1
+Version: 0.0.2
 Provider:
   - 阿里云 # 取值内容参考：https://api.devsapp.cn/v3/common/args.html
-Description: 阿里云可观测 MCP Server 模版
+Description: 记忆增强型 AI MCP Server 模版
 HomePage: https://github.com/devsapp/fcai-mcp-servers/tree/main/start-mcp-tablestore-openmemory
 Tags: #标签详情
   - MCP
