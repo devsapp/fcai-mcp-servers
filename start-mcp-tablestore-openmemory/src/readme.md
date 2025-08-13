@@ -1,11 +1,11 @@
 
 > 注：当前项目为 Serverless Devs 应用，由于应用中会存在需要初始化才可运行的变量（例如应用部署地区、函数名等等），所以**不推荐**直接 Clone 本仓库到本地进行部署或直接复制 s.yaml 使用，**强烈推荐**通过 `s init ${模版名称}` 的方法或应用中心进行初始化，详情可参考[部署 & 体验](#部署--体验) 。
 
-# start-mcp-tablestore-openmemory 帮助文档
+# mcp-tablestore-openmemory 帮助文档
 
 <description>
 
-语言模型 Tablestore OPenmemory MCP Server
+记忆增强型 AI MCP Server 模版
 
 </description>
 
@@ -31,6 +31,26 @@
 </remark>
 
 <disclaimers>
+
+
+
+</disclaimers>
+
+## 部署 & 体验
+
+<appcenter>
+   
+- :fire: 通过 [云原生应用开发平台 CAP](https://functionai.console.aliyun.com/template-detail?template=mcp-tablestore-openmemory) ，[![Deploy with Severless Devs](https://img.alicdn.com/imgextra/i1/O1CN01w5RFbX1v45s8TIXPz_!!6000000006118-55-tps-95-28.svg)](https://functionai.console.aliyun.com/template-detail?template=mcp-tablestore-openmemory) 该应用。
+   
+</appcenter>
+<deploy>
+    
+   
+</deploy>
+
+## 案例介绍
+
+<appdetail id="flushContent">
 
 # Tablestore OpenMemory MCP : 跨会话、跨模型的智能记忆解决方案
 
@@ -249,24 +269,6 @@ Tablestore OpenMemory MCP 服务基于 Mem0，结合阿里云表格存储，提�
 
 最后，欢迎加入我们的钉钉开源群 (钉钉群号： 36165029092)，与我们一起探讨 Agent Memory 相关问题。
 
-</disclaimers>
-
-## 部署 & 体验
-
-<appcenter>
-   
-- :fire: 通过 [云原生应用开发平台 CAP](https://cap.console.aliyun.com/template-detail?template=mcp-tablestore-openmemory) ，[![Deploy with Severless Devs](https://img.alicdn.com/imgextra/i1/O1CN01w5RFbX1v45s8TIXPz_!!6000000006118-55-tps-95-28.svg)](https://cap.console.aliyun.com/template-detail?template=mcp-tablestore-openmemory) 该应用。
-   
-</appcenter>
-<deploy>
-    
-   
-</deploy>
-
-## 案例介绍
-
-<appdetail id="flushContent">
-
 </appdetail>
 
 
@@ -283,8 +285,10 @@ Tablestore OpenMemory MCP 服务基于 Mem0，结合阿里云表格存储，提�
 
 </usedetail>
 
+## 二次开发指南
 
-
+<development id="flushContent">
+</development>
 
 
 
