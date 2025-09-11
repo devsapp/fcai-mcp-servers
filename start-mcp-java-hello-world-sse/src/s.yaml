@@ -1,0 +1,17 @@
+edition: 3.0.0
+name: start-mcp-server-nodejs
+access: '{{access}}'
+vars:
+  region: '{{region}}'
+resources:
+  start-mcp-java-hello-world:
+    component: fcai-mcp-server
+    props:
+      region: ${vars.region}
+      description: mcp server deployed by devs
+      transport: sse
+      runtime: java21
+      startCommand: ./bootstrap
+      instanceQuota: 1
+      cpu: 1
+      memorySize: 2048
