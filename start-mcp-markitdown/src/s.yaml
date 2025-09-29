@@ -11,8 +11,10 @@ resources:
     props:
       region: ${vars.region}
       description: mcp server deployed by devs
-      transport: stdio
+      transport: sse
+      port: 3001
       runtime: python3.10
-      startCommand: 'python3 -m markitdown_mcp'
+      startCommand: "markitdown-mcp --sse --host 0.0.0.0 --port 3001"
       cpu: 0.5
       memorySize: 512
+      instanceQuota: 1
