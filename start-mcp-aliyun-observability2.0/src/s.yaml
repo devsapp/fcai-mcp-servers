@@ -1,0 +1,21 @@
+edition: 3.0.0
+name: mcp-server-app
+access: "{{ access }}"
+
+vars: #
+  region: "{{ region }}"
+
+resources:
+  aliyun-observability-mcp-server:
+    component: fcai-mcp-server
+    props:
+      region: ${vars.region}
+      description: mcp server deployed by devs
+      transport: stdio
+      port: 8080
+      runtime: python3.10
+      startCommand: 'python3 -m mcp_server_aliyun_observability --transport stdio --transport-port 8080'
+      cpu: 0.5
+      memorySize: 512
+      enableAuth: true
+      role: {{ serviceRole }}

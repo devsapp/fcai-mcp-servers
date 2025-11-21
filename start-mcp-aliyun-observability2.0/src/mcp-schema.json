@@ -1,0 +1,851 @@
+{
+  "tools": [
+    {
+      "inputSchema": {
+        "type": "object",
+        "title": "sls_list_projectsArguments",
+        "properties": {
+          "regionId": {
+            "description": "aliyun region id",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "limit": {
+            "default": 50,
+            "description": "limit,max is 100",
+            "maximum": 100,
+            "title": "Limit",
+            "type": "integer",
+            "minimum": 1
+          },
+          "projectName": {
+            "description": "project name,fuzzy search",
+            "title": "Projectname",
+            "type": "string"
+          }
+        },
+        "required": [
+          "regionId"
+        ]
+      },
+      "name": "sls_list_projects",
+      "description": "列出阿里云日志服务中的所有项目。\n\n            ## 功能概述\n\n            该工具可以列出指定区域中的所有SLS项目，支持通过项目名进行模糊搜索。如果不提供项目名称，则返回该区域的所有项目。\n\n            ## 使用场景\n\n            - 当需要查找特定项目是否存在时\n            - 当需要获取某个区域下所有可用的SLS项目列表时\n            - 当需要根据项目名称的部分内容查找相关项目时\n\n            ## 返回数据结构\n\n            返回的项目信息包含：\n            - project_name: 项目名称\n            - description: 项目描述\n            - region_id: 项目所在区域\n\n            ## 查询示例\n\n            - \"有没有叫 XXX 的 project\"\n            - \"列出所有SLS项目\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                projectName: 项目名称查询字符串，支持模糊搜索\n                limit: 返回结果的最大数量，范围1-100，默认10\n                regionId: 阿里云区域ID,region id format like \"xx-xxx\",like \"cn-hangzhou\"\n\n            Returns:\n                包含项目信息的字典列表，每个字典包含project_name、description和region_id\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "sls_list_logstoresOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "sls_list_logstoresArguments",
+        "properties": {
+          "logStore": {
+            "description": "log store name,fuzzy search",
+            "title": "Logstore",
+            "type": "string"
+          },
+          "logStoreType": {
+            "description": "log store type,default is logs,should be logs,metrics",
+            "title": "Logstoretype",
+            "type": "string"
+          },
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "limit": {
+            "default": 10,
+            "description": "limit,max is 100",
+            "maximum": 100,
+            "title": "Limit",
+            "type": "integer",
+            "minimum": 1
+          },
+          "project": {
+            "description": "sls project name,must exact match,should not contain chinese characters",
+            "title": "Project",
+            "type": "string"
+          },
+          "isMetricStore": {
+            "default": false,
+            "description": "is metric store,default is False,only use want to find metric store",
+            "title": "Ismetricstore",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "project",
+          "regionId"
+        ]
+      },
+      "name": "sls_list_logstores",
+      "description": "列出SLS项目中的日志库。\n\n            ## 功能概述\n\n            该工具可以列出指定SLS项目中的所有日志库，如果不选，则默认为日志库类型\n            支持通过日志库名称进行模糊搜索。如果不提供日志库名称，则返回项目中的所有日志库。\n\n            ## 使用场景\n\n            - 当需要查找特定项目下是否存在某个日志库时\n            - 当需要获取项目中所有可用的日志库列表时\n            - 当需要根据日志库名称的部分内容查找相关日志库时\n            - 如果从上下文未指定 project参数，除非用户说了遍历，则可使用 sls_list_projects 工具获取项目列表\n\n            ## 是否指标库\n\n            如果需要查找指标或者时序相关的库,请将is_metric_store参数设置为True\n\n            ## 查询示例\n\n            - \"我想查询有没有 XXX 的日志库\"\n            - \"某个 project 有哪些 log store\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                project: SLS项目名称，必须精确匹配\n                log_store: 日志库名称，支持模糊搜索\n                limit: 返回结果的最大数量，范围1-100，默认10\n                is_metric_store: 是否指标库，可选值为True或False，默认为False\n                region_id: 阿里云区域ID\n\n            Returns:\n                日志库名称的字符串列表\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "sls_describe_logstoreOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "sls_describe_logstoreArguments",
+        "properties": {
+          "logStore": {
+            "description": "sls log store name,must exact match,not fuzzy search",
+            "title": "Logstore",
+            "type": "string"
+          },
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "project": {
+            "description": "sls project name,must exact match,not fuzzy search",
+            "title": "Project",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project",
+          "logStore",
+          "regionId"
+        ]
+      },
+      "name": "sls_describe_logstore",
+      "description": "获取SLS日志库的结构信息。\n\n            ## 功能概述\n\n            该工具用于获取指定SLS项目中日志库的索引信息和结构定义，包括字段类型、别名、是否大小写敏感等信息。\n\n            ## 使用场景\n\n            - 当需要了解日志库的字段结构时\n            - 当需要获取日志库的索引配置信息时\n            - 当构建查询语句前需要了解可用字段时\n            - 当需要分析日志数据结构时\n\n            ## 返回数据结构\n\n            返回一个字典，键为字段名，值包含以下信息：\n            - alias: 字段别名\n            - sensitive: 是否大小写敏感\n            - type: 字段类型\n            - json_keys: JSON字段的子字段信息\n\n            ## 查询示例\n\n            - \"我想查询 XXX 的日志库的 schema\"\n            - \"我想查询 XXX 的日志库的 index\"\n            - \"我想查询 XXX 的日志库的结构信息\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                project: SLS项目名称，必须精确匹配\n                log_store: SLS日志库名称，必须精确匹配\n                region_id: 阿里云区域ID\n\n            Returns:\n                包含日志库结构信息的字典\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "sls_execute_sql_queryOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "sls_execute_sql_queryArguments",
+        "properties": {
+          "logStore": {
+            "description": "sls log store name",
+            "title": "Logstore",
+            "type": "string"
+          },
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "query": {
+            "description": "query",
+            "title": "Query",
+            "type": "string"
+          },
+          "toTimestampInSeconds": {
+            "description": "to timestamp,unit is second,should be unix timestamp, only number,no other characters",
+            "title": "Totimestampinseconds",
+            "type": "integer"
+          },
+          "limit": {
+            "default": 10,
+            "description": "limit,max is 100",
+            "maximum": 100,
+            "title": "Limit",
+            "type": "integer",
+            "minimum": 1
+          },
+          "project": {
+            "description": "sls project name",
+            "title": "Project",
+            "type": "string"
+          },
+          "fromTimestampInSeconds": {
+            "description": "from timestamp,unit is second,should be unix timestamp, only number,no other characters",
+            "title": "Fromtimestampinseconds",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "project",
+          "logStore",
+          "query",
+          "fromTimestampInSeconds",
+          "toTimestampInSeconds",
+          "regionId"
+        ]
+      },
+      "name": "sls_execute_sql_query",
+      "description": "执行SLS日志查询。\n\n            ## 功能概述\n\n            该工具用于在指定的SLS项目和日志库上执行查询语句，并返回查询结果。查询将在指定的时间范围内执行。 如果上下文没有提到具体的 SQL 语句，必须优先使用 sls_translate_text_to_sql_query 工具生成查询语句,无论问题有多简单\n\n            ## 使用场景\n\n            - 当需要根据特定条件查询日志数据时\n            - 当需要分析特定时间范围内的日志信息时\n            - 当需要检索日志中的特定事件或错误时\n            - 当需要统计日志数据的聚合信息时\n\n\n            ## 查询语法\n\n            查询必须使用SLS有效的查询语法，而非自然语言。如果不了解日志库的结构，可以先使用sls_describe_logstore工具获取索引信息。\n\n            ## 时间范围\n\n            查询必须指定时间范围：  if the query is generated by sls_translate_text_to_sql_query tool, should use the fromTimestampInSeconds and toTimestampInSeconds in the sls_translate_text_to_sql_query response\n            - fromTimestampInSeconds: 开始时间戳（秒）\n            - toTimestampInSeconds: 结束时间戳（秒）\n\n            ## 查询示例\n\n            - \"帮我查询下 XXX 的日志信息\"\n            - \"查找最近一小时内的错误日志\"\n\n            ## 错误处理\n            - Column xxx can not be resolved 如果是 sls_translate_text_to_sql_query 工具生成的查询语句 可能存在查询列未开启统计，可以提示用户增加相对应的信息，或者调用 sls_describe_logstore 工具获取索引信息之后，要用户选择正确的字段或者提示用户对列开启统计。当确定列开启统计之后，可以再次调用sls_translate_text_to_sql_query 工具生成查询语句\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                project: SLS项目名称\n                logStore: SLS日志库名称\n                query: SLS查询语句\n                fromTimestamp: 查询开始时间戳（秒）\n                toTimestamp: 查询结束时间戳（秒）\n                limit: 返回结果的最大数量，范围1-100，默认10\n                regionId: 阿里云区域ID\n\n            Returns:\n                查询结果列表，每个元素为一条日志记录\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "sls_translate_text_to_sql_queryOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "sls_translate_text_to_sql_queryArguments",
+        "properties": {
+          "logStore": {
+            "description": "sls log store name",
+            "title": "Logstore",
+            "type": "string"
+          },
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "project": {
+            "description": "sls project name",
+            "title": "Project",
+            "type": "string"
+          },
+          "text": {
+            "description": "the natural language text to generate sls log store query",
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text",
+          "project",
+          "logStore",
+          "regionId"
+        ]
+      },
+      "name": "sls_translate_text_to_sql_query",
+      "description": "将自然语言转换为SLS查询语句。当用户有明确的 logstore 查询需求，必须优先使用该工具来生成查询语句\n\n            ## 功能概述\n\n            该工具可以将自然语言描述转换为有效的SLS查询语句，便于用户使用自然语言表达查询需求。用户有任何 SLS 日志查询需求时，都需要优先使用该工具。\n\n            ## 使用场景\n\n            - 当用户不熟悉SLS查询语法时\n            - 当需要快速构建复杂查询时\n            - 当需要从自然语言描述中提取查询意图时\n\n            ## 使用限制\n\n            - 仅支持生成SLS查询，不支持其他数据库的SQL如MySQL、PostgreSQL等\n            - 生成的是查询语句，而非查询结果，需要配合sls_execute_query工具使用\n            - 如果查询涉及ARMS应用，应优先使用arms_generate_trace_query工具\n            - 需要对应的 log_sotre 已经设定了索引信息，如果生成的结果里面有字段没有索引或者开启统计，可能会导致查询失败，需要友好的提示用户增加相对应的索引信息\n\n            ## 最佳实践\n\n            - 提供清晰简洁的自然语言描述\n            - 不要在描述中包含项目或日志库名称\n            - 如有需要，指定查询的时间范围\n            - 首次生成的查询可能不完全符合要求，可能需要多次尝试\n\n            ## 查询示例\n\n            - \"帮我生成下 XXX 的日志查询语句\"\n            - \"查找最近一小时内的错误日志\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                text: 用于生成查询的自然语言文本\n                project: SLS项目名称\n                log_store: SLS日志库名称\n                region_id: 阿里云区域ID\n\n            Returns:\n                生成的SLS查询语句\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "sls_diagnose_queryOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "sls_diagnose_queryArguments",
+        "properties": {
+          "logStore": {
+            "description": "sls log store name",
+            "title": "Logstore",
+            "type": "string"
+          },
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "query": {
+            "description": "sls query",
+            "title": "Query",
+            "type": "string"
+          },
+          "errorMessage": {
+            "description": "error message",
+            "title": "Errormessage",
+            "type": "string"
+          },
+          "project": {
+            "description": "sls project name",
+            "title": "Project",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query",
+          "errorMessage",
+          "project",
+          "logStore",
+          "regionId"
+        ]
+      },
+      "name": "sls_diagnose_query",
+      "description": "诊断SLS查询语句。\n\n            ## 功能概述\n\n            当 SLS 查询语句执行失败时，可以调用该工具，根据错误信息，生成诊断结果。诊断结果会包含查询语句的正确性、性能分析、优化建议等信息。\n\n            ## 使用场景\n\n            - 当需要诊断SLS查询语句的正确性时\n            - 当 SQL 执行错误需要查找原因时\n\n            ## 查询示例\n\n            - \"帮我诊断下 XXX 的日志查询语句\"\n            - \"帮我分析下 XXX 的日志查询语句\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                query: SLS查询语句\n                error_message: 错误信息\n                project: SLS项目名称\n                log_store: SLS日志库名称\n                region_id: 阿里云区域ID\n            "
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "title": "sls_get_regionsArguments",
+        "properties": {}
+      },
+      "name": "sls_get_regions",
+      "description": "获取阿里云的部分区域列表。\n\n            ## 功能概述\n\n            该工具用于获取阿里云的部分区域列表，便于在执行SLS查询时指定区域。\n\n            ## 使用场景\n\n            - 当需要获取阿里云的部分区域列表时\n            - 当需要根据区域进行SLS查询时\n            - 当用户没有明确指定区域ID 时，可以调用该工具获取区域列表，并要求用户进行选择\n\n            ## 返回数据格式\n\n            返回包含区域列表的字典，每个字典包含region_id和region_name。\n\n            ## 查询示例\n\n            - \"获取阿里云的部分区域列表\"\n            "
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "title": "sls_get_current_timeArguments",
+        "properties": {}
+      },
+      "name": "sls_get_current_time",
+      "description": "获取当前时间。\n\n            ## 功能概述\n            1. 获取当前时间，会返回当前时间字符串和当前时间戳(毫秒)\n\n            ## 使用场景\n            1. 只有当无法从聊天记录里面获取到当前时间时候才可以调用该工具\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "arms_search_appsOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "arms_search_appsArguments",
+        "properties": {
+          "pageNumber": {
+            "default": 1,
+            "description": "page number,default is 1",
+            "title": "Pagenumber",
+            "type": "integer",
+            "minimum": 1
+          },
+          "appNameQuery": {
+            "description": "app name query",
+            "title": "Appnamequery",
+            "type": "string"
+          },
+          "regionId": {
+            "description": "region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "pageSize": {
+            "default": 20,
+            "description": "page size,max is 100",
+            "maximum": 100,
+            "title": "Pagesize",
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "appNameQuery",
+          "regionId"
+        ]
+      },
+      "name": "arms_search_apps",
+      "description": "搜索ARMS应用。\n\n            ## 功能概述\n\n            该工具用于根据应用名称搜索ARMS应用，返回应用的基本信息，包括应用名称、PID、用户ID和类型。\n\n            ## 使用场景\n\n            - 当需要查找特定名称的应用时\n            - 当需要获取应用的PID以便进行其他ARMS操作时\n            - 当需要检查用户拥有的应用列表时\n\n            ## 搜索条件\n\n            - app_name_query必须是应用名称的一部分，而非自然语言\n            - 搜索结果将分页返回，可以指定页码和每页大小\n\n            ## 返回数据结构\n\n            返回一个字典，包含以下信息：\n            - total: 符合条件的应用总数\n            - page_size: 每页大小\n            - page_number: 当前页码\n            - trace_apps: 应用列表，每个应用包含app_name、pid、user_id和type\n\n            ## 查询示例\n\n            - \"帮我查询下 XXX 的应用\"\n            - \"找出名称包含'service'的应用\"\n\n            Args:\n                ctx: MCP上下文，用于访问ARMS客户端\n                app_name_query: 应用名称查询字符串\n                region_id: 阿里云区域ID\n                page_size: 每页大小，范围1-100，默认20\n                page_number: 页码，默认1\n\n            Returns:\n                包含应用信息的字典\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "arms_generate_trace_queryOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "arms_generate_trace_queryArguments",
+        "properties": {
+          "question": {
+            "description": "question,the question to query the trace",
+            "title": "Question",
+            "type": "string"
+          },
+          "user_id": {
+            "description": "user aliyun account id",
+            "title": "User Id",
+            "type": "integer"
+          },
+          "region_id": {
+            "description": "region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Region Id",
+            "type": "string"
+          },
+          "pid": {
+            "description": "pid,the pid of the app",
+            "title": "Pid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id",
+          "pid",
+          "region_id",
+          "question"
+        ]
+      },
+      "name": "arms_generate_trace_query",
+      "description": "生成ARMS应用的调用链查询语句。\n\n            ## 功能概述\n\n            该工具用于将自然语言描述转换为ARMS调用链查询语句，便于分析应用性能和问题。\n\n            ## 使用场景\n\n            - 当需要查询应用的调用链信息时\n            - 当需要分析应用性能问题时\n            - 当需要跟踪特定请求的执行路径时\n            - 当需要分析服务间调用关系时\n\n            ## 查询处理\n\n            工具会将自然语言问题转换为SLS查询，并返回：\n            - 生成的SLS查询语句\n            - 存储调用链数据的项目名\n            - 存储调用链数据的日志库名\n\n            ## 查询上下文\n\n            查询会考虑以下信息：\n            - 应用的PID\n            - 响应时间以纳秒存储，需转换为毫秒\n            - 数据以span记录存储，查询耗时需要对符合条件的span进行求和\n            - 服务相关信息使用serviceName字段\n            - 如果用户明确提出要查询 trace信息，则需要在查询问题上question 上添加说明返回trace信息\n\n            ## 查询示例\n\n            - \"帮我查询下 XXX 的 trace 信息\"\n            - \"分析最近一小时内响应时间超过1秒的调用链\"\n\n            Args:\n                ctx: MCP上下文，用于访问ARMS和SLS客户端\n                user_id: 用户阿里云账号ID\n                pid: 应用的PID\n                region_id: 阿里云区域ID\n                question: 查询调用链的自然语言问题\n\n            Returns:\n                包含查询信息的字典，包括sls_query、project和log_store\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "arms_profile_flame_analysisOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "arms_profile_flame_analysisArguments",
+        "properties": {
+          "startMs": {
+            "description": "profile start ms",
+            "title": "Startms",
+            "type": "string"
+          },
+          "endMs": {
+            "description": "profile end ms",
+            "title": "Endms",
+            "type": "string"
+          },
+          "threadGroup": {
+            "description": "arms service thread group",
+            "title": "Threadgroup",
+            "type": "string"
+          },
+          "profileType": {
+            "default": "cpu",
+            "description": "profile type, like 'cpu' 'memory'",
+            "title": "Profiletype",
+            "type": "string"
+          },
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "ip": {
+            "description": "arms service host ip",
+            "title": "Ip",
+            "type": "string"
+          },
+          "pid": {
+            "description": "arms application id",
+            "title": "Pid",
+            "type": "string"
+          },
+          "thread": {
+            "description": "arms service thread id",
+            "title": "Thread",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pid",
+          "startMs",
+          "endMs",
+          "regionId"
+        ]
+      },
+      "name": "arms_profile_flame_analysis",
+      "description": "分析ARMS应用火焰图性能热点。\n\n            ## 功能概述\n\n            当应用存在性能问题且开启持续剖析时，可以调用该工具对ARMS应用火焰图性能热点进行分析，生成分析结果。分析结果会包含火焰图的性能热点问题、优化建议等信息。\n\n            ## 使用场景\n\n            - 当需要分析ARMS应用火焰图性能问题时\n\n            ## 查询示例\n\n            - \"帮我分析下ARMS应用 XXX 的火焰图性能热点\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                pid: ARMS应用监控服务PID\n                startMs: 分析的开始时间，通过get_current_time工具获取毫秒级时间戳\n                endMs: 分析的结束时间，通过get_current_time工具获取毫秒级时间戳\n                profileType: Profile类型，用于选择需要分析的Profile指标，支持CPU热点和内存热点，如'cpu'、'memory'\n                ip: ARMS应用服务主机地址，非必要参数，用于选择所在的服务机器，如有多个填写时以英文逗号\",\"分隔，如'192.168.0.1,192.168.0.2'，不填写默认查询服务所在的所有IP\n                thread: 服务线程名称，非必要参数，用于选择对应线程，如有多个填写时以英文逗号\",\"分隔，如'C1 CompilerThre,C2 CompilerThre'，不填写默认查询服务所有线程\n                threadGroup: 服务聚合线程组名称，非必要参数，用于选择对应线程组，如有多个填写时以英文逗号\",\"分隔，如'http-nio-*-exec-*,http-nio-*-ClientPoller-*'，不填写默认查询服务所有聚合线程组\n                regionId: 阿里云区域ID，如'cn-hangzhou'、'cn-shanghai'等\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "arms_diff_profile_flame_analysisOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "arms_diff_profile_flame_analysisArguments",
+        "properties": {
+          "threadGroup": {
+            "description": "arms service thread group",
+            "title": "Threadgroup",
+            "type": "string"
+          },
+          "currentEndMs": {
+            "description": "current profile end ms",
+            "title": "Currentendms",
+            "type": "string"
+          },
+          "profileType": {
+            "default": "cpu",
+            "description": "profile type, like 'cpu' 'memory'",
+            "title": "Profiletype",
+            "type": "string"
+          },
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "referenceStartMs": {
+            "description": "reference profile start ms (for comparison)",
+            "title": "Referencestartms",
+            "type": "string"
+          },
+          "ip": {
+            "description": "arms service host ip",
+            "title": "Ip",
+            "type": "string"
+          },
+          "currentStartMs": {
+            "description": "current profile start ms",
+            "title": "Currentstartms",
+            "type": "string"
+          },
+          "referenceEndMs": {
+            "description": "reference profile end ms (for comparison)",
+            "title": "Referenceendms",
+            "type": "string"
+          },
+          "pid": {
+            "description": "arms application id",
+            "title": "Pid",
+            "type": "string"
+          },
+          "thread": {
+            "description": "arms service thread id",
+            "title": "Thread",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pid",
+          "currentStartMs",
+          "currentEndMs",
+          "referenceStartMs",
+          "referenceEndMs",
+          "regionId"
+        ]
+      },
+      "name": "arms_diff_profile_flame_analysis",
+      "description": "对比两个时间段火焰图的性能变化。\n\n            ## 功能概述\n\n            对应用在两个不同时间段内的性能进行分析，生成差分火焰图。通常用于发布前后或性能优化前后性能对比，帮助识别性能提升或退化。\n\n            ## 使用场景\n\n            - 发布前后、性能优化前后不同时间段火焰图性能对比\n\n            ## 查询示例\n\n            - \"帮我分析应用 XXX 在发布前后的性能变化情况\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                pid: ARMS应用监控服务PID\n                currentStartMs: 火焰图当前（基准）时间段的开始时间戳，通过get_current_time工具获取毫秒级时间戳\n                currentEndMs: 火焰图当前（基准）时间段的结束时间戳，通过get_current_time工具获取毫秒级时间戳\n                referenceStartMs: 火焰图对比时间段（参考时间段）的开始时间戳，通过get_current_time工具获取毫秒级时间戳\n                referenceEndMs: 火焰图对比时间段（参考时间段）的结束时间戳，通过get_current_time工具获取毫秒级时间戳\n                profileType: Profile类型，如'cpu'、'memory'\n                ip: ARMS应用服务主机地址，非必要参数，用于选择所在的服务机器，如有多个填写时以英文逗号\",\"分隔，如'192.168.0.1,192.168.0.2'，不填写默认查询服务所在的所有IP\n                thread: 服务线程名称，非必要参数，用于选择对应线程，如有多个填写时以英文逗号\",\"分隔，如'C1 CompilerThre,C2 CompilerThre'，不填写默认查询服务所有线程\n                threadGroup: 服务聚合线程组名称，非必要参数，用于选择对应线程组，如有多个填写时以英文逗号\",\"分隔，如'http-nio-*-exec-*,http-nio-*-ClientPoller-*'，不填写默认查询服务所有聚合线程组\n                regionId: 阿里云区域ID，如'cn-hangzhou'、'cn-shanghai'等\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "arms_get_application_infoOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "arms_get_application_infoArguments",
+        "properties": {
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "pid": {
+            "description": "pid,the pid of the app",
+            "title": "Pid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "pid",
+          "regionId"
+        ]
+      },
+      "name": "arms_get_application_info",
+      "description": "\n            根据 PID获取具体某个应用的信息，\n            ## 功能概述\n            1. 获取ARMS应用信息，会返回应用的 PID，AppName,开发语言类型比如 java,python 等\n\n            ## 使用场景\n            1. 当用户明确提出要查询某个应用的信息时，可以调用该工具\n            2. 有场景需要获取应用的开发语言类型，可以调用该工具\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "arms_trace_quality_analysisOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "arms_trace_quality_analysisArguments",
+        "properties": {
+          "traceId": {
+            "description": "traceId",
+            "title": "Traceid",
+            "type": "string"
+          },
+          "startMs": {
+            "description": "start time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
+            "title": "Startms",
+            "type": "integer"
+          },
+          "endMs": {
+            "description": "end time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
+            "title": "Endms",
+            "type": "integer"
+          },
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "traceId",
+          "startMs",
+          "endMs",
+          "regionId"
+        ]
+      },
+      "name": "arms_trace_quality_analysis",
+      "description": "Trace 质量检测\n\n            ## 功能概述\n            识别指定 traceId 的 Trace 是否存在完整性问题（断链）和性能问题（错慢调用）\n\n            ## 使用场景\n\n            - 检测调用链是否存在问题\n\n            ## 查询示例\n\n            - \"帮我分析调用链\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                traceId: 待分析的 Trace 的 traceId，必要参数\n                startMs: 分析的开始时间，通过get_current_time工具获取毫秒级时间戳\n                endMs: 分析的结束时间，通过get_current_time工具获取毫秒级时间戳\n                regionId: 阿里云区域ID，如'cn-hangzhou'、'cn-shanghai'等\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "arms_slow_trace_analysisOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "arms_slow_trace_analysisArguments",
+        "properties": {
+          "traceId": {
+            "description": "traceId",
+            "title": "Traceid",
+            "type": "string"
+          },
+          "startMs": {
+            "description": "start time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
+            "title": "Startms",
+            "type": "integer"
+          },
+          "endMs": {
+            "description": "end time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
+            "title": "Endms",
+            "type": "integer"
+          },
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "traceId",
+          "startMs",
+          "endMs",
+          "regionId"
+        ]
+      },
+      "name": "arms_slow_trace_analysis",
+      "description": "深入分析 Trace 慢调用根因\n\n            ## 功能概述\n\n            针对 Trace 中的慢调用进行诊断分析，输出包含概述、根因、影响范围及解决方案的诊断报告。\n\n            ## 使用场景\n\n            - 性能问题定位和修复\n\n            ## 查询示例\n\n            - \"请分析 ${traceId} 这个 trace 慢的原因\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                traceId: 待分析的Trace的 traceId，必要参数\n                startMs: 分析的开始时间，通过get_current_time工具获取毫秒级时间戳\n                endMs: 分析的结束时间，通过get_current_time工具获取毫秒级时间戳\n                regionId: 阿里云区域ID，如'cn-hangzhou'、'cn-shanghai'等\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "arms_error_trace_analysisOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "arms_error_trace_analysisArguments",
+        "properties": {
+          "traceId": {
+            "description": "traceId",
+            "title": "Traceid",
+            "type": "string"
+          },
+          "startMs": {
+            "description": "start time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
+            "title": "Startms",
+            "type": "integer"
+          },
+          "endMs": {
+            "description": "end time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
+            "title": "Endms",
+            "type": "integer"
+          },
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "traceId",
+          "startMs",
+          "endMs",
+          "regionId"
+        ]
+      },
+      "name": "arms_error_trace_analysis",
+      "description": "深入分析 Trace 错误根因\n\n            ## 功能概述\n\n            针对 Trace 中的错误调用进行深入诊断分析，输出包含概述、根因、影响范围及解决方案的错误诊断报告。\n\n            ## 使用场景\n\n            - 性能问题定位和修复\n\n            ## 查询示例\n\n            - \"请分析 ${traceId} 这个 trace 发生错误的原因\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                traceId: 待分析的Trace的 traceId，必要参数\n                startMs: 分析的开始时间，通过get_current_time工具获取毫秒级时间戳\n                endMs: 分析的结束时间，通过get_current_time工具获取毫秒级时间戳\n                regionId: 阿里云区域ID，如'cn-hangzhou'、'cn-shanghai'等\n            "
+    },
+    {
+      "outputSchema": {
+        "title": "cms_translate_text_to_promqlOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "cms_translate_text_to_promqlArguments",
+        "properties": {
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "project": {
+            "description": "sls project name",
+            "title": "Project",
+            "type": "string"
+          },
+          "metricStore": {
+            "description": "sls metric store name",
+            "title": "Metricstore",
+            "type": "string"
+          },
+          "text": {
+            "description": "the natural language text to generate promql",
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text",
+          "project",
+          "metricStore",
+          "regionId"
+        ]
+      },
+      "name": "cms_translate_text_to_promql",
+      "description": "将自然语言转换为Prometheus PromQL查询语句。\n\n            ## 功能概述\n\n            该工具可以将自然语言描述转换为有效的PromQL查询语句，便于用户使用自然语言表达查询需求。\n\n            ## 使用场景\n\n            - 当用户不熟悉PromQL查询语法时\n            - 当需要快速构建复杂查询时\n            - 当需要从自然语言描述中提取查询意图时\n\n            ## 使用限制\n\n            - 仅支持生成PromQL查询\n            - 生成的是查询语句，而非查询结果\n            - 禁止使用sls_execute_query工具执行，两者接口不兼容\n\n            ## 最佳实践\n\n            - 提供清晰简洁的自然语言描述\n            - 不要在描述中包含项目或时序库名称\n            - 首次生成的查询可能不完全符合要求，可能需要多次尝试\n\n            ## 查询示例\n\n            - \"帮我生成 XXX 的PromQL查询语句\"\n            - \"查询每个namespace下的Pod数量\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                text: 用于生成查询的自然语言文本\n                project: SLS项目名称\n                metricStore: SLS时序库名称\n                regionId: 阿里云区域ID\n\n            Returns:\n                生成的PromQL查询语句\n            "
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "title": "cms_execute_promql_queryArguments",
+        "properties": {
+          "regionId": {
+            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+            "title": "Regionid",
+            "type": "string"
+          },
+          "query": {
+            "description": "query",
+            "title": "Query",
+            "type": "string"
+          },
+          "toTimestampInSeconds": {
+            "description": "to timestamp,unit is second,should be unix timestamp, only number,no other characters",
+            "title": "Totimestampinseconds",
+            "type": "integer"
+          },
+          "project": {
+            "description": "sls project name",
+            "title": "Project",
+            "type": "string"
+          },
+          "metricStore": {
+            "description": "sls metric store name",
+            "title": "Metricstore",
+            "type": "string"
+          },
+          "fromTimestampInSeconds": {
+            "description": "from timestamp,unit is second,should be unix timestamp, only number,no other characters",
+            "title": "Fromtimestampinseconds",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "project",
+          "metricStore",
+          "query",
+          "fromTimestampInSeconds",
+          "toTimestampInSeconds",
+          "regionId"
+        ]
+      },
+      "name": "cms_execute_promql_query",
+      "description": "执行Prometheus指标查询。\n\n            ## 功能概述\n\n            该工具用于在指定的SLS项目和时序库上执行查询语句，并返回查询结果。查询将在指定的时间范围内执行。\n            如果上下文没有提到具体的 SQL 语句，必须优先使用 cms_translate_text_to_promql 工具生成查询语句,无论问题有多简单。\n            如果上下文没有提到具体的时间戳，必须优先使用 sls_get_current_time 工具生成时间戳参数，默认为最近15分钟\n\n            ## 使用场景\n\n            - 当需要根据特定条件查询日志数据时\n            - 当需要分析特定时间范围内的日志信息时\n            - 当需要检索日志中的特定事件或错误时\n            - 当需要统计日志数据的聚合信息时\n\n\n            ## 查询语法\n\n            查询必须使用PromQL有效的查询语法，而非自然语言。\n\n            ## 时间范围\n\n            查询必须指定时间范围：\n            - fromTimestampInSeconds: 开始时间戳（秒）\n            - toTimestampInSeconds: 结束时间戳（秒）\n            默认为最近15分钟，需要调用 sls_get_current_time 工具获取当前时间\n\n            ## 查询示例\n\n            - \"帮我查询下 job xxx 的采集状态\"\n            - \"查一下当前有多少个 Pod\"\n\n            ## 输出\n            查询结果为：xxxxx\n            对应的图示：将 image 中的 URL 连接到图示中，并展示在图示中。\n\n            Args:\n                ctx: MCP上下文，用于访问CMS客户端\n                project: SLS项目名称\n                metricStore: SLS日志库名称\n                query: PromQL查询语句\n                fromTimestampInSeconds: 查询开始时间戳（秒）\n                toTimestampInSeconds: 查询结束时间戳（秒）\n                regionId: 阿里云区域ID\n\n            Returns:\n                查询结果列表，每个元素为一条日志记录\n            "
+    }
+  ]
+}
