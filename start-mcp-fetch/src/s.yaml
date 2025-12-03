@@ -16,4 +16,3 @@ resources:
       startCommand: 'mcp-server-fetch'
       cpu: 1
       memorySize: 2048
-      instanceQuota: 1

@@ -16,4 +16,3 @@ resources:
       startCommand: python3 -m weather_server.server
       cpu: 1
       memorySize: 2048
-      instanceQuota: 1

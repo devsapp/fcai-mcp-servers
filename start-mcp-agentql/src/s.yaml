@@ -16,4 +16,3 @@ resources:
       startCommand: /code/node_modules/.bin/agentql-mcp
       cpu: 1
       memorySize: 2048
-      instanceQuota: 1

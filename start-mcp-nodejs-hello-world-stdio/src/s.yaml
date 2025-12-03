@@ -14,4 +14,3 @@ resources:
       startCommand: 'node dist/index.js'
       cpu: 0.5
       memorySize: 512
-      instanceQuota: 1
