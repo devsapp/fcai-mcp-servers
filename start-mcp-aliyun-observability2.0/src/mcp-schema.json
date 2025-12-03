@@ -1,851 +1,1993 @@
 {
-  "tools": [
-    {
-      "inputSchema": {
-        "type": "object",
-        "title": "sls_list_projectsArguments",
-        "properties": {
-          "regionId": {
-            "description": "aliyun region id",
-            "title": "Regionid",
-            "type": "string"
+  {
+    "tools": [
+      {
+        "name": "cms_text_to_promql",
+        "description": "将自然语言转换为PromQL查询语句。\n\n            ## 功能概述\n\n            该工具可以将自然语言描述转换为有效的PromQL查询语句，便于用户使用自然语言表达查询需求。\n\n            ## 使用场景\n\n            - 当用户不熟悉PromQL查询语法时\n            - 当需要快速构建复杂查询时\n            - 当需要从自然语言描述中提取查询意图时\n\n            ## 使用限制\n\n            - 仅支持生成PromQL查询\n            - 生成的是查询语句，而非查询结果\n\n\n            ## 最佳实践\n\n            - 提供清晰简洁的自然语言描述\n            - 不要在描述中包含项目或时序库名称\n            - 首次生成的查询可能不完全符合要求，可能需要多次尝试\n\n            ## 查询示例\n\n            - \"帮我生成 XXX 的PromQL查询语句\"\n            - \"查询每个namespace下的Pod数量\"\n\n            Args:\n                ctx: MCP上下文，用于访问CMS客户端\n                text: 用于生成查询的自然语言文本\n                project: SLS项目名称\n                metricStore: SLS时序库名称\n                regionId: 阿里云区域ID\n\n            Returns:\n                生成的PromQL查询语句\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "description": "the natural language text to generate promql",
+              "title": "Text",
+              "type": "string"
+            },
+            "project": {
+              "description": "sls project name",
+              "title": "Project",
+              "type": "string"
+            },
+            "metricStore": {
+              "description": "sls metric store name",
+              "title": "Metricstore",
+              "type": "string"
+            },
+            "regionId": {
+              "description": "aliyun region id",
+              "title": "Regionid",
+              "type": "string"
+            }
           },
-          "limit": {
-            "default": 50,
-            "description": "limit,max is 100",
-            "maximum": 100,
-            "title": "Limit",
-            "type": "integer",
-            "minimum": 1
-          },
-          "projectName": {
-            "description": "project name,fuzzy search",
-            "title": "Projectname",
-            "type": "string"
-          }
+          "required": [
+            "text",
+            "project",
+            "metricStore",
+            "regionId"
+          ],
+          "title": "cms_text_to_promqlArguments"
         },
-        "required": [
-          "regionId"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "title": "Result",
+              "type": "string"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "cms_text_to_promqlOutput"
+        }
       },
-      "name": "sls_list_projects",
-      "description": "列出阿里云日志服务中的所有项目。\n\n            ## 功能概述\n\n            该工具可以列出指定区域中的所有SLS项目，支持通过项目名进行模糊搜索。如果不提供项目名称，则返回该区域的所有项目。\n\n            ## 使用场景\n\n            - 当需要查找特定项目是否存在时\n            - 当需要获取某个区域下所有可用的SLS项目列表时\n            - 当需要根据项目名称的部分内容查找相关项目时\n\n            ## 返回数据结构\n\n            返回的项目信息包含：\n            - project_name: 项目名称\n            - description: 项目描述\n            - region_id: 项目所在区域\n\n            ## 查询示例\n\n            - \"有没有叫 XXX 的 project\"\n            - \"列出所有SLS项目\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                projectName: 项目名称查询字符串，支持模糊搜索\n                limit: 返回结果的最大数量，范围1-100，默认10\n                regionId: 阿里云区域ID,region id format like \"xx-xxx\",like \"cn-hangzhou\"\n\n            Returns:\n                包含项目信息的字典列表，每个字典包含project_name、description和region_id\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "sls_list_logstoresOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "sls_text_to_sql",
+        "description": "将自然语言转换为SLS查询语句。当用户有明确的 logstore 查询需求，必须优先使用该工具来生成查询语句\n\n            ## 功能概述\n\n            该工具可以将自然语言描述转换为有效的SLS查询语句，便于用户使用自然语言表达查询需求。用户有任何 SLS 日志查询需求时，都需要优先使用该工具。\n\n            ## 使用场景\n\n            - 当用户不熟悉SLS查询语法时\n            - 当需要快速构建复杂查询时\n            - 当需要从自然语言描述中提取查询意图时\n\n            ## 使用限制\n\n            - 仅支持生成SLS查询，不支持其他数据库的SQL如MySQL、PostgreSQL等\n            - 生成的是查询语句，而非查询结果，需要配合execute_sql工具使用\n            - 需要对应的 log_store 已经设定了索引信息，如果生成的结果里面有字段没有索引或者开启统计，可能会导致查询失败，需要友好的提示用户增加相对应的索引信息\n\n            ## 最佳实践\n\n            - 提供清晰简洁的自然语言描述\n            - 不要在描述中包含项目或日志库名称\n            - 如有需要，指定查询的时间范围\n            - 首次生成的查询可能不完全符合要求，可能需要多次尝试\n\n            ## 查询示例\n\n            - \"帮我生成下 XXX 的日志查询语句\"\n            - \"查找最近一小时内的错误日志\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                text: 用于生成查询的自然语言文本\n                project: SLS项目名称\n                logStore: SLS日志库名称\n                regionId: 阿里云区域ID\n\n            Returns:\n                生成的SLS查询语句\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "text": {
+              "description": "the natural language text to generate sls log store query",
+              "title": "Text",
+              "type": "string"
+            },
+            "project": {
+              "description": "sls project name",
+              "title": "Project",
+              "type": "string"
+            },
+            "logStore": {
+              "description": "sls log store name",
+              "title": "Logstore",
+              "type": "string"
+            },
+            "regionId": {
+              "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "text",
+            "project",
+            "logStore",
+            "regionId"
+          ],
+          "title": "sls_text_to_sqlArguments"
         },
-        "required": [
-          "result"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "sls_text_to_sqlOutput"
+        }
       },
-      "inputSchema": {
-        "type": "object",
-        "title": "sls_list_logstoresArguments",
-        "properties": {
-          "logStore": {
-            "description": "log store name,fuzzy search",
-            "title": "Logstore",
-            "type": "string"
+      {
+        "name": "sls_execute_sql",
+        "description": "执行SLS日志查询。\n\n            ## 功能概述\n\n            该工具用于在指定的SLS项目和日志库上执行查询语句，并返回查询结果。查询将在指定的时间范围内执行。如果上下文没有提到具体的 SQL 语句，必须优先使用 iaas_sls_text_to_sql 工具生成查询语句，无论问题有多简单\n\n            ## 使用场景\n\n            - 当需要根据特定条件查询日志数据时\n            - 当需要分析特定时间范围内的日志信息时\n            - 当需要检索日志中的特定事件或错误时\n            - 当需要统计日志数据的聚合信息时\n\n            ## 查询语法\n\n            查询必须使用SLS有效的查询语法，而非自然语言。如果不了解日志库的结构，可以先使用iaas_sls_list_logstores工具获取索引信息。\n\n            ## 时间范围\n\n            查询必须指定时间范围：如果查询是由 iaas_sls_text_to_sql 工具生成的，应使用 iaas_sls_text_to_sql 响应中的时间戳\n            - from_time: 开始时间，支持Unix时间戳（秒/毫秒）或相对时间表达式（如 'now-1h'）\n            - to_time: 结束时间，支持Unix时间戳（秒/毫秒）或相对时间表达式（如 'now'）\n\n            ## 查询示例\n\n            - \"帮我查询下 XXX 的日志信息\"\n            - \"查找最近一小时内的错误日志\"\n\n            ## 错误处理\n            - Column xxx can not be resolved 如果是 iaas_sls_text_to_sql 工具生成的查询语句，可能存在查询列未开启统计，可以提示用户增加相对应的信息，或者调用 iaas_sls_list_logstores 工具获取索引信息之后，要用户选择正确的字段或者提示用户对列开启统计。当确定列开启统计之后，可以再次调用 iaas_sls_text_to_sql 工具生成查询语句\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                project: SLS项目名称\n                logStore: SLS日志库名称\n                query: SLS查询语句\n                from_time: 查询开始时间，支持时间戳或相对时间\n                to_time: 查询结束时间，支持时间戳或相对时间\n                limit: 返回结果的最大数量，范围1-100，默认10\n                regionId: 阿里云区域ID\n\n            Returns:\n                查询结果列表，每个元素为一条日志记录\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "project": {
+              "description": "sls project name",
+              "title": "Project",
+              "type": "string"
+            },
+            "logStore": {
+              "description": "sls log store name",
+              "title": "Logstore",
+              "type": "string"
+            },
+            "query": {
+              "description": "query",
+              "title": "Query",
+              "type": "string"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "from time,support unix timestamp or relative time like 'now-5m'",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "to time,support unix timestamp or relative time like 'now'",
+              "title": "To Time"
+            },
+            "limit": {
+              "default": 10,
+              "description": "limit,max is 100",
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "regionId": {
+              "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+              "title": "Regionid",
+              "type": "string"
+            }
           },
-          "logStoreType": {
-            "description": "log store type,default is logs,should be logs,metrics",
-            "title": "Logstoretype",
-            "type": "string"
-          },
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          },
-          "limit": {
-            "default": 10,
-            "description": "limit,max is 100",
-            "maximum": 100,
-            "title": "Limit",
-            "type": "integer",
-            "minimum": 1
-          },
-          "project": {
-            "description": "sls project name,must exact match,should not contain chinese characters",
-            "title": "Project",
-            "type": "string"
-          },
-          "isMetricStore": {
-            "default": false,
-            "description": "is metric store,default is False,only use want to find metric store",
-            "title": "Ismetricstore",
-            "type": "boolean"
-          }
+          "required": [
+            "project",
+            "logStore",
+            "query",
+            "regionId"
+          ],
+          "title": "sls_execute_sqlArguments"
         },
-        "required": [
-          "project",
-          "regionId"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "sls_execute_sqlOutput"
+        }
       },
-      "name": "sls_list_logstores",
-      "description": "列出SLS项目中的日志库。\n\n            ## 功能概述\n\n            该工具可以列出指定SLS项目中的所有日志库，如果不选，则默认为日志库类型\n            支持通过日志库名称进行模糊搜索。如果不提供日志库名称，则返回项目中的所有日志库。\n\n            ## 使用场景\n\n            - 当需要查找特定项目下是否存在某个日志库时\n            - 当需要获取项目中所有可用的日志库列表时\n            - 当需要根据日志库名称的部分内容查找相关日志库时\n            - 如果从上下文未指定 project参数，除非用户说了遍历，则可使用 sls_list_projects 工具获取项目列表\n\n            ## 是否指标库\n\n            如果需要查找指标或者时序相关的库,请将is_metric_store参数设置为True\n\n            ## 查询示例\n\n            - \"我想查询有没有 XXX 的日志库\"\n            - \"某个 project 有哪些 log store\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                project: SLS项目名称，必须精确匹配\n                log_store: 日志库名称，支持模糊搜索\n                limit: 返回结果的最大数量，范围1-100，默认10\n                is_metric_store: 是否指标库，可选值为True或False，默认为False\n                region_id: 阿里云区域ID\n\n            Returns:\n                日志库名称的字符串列表\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "sls_describe_logstoreOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "cms_execute_promql",
+        "description": "执行PromQL指标查询。\n\n            ## 功能概述\n\n            该工具用于在指定的SLS项目和指标库上执行PromQL查询语句，并返回时序指标数据。主要用于查询和分析时序指标数据。\n\n            ## 使用场景\n\n            - 当需要查询时序指标数据时\n            - 当需要分析系统性能指标时\n            - 当需要监控业务指标趋势时\n            - 当需要进行指标聚合计算时\n\n            ## 查询语法\n\n            查询必须使用有效的PromQL语法。PromQL是专门用于时序数据查询的表达式语言。\n\n            ## 时间范围\n\n            查询必须指定时间范围：\n            - from_time: 开始时间，支持Unix时间戳（秒/毫秒）或相对时间表达式（如 'now-1h'）\n            - to_time: 结束时间，支持Unix时间戳（秒/毫秒）或相对时间表达式（如 'now'）\n\n            ## 查询示例\n\n            - \"查询CPU使用率指标\"\n            - \"获取内存使用率的时序数据\"\n\n            ## 注意事项\n\n            - 确保指定的metric store存在且包含所需的指标数据\n            - PromQL语法与SQL语法不同，请使用正确的PromQL表达式\n            - 时间范围不宜过大，以免查询超时\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                project: SLS项目名称\n                metricStore: SLS指标库名称\n                query: PromQL查询语句\n                from_time: 查询开始时间，支持时间戳或相对时间\n                to_time: 查询结束时间，支持时间戳或相对时间\n                regionId: 阿里云区域ID\n\n            Returns:\n                PromQL查询执行结果，包含时序指标数据\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "project": {
+              "description": "sls project name",
+              "title": "Project",
+              "type": "string"
+            },
+            "metricStore": {
+              "description": "sls metric store name",
+              "title": "Metricstore",
+              "type": "string"
+            },
+            "query": {
+              "description": "promql query statement",
+              "title": "Query",
+              "type": "string"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "from time,support unix timestamp or relative time like 'now-5m'",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "to time,support unix timestamp or relative time like 'now'",
+              "title": "To Time"
+            },
+            "regionId": {
+              "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "project",
+            "metricStore",
+            "query",
+            "regionId"
+          ],
+          "title": "cms_execute_promqlArguments"
         },
-        "required": [
-          "result"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "cms_execute_promqlOutput"
+        }
       },
-      "inputSchema": {
-        "type": "object",
-        "title": "sls_describe_logstoreArguments",
-        "properties": {
-          "logStore": {
-            "description": "sls log store name,must exact match,not fuzzy search",
-            "title": "Logstore",
-            "type": "string"
+      {
+        "name": "sls_list_projects",
+        "description": "列出阿里云日志服务中的所有项目。\n\n            ## 功能概述\n\n            该工具可以列出指定区域中的所有SLS项目，支持通过项目名进行模糊搜索。如果不提供项目名称，则返回该区域的所有项目。\n\n            ## 使用场景\n\n            - 当需要查找特定项目是否存在时\n            - 当需要获取某个区域下所有可用的SLS项目列表时\n            - 当需要根据项目名称的部分内容查找相关项目时\n\n            ## 返回数据结构\n\n            返回的项目信息包含：\n            - project_name: 项目名称\n            - description: 项目描述\n            - region_id: 项目所在区域\n\n            ## 查询示例\n\n            - \"有没有叫 XXX 的 project\"\n            - \"列出所有SLS项目\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                projectName: 项目名称查询字符串，支持模糊搜索\n                limit: 返回结果的最大数量，范围1-100，默认50\n                regionId: 阿里云区域ID,region id format like \"xx-xxx\",like \"cn-hangzhou\"\n\n            Returns:\n                包含项目信息的字典列表，每个字典包含project_name、description和region_id\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "projectName": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "project name,fuzzy search",
+              "title": "Projectname"
+            },
+            "limit": {
+              "default": 50,
+              "description": "limit,max is 100",
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "regionId": {
+              "description": "aliyun region id",
+              "title": "Regionid",
+              "type": "string"
+            }
           },
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          },
-          "project": {
-            "description": "sls project name,must exact match,not fuzzy search",
-            "title": "Project",
-            "type": "string"
-          }
+          "required": [
+            "regionId"
+          ],
+          "title": "sls_list_projectsArguments"
         },
-        "required": [
-          "project",
-          "logStore",
-          "regionId"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "sls_list_projectsOutput"
+        }
       },
-      "name": "sls_describe_logstore",
-      "description": "获取SLS日志库的结构信息。\n\n            ## 功能概述\n\n            该工具用于获取指定SLS项目中日志库的索引信息和结构定义，包括字段类型、别名、是否大小写敏感等信息。\n\n            ## 使用场景\n\n            - 当需要了解日志库的字段结构时\n            - 当需要获取日志库的索引配置信息时\n            - 当构建查询语句前需要了解可用字段时\n            - 当需要分析日志数据结构时\n\n            ## 返回数据结构\n\n            返回一个字典，键为字段名，值包含以下信息：\n            - alias: 字段别名\n            - sensitive: 是否大小写敏感\n            - type: 字段类型\n            - json_keys: JSON字段的子字段信息\n\n            ## 查询示例\n\n            - \"我想查询 XXX 的日志库的 schema\"\n            - \"我想查询 XXX 的日志库的 index\"\n            - \"我想查询 XXX 的日志库的结构信息\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                project: SLS项目名称，必须精确匹配\n                log_store: SLS日志库名称，必须精确匹配\n                region_id: 阿里云区域ID\n\n            Returns:\n                包含日志库结构信息的字典\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "sls_execute_sql_queryOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "sls_execute_spl",
+        "description": "执行原SPL查询语句。\n\n            ## 功能概述\n\n            该工具允许直接执行原生SPL（Search Processing Language）查询语句，\n            为高级用户提供最大的灵活性和功能。支持复杂的数据操作和分析。\n\n            ## 使用场景\n\n            - 复杂的数据分析和统计计算，超出标准API的覆盖范围\n            - 自定义的数据聚合和转换操作\n            - 跨多个实体集合的联合查询和关联分析\n            - 高级的数据挖掘和机器学习分析\n            - 业务方法验证和原型开发\n\n            ## 注意事项\n\n            - 需要对SPL语法有一定的了解\n            - 请确保查询语句的正确性，错误的查询可能导致无结果或错误\n            - 复杂查询可能消耗较多的计算资源和时间\n\n            ## 示例用法\n\n            ```\n            # 执行简单的SPL查询\n            sls_execute_spl(\n                query=\".entity_set with(domain='apm', name='apm.service') | entity-call get_entities() | head 10\"\n            )\n\n            # 执行复杂的聚合查询\n            sls_execute_spl(\n                query=\".entity_set with(domain='apm', name='apm.service') | entity-call get_metrics('system', 'cpu', 'usage') | stats avg(value) by entity_id\"\n            )\n            ```\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                query: 原生SPL查询语句\n                workspace: CMS工作空间名称\n                from_time: 查询开始时间\n                to_time: 查询结束时间\n                regionId: 阿里云区域ID\n\n            Returns:\n                SPL查询执行结果的响应对象\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": {
+              "description": "Raw SPL query statement",
+              "title": "Query",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "query",
+            "workspace",
+            "regionId"
+          ],
+          "title": "sls_execute_splArguments"
         },
-        "required": [
-          "result"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "sls_execute_splOutput"
+        }
       },
-      "inputSchema": {
-        "type": "object",
-        "title": "sls_execute_sql_queryArguments",
-        "properties": {
-          "logStore": {
-            "description": "sls log store name",
-            "title": "Logstore",
-            "type": "string"
+      {
+        "name": "sls_list_logstores",
+        "description": "列出SLS项目中的日志库。\n\n            ## 功能概述\n\n            该工具可以列出指定SLS项目中的所有日志库，如果不选，则默认为日志库类型\n            支持通过日志库名称进行模糊搜索。如果不提供日志库名称，则返回项目中的所有日志库。\n\n            ## 使用场景\n\n            - 当需要查找特定项目下是否存在某个日志库时\n            - 当需要获取项目中所有可用的日志库列表时\n            - 当需要根据日志库名称的部分内容查找相关日志库时\n            - 如果从上下文未指定 project参数，除非用户说了遍历，则可使用 iaas_sls_list_projects 工具获取项目列表\n\n            ## 是否指标库\n\n            如果需要查找指标或者时序相关的库，请将isMetricStore参数设置为True\n\n            ## 查询示例\n\n            - \"我想查询有没有 XXX 的日志库\"\n            - \"某个 project 有哪些 log store\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                project: SLS项目名称，必须精确匹配\n                logStore: 日志库名称，支持模糊搜索\n                limit: 返回结果的最大数量，范围1-100，默认10\n                isMetricStore: 是否指标库，可选值为True或False，默认为False\n                regionId: 阿里云区域ID\n\n            Returns:\n                日志库名称的字符串列表\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "project": {
+              "description": "sls project name,must exact match,should not contain chinese characters",
+              "title": "Project",
+              "type": "string"
+            },
+            "logStore": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "log store name,fuzzy search",
+              "title": "Logstore"
+            },
+            "limit": {
+              "default": 10,
+              "description": "limit,max is 100",
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "isMetricStore": {
+              "default": false,
+              "description": "is metric store,default is False,only use want to find metric store",
+              "title": "Ismetricstore",
+              "type": "boolean"
+            },
+            "regionId": {
+              "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
+              "title": "Regionid",
+              "type": "string"
+            }
           },
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          },
-          "query": {
-            "description": "query",
-            "title": "Query",
-            "type": "string"
-          },
-          "toTimestampInSeconds": {
-            "description": "to timestamp,unit is second,should be unix timestamp, only number,no other characters",
-            "title": "Totimestampinseconds",
-            "type": "integer"
-          },
-          "limit": {
-            "default": 10,
-            "description": "limit,max is 100",
-            "maximum": 100,
-            "title": "Limit",
-            "type": "integer",
-            "minimum": 1
-          },
-          "project": {
-            "description": "sls project name",
-            "title": "Project",
-            "type": "string"
-          },
-          "fromTimestampInSeconds": {
-            "description": "from timestamp,unit is second,should be unix timestamp, only number,no other characters",
-            "title": "Fromtimestampinseconds",
-            "type": "integer"
-          }
+          "required": [
+            "project",
+            "regionId"
+          ],
+          "title": "sls_list_logstoresArguments"
         },
-        "required": [
-          "project",
-          "logStore",
-          "query",
-          "fromTimestampInSeconds",
-          "toTimestampInSeconds",
-          "regionId"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "sls_list_logstoresOutput"
+        }
       },
-      "name": "sls_execute_sql_query",
-      "description": "执行SLS日志查询。\n\n            ## 功能概述\n\n            该工具用于在指定的SLS项目和日志库上执行查询语句，并返回查询结果。查询将在指定的时间范围内执行。 如果上下文没有提到具体的 SQL 语句，必须优先使用 sls_translate_text_to_sql_query 工具生成查询语句,无论问题有多简单\n\n            ## 使用场景\n\n            - 当需要根据特定条件查询日志数据时\n            - 当需要分析特定时间范围内的日志信息时\n            - 当需要检索日志中的特定事件或错误时\n            - 当需要统计日志数据的聚合信息时\n\n\n            ## 查询语法\n\n            查询必须使用SLS有效的查询语法，而非自然语言。如果不了解日志库的结构，可以先使用sls_describe_logstore工具获取索引信息。\n\n            ## 时间范围\n\n            查询必须指定时间范围：  if the query is generated by sls_translate_text_to_sql_query tool, should use the fromTimestampInSeconds and toTimestampInSeconds in the sls_translate_text_to_sql_query response\n            - fromTimestampInSeconds: 开始时间戳（秒）\n            - toTimestampInSeconds: 结束时间戳（秒）\n\n            ## 查询示例\n\n            - \"帮我查询下 XXX 的日志信息\"\n            - \"查找最近一小时内的错误日志\"\n\n            ## 错误处理\n            - Column xxx can not be resolved 如果是 sls_translate_text_to_sql_query 工具生成的查询语句 可能存在查询列未开启统计，可以提示用户增加相对应的信息，或者调用 sls_describe_logstore 工具获取索引信息之后，要用户选择正确的字段或者提示用户对列开启统计。当确定列开启统计之后，可以再次调用sls_translate_text_to_sql_query 工具生成查询语句\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                project: SLS项目名称\n                logStore: SLS日志库名称\n                query: SLS查询语句\n                fromTimestamp: 查询开始时间戳（秒）\n                toTimestamp: 查询结束时间戳（秒）\n                limit: 返回结果的最大数量，范围1-100，默认10\n                regionId: 阿里云区域ID\n\n            Returns:\n                查询结果列表，每个元素为一条日志记录\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "sls_translate_text_to_sql_queryOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "umodel_get_entities",
+        "description": "获取实体信息的PaaS API工具。\n\n            ## 功能概述\n\n            该工具用于检索实体信息，支持分页查询和精确ID查询。专注于实体的基础信息获取，\n            如需要模糊搜索请使用 `umodel_search_entities` 工具。\n\n            ## 功能特点\n\n            - **数量控制**: 默认返回20个实体，支持通过limit参数控制返回数量\n            - **全量查询**: 支持获取指定实体集合下的所有实体（分页返回）\n            - **精确查询**: 支持根据实体ID列表进行精确查询\n            - **职责清晰**: 专注于基础实体信息获取，不包含复杂过滤逻辑\n\n            ## 使用场景\n\n            - **分页浏览**: 分页获取实体列表，适用于大量实体的展示场景\n            - **精确查询**: 根据已知的实体ID列表批量获取实体详细信息\n            - **全量获取**: 获取指定实体集合下的所有实体信息\n            - **基础数据**: 为其他分析工具提供基础实体数据\n\n            ## 参数说明\n\n            - domain: 实体集合的域，如 'apm'、'infrastructure' 等\n            - entity_set_name: 实体集合名称，如 'apm.service'、'host.instance' 等\n            - entity_ids: 可选的逗号分隔实体ID字符串，用于精确查询指定实体\n            - from_time/to_time: 查询时间范围，支持时间戳和相对时间表达式\n            - limit: 返回多少个实体，默认20个，最大1000个\n\n            ## 工具分工\n\n            - `umodel_get_entities`: 基础实体信息获取（本工具）\n            - `umodel_search_entities`: 基于关键词的模糊搜索\n            - `umodel_get_neighbor_entities`: 获取实体的邻居关系\n\n            ## 数量控制说明\n\n            使用 `|limit {count}` 格式控制返回数量：\n            - 返回前10个实体：limit=10 → `|limit 10`\n            - 返回前50个实体：limit=50 → `|limit 50`\n            - 返回前100个实体：limit=100 → `|limit 100`\n\n            ## 示例用法\n\n            ```\n            # 获取前20个服务实体（默认数量）\n            umodel_get_entities(\n                domain=\"apm\",\n                entity_set_name=\"apm.service\"\n            )\n\n            # 获取前100个服务实体\n            umodel_get_entities(\n                domain=\"apm\",\n                entity_set_name=\"apm.service\",\n                limit=100\n            )\n\n            # 根据实体ID批量查询\n            umodel_get_entities(\n                domain=\"apm\",\n                entity_set_name=\"apm.service\",\n                entity_ids=\"service-1,service-2,service-3\"\n            )\n            ```\n\n            Args:\n                ctx: MCP上下文，用于访问CMS客户端\n                domain: 实体集合域名\n                entity_set_name: 实体集合名称\n                entity_ids: 可选的逗号分隔实体ID列表\n                from_time: 查询开始时间\n                to_time: 查询结束时间\n                limit: 返回实体数量\n                regionId: 阿里云区域ID\n\n            Returns:\n                包含实体信息的响应对象，包括实体列表和查询元数据\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "description": "实体域, cannot be '*'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "实体类型, cannot be '*'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "entity_ids": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "可选的逗号分隔实体ID列表，用于精确查询指定实体",
+              "title": "Entity Ids"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "limit": {
+              "default": 20,
+              "description": "返回多少个实体，默认20个",
+              "maximum": 1000,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "regionId": {
+              "description": "Region ID like 'cn-hangzhou'",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "domain",
+            "entity_set_name",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_get_entitiesArguments"
         },
-        "required": [
-          "result"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_get_entitiesOutput"
+        }
       },
-      "inputSchema": {
-        "type": "object",
-        "title": "sls_translate_text_to_sql_queryArguments",
-        "properties": {
-          "logStore": {
-            "description": "sls log store name",
-            "title": "Logstore",
-            "type": "string"
+      {
+        "name": "umodel_get_neighbor_entities",
+        "description": "获取指定实体的邻居实体信息。\n\n            ## 功能概述\n\n            该工具用于查找与指定实体相关联的邻居实体，基于实体间的关联关系\n            返回相邻的实体列表。\n\n            ## 功能特点\n\n            - **数量控制**: 默认返回20个邻居实体，支持通过limit参数控制返回数量\n            - **关系分析**: 基于实体间的关联关系进行邻居发现\n            - **拓扑构建**: 为拓扑分析和依赖关系追踪提供数据支持\n\n            ## 使用场景\n\n            - **依赖分析**: 获取应用服务的上下游依赖关系，查找调用链中的相关服务\n            - **关联发现**: 查找与主机实例相关的容器、进程等关联实体\n            - **故障影响**: 在故障诊断时，识别可能受影响的相关实体列表\n            - **拓扑构建**: 构建实体关系图和拓扑结构\n\n            ## 参数说明\n\n            - domain: 实体集合的域，如 'apm'、'infrastructure' 等\n            - entity_set_name: 实体集合名称，如 'apm.service'、'host.instance' 等\n            - entity_id: 目标实体的唯一标识符\n            - from_time/to_time: 查询时间范围，用于获取时间段内的关联关系\n            - limit: 返回多少个邻居实体，默认20个，最大1000个\n\n            ## 数量控制说明\n\n            使用 `|limit {count}` 格式控制返回数量：\n            - 返回前10个邻居实体：limit=10 → `|limit 10`\n            - 返回前50个邻居实体：limit=50 → `|limit 50`\n            - 返回前100个邻居实体：limit=100 → `|limit 100`\n\n            ## 示例用法\n\n            ```\n            # 获取前20个邻居实体（默认数量）\n            umodel_get_neighbor_entities(\n                domain=\"apm\",\n                entity_set_name=\"apm.service\",\n                entity_id=\"payment-service-001\"\n            )\n\n            # 获取前50个邻居实体\n            umodel_get_neighbor_entities(\n                domain=\"apm\",\n                entity_set_name=\"apm.service\",\n                entity_id=\"payment-service-001\",\n                limit=50\n            )\n\n            # 获取特定时间范围内的邻居关系\n            umodel_get_neighbor_entities(\n                domain=\"apm\",\n                entity_set_name=\"apm.service\",\n                entity_id=\"payment-service-001\",\n                from_time=\"now-1h\",\n                to_time=\"now\"\n            )\n            ```\n\n            Args:\n                ctx: MCP上下文，用于访问CMS客户端\n                domain: 实体集合域名\n                entity_set_name: 实体集合名称\n                entity_id: 目标实体ID\n                from_time: 查询开始时间\n                to_time: 查询结束时间\n                limit: 返回邻居实体数量\n                regionId: 阿里云区域ID\n\n            Returns:\n                包含邻居实体信息的响应对象\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "description": "实体域, cannot be '*'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "实体类型, cannot be '*'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "entity_id": {
+              "description": "目标实体ID，用于查找其邻居实体",
+              "title": "Entity Id",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "limit": {
+              "default": 20,
+              "description": "返回多少个邻居实体，默认20个",
+              "maximum": 1000,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
           },
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          },
-          "project": {
-            "description": "sls project name",
-            "title": "Project",
-            "type": "string"
-          },
-          "text": {
-            "description": "the natural language text to generate sls log store query",
-            "title": "Text",
-            "type": "string"
-          }
+          "required": [
+            "domain",
+            "entity_set_name",
+            "entity_id",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_get_neighbor_entitiesArguments"
         },
-        "required": [
-          "text",
-          "project",
-          "logStore",
-          "regionId"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_get_neighbor_entitiesOutput"
+        }
       },
-      "name": "sls_translate_text_to_sql_query",
-      "description": "将自然语言转换为SLS查询语句。当用户有明确的 logstore 查询需求，必须优先使用该工具来生成查询语句\n\n            ## 功能概述\n\n            该工具可以将自然语言描述转换为有效的SLS查询语句，便于用户使用自然语言表达查询需求。用户有任何 SLS 日志查询需求时，都需要优先使用该工具。\n\n            ## 使用场景\n\n            - 当用户不熟悉SLS查询语法时\n            - 当需要快速构建复杂查询时\n            - 当需要从自然语言描述中提取查询意图时\n\n            ## 使用限制\n\n            - 仅支持生成SLS查询，不支持其他数据库的SQL如MySQL、PostgreSQL等\n            - 生成的是查询语句，而非查询结果，需要配合sls_execute_query工具使用\n            - 如果查询涉及ARMS应用，应优先使用arms_generate_trace_query工具\n            - 需要对应的 log_sotre 已经设定了索引信息，如果生成的结果里面有字段没有索引或者开启统计，可能会导致查询失败，需要友好的提示用户增加相对应的索引信息\n\n            ## 最佳实践\n\n            - 提供清晰简洁的自然语言描述\n            - 不要在描述中包含项目或日志库名称\n            - 如有需要，指定查询的时间范围\n            - 首次生成的查询可能不完全符合要求，可能需要多次尝试\n\n            ## 查询示例\n\n            - \"帮我生成下 XXX 的日志查询语句\"\n            - \"查找最近一小时内的错误日志\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                text: 用于生成查询的自然语言文本\n                project: SLS项目名称\n                log_store: SLS日志库名称\n                region_id: 阿里云区域ID\n\n            Returns:\n                生成的SLS查询语句\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "sls_diagnose_queryOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "umodel_search_entities",
+        "description": "基于关键词搜索实体信息。\n\n            ## 功能概述\n\n            该工具用于在指定的实体集合中根据关键词进行模糊搜索，查找名称或属性\n            包含搜索关键词的实体。支持全文检索，帮助用户快速定位相关实体。\n\n            ## 功能特点\n\n            - **数量控制**: 默认返回20个搜索结果，支持通过limit参数控制返回数量\n            - **全文检索**: 支持对实体名称和属性进行模糊搜索\n            - **灵活过滤**: 可以在大量实体中快速定位目标实体\n\n            ## 使用场景\n\n            - **服务搜索**: 根据服务名称片段搜索相关的微服务实体\n            - **基础设施搜索**: 根据主机名或IP地址搜索基础设施实体\n            - **快速定位**: 在大量实体中搜索包含特定关键词的实体\n            - **智能筛选**: 为实体选择和筛选提供搜索能力\n\n            ## 参数说明\n\n            - domain: 实体集合的域，如 'apm'、'infrastructure' 等\n            - entity_set_name: 实体集合名称，如 'apm.service'、'host.instance' 等\n            - search_text: 搜索关键词，支持部分匹配和模糊搜索\n            - from_time/to_time: 搜索时间范围，限定搜索的时间窗口\n            - limit: 返回多少个搜索结果，默认20个，最大1000个\n\n            ## 数量控制说明\n\n            使用 `|limit {count}` 格式控制返回数量：\n            - 返回前10个搜索结果：limit=10 → `|limit 10`\n            - 返回前50个搜索结果：limit=50 → `|limit 50`\n            - 返回前100个搜索结果：limit=100 → `|limit 100`\n\n            ## 示例用法\n\n            ```\n            # 搜索包含\"payment\"关键词的服务（默认数量）\n            umodel_search_entities(\n                domain=\"apm\",\n                entity_set_name=\"apm.service\",\n                search_text=\"payment\"\n            )\n\n            # 获取前50个搜索结果\n            umodel_search_entities(\n                domain=\"apm\",\n                entity_set_name=\"apm.service\",\n                search_text=\"payment\",\n                limit=50\n            )\n\n            # 搜索包含特定IP的主机实例\n            umodel_search_entities(\n                domain=\"infrastructure\",\n                entity_set_name=\"host.instance\",\n                search_text=\"192.168.1\",\n                limit=100\n            )\n            ```\n\n            Args:\n                ctx: MCP上下文，用于访问CMS客户端\n                domain: 实体集合域名\n                entity_set_name: 实体集合名称\n                search_text: 搜索关键词\n                from_time: 搜索开始时间\n                to_time: 搜索结束时间\n                limit: 返回搜索结果数量\n                regionId: 阿里云区域ID\n\n            Returns:\n                包含搜索结果的响应对象\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "description": "实体域, can be '*'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "实体类型, can be '*'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "search_text": {
+              "description": "搜索关键词",
+              "title": "Search Text",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "limit": {
+              "default": 20,
+              "description": "返回多少个搜索结果，默认20个",
+              "maximum": 1000,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "domain",
+            "entity_set_name",
+            "search_text",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_search_entitiesArguments"
         },
-        "required": [
-          "result"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_search_entitiesOutput"
+        }
       },
-      "inputSchema": {
-        "type": "object",
-        "title": "sls_diagnose_queryArguments",
-        "properties": {
-          "logStore": {
-            "description": "sls log store name",
-            "title": "Logstore",
-            "type": "string"
+      {
+        "name": "umodel_list_data_set",
+        "description": "列出指定实体的可用数据集合，为其他PaaS工具提供参数选项。\n\n            ## 功能概述\n\n            该工具是一个元数据查询接口，用于获取指定实体域和类型下可用的数据集合信息。\n            主要作用是为其他PaaS层工具（如observability、entity等工具）提供可选的参数列表，\n            包括指标集合、日志集合、事件集合等存储信息。\n\n            ## 使用场景\n\n            - **参数发现**: 为 umodel_get_metrics 提供可用的指标集合（metric_set）列表\n            - **日志源查询**: 为 umodel_get_logs 提供可用的日志集合（log_set）列表\n            - **事件源发现**: 为 umodel_get_events 提供可用的事件集合（event_set）列表\n            - **追踪数据源**: 为 umodel_get_traces 提供可用的追踪集合（trace_set）列表\n            - **实体关联**: 为实体查询工具提供关联的数据集合信息\n\n            ## 参数说明\n\n            - data_set_types: 数据集合类型过滤器，常见类型包括：\n              * 'metric_set': 指标集合，用于获取可查询的指标名称列表\n              * 'log_set': 日志集合，用于获取可查询的日志数据源\n              * 'event_set': 事件集合，用于获取可查询的事件数据源\n              * 'trace_set': 追踪集合，用于获取可查询的追踪数据源\n              * 'entity_set_name': 实体集合，用于获取实体关联的数据集合\n\n            ## 工具依赖关系\n\n            这个工具的输出为其他PaaS工具提供参数选项：\n            - umodel_get_metrics → 使用返回的 metric_set 信息选择指标\n            - umodel_get_logs → 使用返回的 log_set 信息选择日志源\n            - umodel_get_events → 使用返回的 event_set 信息选择事件源\n            - umodel_get_traces → 使用返回的 trace_set 信息选择追踪源\n\n            ## 示例用法\n\n            ```\n            # 获取服务实体的所有数据集合类型\n            umodel_list_data_set(domain=\"apm\", entity_set_name=\"apm.service\")\n\n            # 仅获取指标集合，用于后续指标查询\n            umodel_list_data_set(\n                domain=\"apm\",\n                entity_set_name=\"apm.service\",\n                data_set_types=\"metric_set\"\n            )\n\n            # 获取日志和事件集合，用于故障分析\n            umodel_list_data_set(\n                domain=\"apm\",\n                entity_set_name=\"apm.service\",\n                data_set_types=\"log_set,event_set\"\n            )\n            ```\n\n            Args:\n                ctx: MCP上下文，用于访问CMS客户端\n                workspace: CMS工作空间名称\n                domain: 实体域，不能为通配符 '*'\n                entity_set_name: 实体类型，不能为通配符 '*'\n                data_set_types: 数据集合类型过滤器，逗号分隔的类型列表\n                from_time: 查询开始时间\n                to_time: 查询结束时间\n                regionId: 阿里云区域ID\n\n            Returns:\n                包含指定实体的可用数据集合列表，每个数据集合包含名称、类型、存储信息等元数据\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "domain": {
+              "description": "实体域, cannot be '*'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "实体类型, cannot be '*'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "data_set_types": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Comma-separated data set types",
+              "title": "Data Set Types"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
           },
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          },
-          "query": {
-            "description": "sls query",
-            "title": "Query",
-            "type": "string"
-          },
-          "errorMessage": {
-            "description": "error message",
-            "title": "Errormessage",
-            "type": "string"
-          },
-          "project": {
-            "description": "sls project name",
-            "title": "Project",
-            "type": "string"
-          }
+          "required": [
+            "workspace",
+            "domain",
+            "entity_set_name",
+            "regionId"
+          ],
+          "title": "umodel_list_data_setArguments"
         },
-        "required": [
-          "query",
-          "errorMessage",
-          "project",
-          "logStore",
-          "regionId"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_list_data_setOutput"
+        }
       },
-      "name": "sls_diagnose_query",
-      "description": "诊断SLS查询语句。\n\n            ## 功能概述\n\n            当 SLS 查询语句执行失败时，可以调用该工具，根据错误信息，生成诊断结果。诊断结果会包含查询语句的正确性、性能分析、优化建议等信息。\n\n            ## 使用场景\n\n            - 当需要诊断SLS查询语句的正确性时\n            - 当 SQL 执行错误需要查找原因时\n\n            ## 查询示例\n\n            - \"帮我诊断下 XXX 的日志查询语句\"\n            - \"帮我分析下 XXX 的日志查询语句\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                query: SLS查询语句\n                error_message: 错误信息\n                project: SLS项目名称\n                log_store: SLS日志库名称\n                region_id: 阿里云区域ID\n            "
-    },
-    {
-      "inputSchema": {
-        "type": "object",
-        "title": "sls_get_regionsArguments",
-        "properties": {}
-      },
-      "name": "sls_get_regions",
-      "description": "获取阿里云的部分区域列表。\n\n            ## 功能概述\n\n            该工具用于获取阿里云的部分区域列表，便于在执行SLS查询时指定区域。\n\n            ## 使用场景\n\n            - 当需要获取阿里云的部分区域列表时\n            - 当需要根据区域进行SLS查询时\n            - 当用户没有明确指定区域ID 时，可以调用该工具获取区域列表，并要求用户进行选择\n\n            ## 返回数据格式\n\n            返回包含区域列表的字典，每个字典包含region_id和region_name。\n\n            ## 查询示例\n\n            - \"获取阿里云的部分区域列表\"\n            "
-    },
-    {
-      "inputSchema": {
-        "type": "object",
-        "title": "sls_get_current_timeArguments",
-        "properties": {}
-      },
-      "name": "sls_get_current_time",
-      "description": "获取当前时间。\n\n            ## 功能概述\n            1. 获取当前时间，会返回当前时间字符串和当前时间戳(毫秒)\n\n            ## 使用场景\n            1. 只有当无法从聊天记录里面获取到当前时间时候才可以调用该工具\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "arms_search_appsOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "umodel_search_entity_set",
+        "description": "搜索实体集合，支持全文搜索并按相关度排序。\n\n            ## 功能概述\n\n            该工具用于在UModel元数据中搜索实体集合定义，支持按关键词进行全文搜索。\n            主要用于发现可用的实体集合类型和它们的元数据信息。\n\n            ## 功能特点\n\n            - **全文搜索**: 支持在实体集合的元数据和规格中进行全文搜索\n            - **相关度排序**: 搜索结果按相关度进行排序\n            - **元数据查询**: 返回实体集合的domain、name、display_name等元数据信息\n            - **可选过滤**: 支持按domain和name进行额外过滤\n\n            ## 使用场景\n\n            - **实体集合发现**: 搜索包含特定关键词的实体集合类型\n            - **元数据探索**: 了解系统中可用的实体集合及其描述信息\n            - **工具链集成**: 为其他工具提供实体集合的发现能力\n\n            Args:\n                ctx: MCP上下文，用于访问CMS客户端\n                search_text: 搜索关键词\n                workspace: CMS工作空间名称\n                domain: 可选的域过滤\n                entity_set_name: 可选的实体类型过滤\n                limit: 返回结果数量限制\n                regionId: 阿里云区域ID\n\n            Returns:\n                包含搜索到的实体集合信息的响应对象\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "search_text": {
+              "description": "搜索关键词，用于全文搜索",
+              "title": "Search Text",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "domain": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "可选的实体域过滤",
+              "title": "Domain"
+            },
+            "entity_set_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "可选的实体类型过滤",
+              "title": "Entity Set Name"
+            },
+            "limit": {
+              "default": 10,
+              "description": "返回多少个实体集合，默认10个",
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "search_text",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_search_entity_setArguments"
         },
-        "required": [
-          "result"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_search_entity_setOutput"
+        }
       },
-      "inputSchema": {
-        "type": "object",
-        "title": "arms_search_appsArguments",
-        "properties": {
-          "pageNumber": {
-            "default": 1,
-            "description": "page number,default is 1",
-            "title": "Pagenumber",
-            "type": "integer",
-            "minimum": 1
+      {
+        "name": "umodel_list_related_entity_set",
+        "description": "列出与指定实体集合相关的其他实体集合。\n\n            ## 功能概述\n\n            该工具用于发现与指定实体集合存在关系定义的其他实体集合类型。\n            这是一个元数据级别的工具，用于探索UModel拓扑的高级蓝图。\n\n            ## 功能特点\n\n            - **关系发现**: 查找与源实体集合有关系定义的其他实体集合\n            - **方向控制**: 支持查看入向、出向或双向关系\n            - **类型过滤**: 可按特定关系类型进行过滤\n            - **元数据级别**: 显示可能的关系，不保证实际实体间存在连接\n\n            ## 使用场景\n\n            - **拓扑探索**: 了解实体集合间可能存在的关系类型\n            - **依赖分析**: 发现服务可以调用的其他实体类型\n            - **关系建模**: 为关系查询工具提供参数信息\n\n            Args:\n                ctx: MCP上下文，用于访问CMS客户端\n                domain: 源实体集合的域\n                entity_set_name: 源实体集合的名称\n                workspace: CMS工作空间名称\n                relation_type: 可选的关系类型过滤\n                direction: 关系方向\n                detail: 是否返回详细信息\n                regionId: 阿里云区域ID\n\n            Returns:\n                包含相关实体集合信息的响应对象\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "description": "实体域，如'apm'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "实体类型，如'apm.service'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "relation_type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "关系类型过滤，如'calls'",
+              "title": "Relation Type"
+            },
+            "direction": {
+              "default": "both",
+              "description": "关系方向: 'in', 'out', 或 'both'",
+              "title": "Direction",
+              "type": "string"
+            },
+            "detail": {
+              "default": false,
+              "description": "是否返回详细信息",
+              "title": "Detail",
+              "type": "boolean"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
           },
-          "appNameQuery": {
-            "description": "app name query",
-            "title": "Appnamequery",
-            "type": "string"
-          },
-          "regionId": {
-            "description": "region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          },
-          "pageSize": {
-            "default": 20,
-            "description": "page size,max is 100",
-            "maximum": 100,
-            "title": "Pagesize",
-            "type": "integer",
-            "minimum": 1
-          }
+          "required": [
+            "domain",
+            "entity_set_name",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_list_related_entity_setArguments"
         },
-        "required": [
-          "appNameQuery",
-          "regionId"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_list_related_entity_setOutput"
+        }
       },
-      "name": "arms_search_apps",
-      "description": "搜索ARMS应用。\n\n            ## 功能概述\n\n            该工具用于根据应用名称搜索ARMS应用，返回应用的基本信息，包括应用名称、PID、用户ID和类型。\n\n            ## 使用场景\n\n            - 当需要查找特定名称的应用时\n            - 当需要获取应用的PID以便进行其他ARMS操作时\n            - 当需要检查用户拥有的应用列表时\n\n            ## 搜索条件\n\n            - app_name_query必须是应用名称的一部分，而非自然语言\n            - 搜索结果将分页返回，可以指定页码和每页大小\n\n            ## 返回数据结构\n\n            返回一个字典，包含以下信息：\n            - total: 符合条件的应用总数\n            - page_size: 每页大小\n            - page_number: 当前页码\n            - trace_apps: 应用列表，每个应用包含app_name、pid、user_id和type\n\n            ## 查询示例\n\n            - \"帮我查询下 XXX 的应用\"\n            - \"找出名称包含'service'的应用\"\n\n            Args:\n                ctx: MCP上下文，用于访问ARMS客户端\n                app_name_query: 应用名称查询字符串\n                region_id: 阿里云区域ID\n                page_size: 每页大小，范围1-100，默认20\n                page_number: 页码，默认1\n\n            Returns:\n                包含应用信息的字典\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "arms_generate_trace_queryOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "umodel_get_metrics",
+        "description": "获取实体的时序指标数据，支持range/instant查询和聚合计算。\n\n            ## 参数获取: 1)搜索实体集→ 2)列出MetricSet→ 3)获取实体ID(可选) → 4)执行查询\n            - domain,entity_set_name: `umodel_search_entity_set(search_text=\"apm\")`\n            - metric_domain_name,metric: `umodel_list_data_set(data_set_types=\"metric_set\")`返回name/fields\n            - entity_ids: `umodel_get_entities()` (可选)\n\n            ## 示例用法\n\n            ```\n            # 获取服务的CPU使用率时序数据\n            umodel_get_metrics(\n                domain=\"apm\",\n                entity_set_name=\"apm.service\",\n                metric_domain_name=\"apm.metric.apm.operation\",\n                metric=\"cpu_usage\",\n                entity_ids=\"service-1,service-2\",\n                query_type=\"range\",\n                aggregate=True\n            )\n            ```\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                domain: 实体域名\n                entity_set_name: 实体类型名称\n                metric_domain_name: 指标域名称，类似于apm.metric.jvm这样的格式\n                metric: 指标名称\n                entity_ids: 逗号分隔的实体ID列表，可选\n                query_type: 查询类型，range或instant\n                aggregate: 是否聚合结果\n                from_time: 数据查询开始时间\n                to_time: 数据查询结束时间\n                regionId: 阿里云区域ID\n\n            Returns:\n                包含指标时序数据的响应对象\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "description": "实体域, cannot be '*'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "实体类型, cannot be '*'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "metric_domain_name": {
+              "description": "指标域, cannot be '*'",
+              "title": "Metric Domain Name",
+              "type": "string"
+            },
+            "metric": {
+              "description": "指标名称",
+              "title": "Metric",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "entity_ids": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Comma-separated entity IDs",
+              "title": "Entity Ids"
+            },
+            "query_type": {
+              "default": "range",
+              "description": "Query type: range or instant",
+              "title": "Query Type",
+              "type": "string"
+            },
+            "aggregate": {
+              "default": true,
+              "description": "Aggregate results",
+              "title": "Aggregate",
+              "type": "boolean"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "domain",
+            "entity_set_name",
+            "metric_domain_name",
+            "metric",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_get_metricsArguments"
         },
-        "required": [
-          "result"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_get_metricsOutput"
+        }
       },
-      "inputSchema": {
-        "type": "object",
-        "title": "arms_generate_trace_queryArguments",
-        "properties": {
-          "question": {
-            "description": "question,the question to query the trace",
-            "title": "Question",
-            "type": "string"
+      {
+        "name": "umodel_get_golden_metrics",
+        "description": "获取实体的黄金指标（关键性能指标）数据。包括延迟、吞吐量、错误率、饱和度等核心指标。\n            ## 参数获取: 1)搜索实体集→ 2)获取实体ID(可选) → 3)执行查询\n            - domain,entity_set_name: `umodel_search_entity_set(search_text=\"apm\")`\n            - entity_ids: `umodel_get_entities()` (可选)\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "description": "实体域, cannot be '*'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "实体类型, cannot be '*'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "entity_ids": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Comma-separated entity IDs",
+              "title": "Entity Ids"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
           },
-          "user_id": {
-            "description": "user aliyun account id",
-            "title": "User Id",
-            "type": "integer"
-          },
-          "region_id": {
-            "description": "region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Region Id",
-            "type": "string"
-          },
-          "pid": {
-            "description": "pid,the pid of the app",
-            "title": "Pid",
-            "type": "string"
-          }
+          "required": [
+            "domain",
+            "entity_set_name",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_get_golden_metricsArguments"
         },
-        "required": [
-          "user_id",
-          "pid",
-          "region_id",
-          "question"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_get_golden_metricsOutput"
+        }
       },
-      "name": "arms_generate_trace_query",
-      "description": "生成ARMS应用的调用链查询语句。\n\n            ## 功能概述\n\n            该工具用于将自然语言描述转换为ARMS调用链查询语句，便于分析应用性能和问题。\n\n            ## 使用场景\n\n            - 当需要查询应用的调用链信息时\n            - 当需要分析应用性能问题时\n            - 当需要跟踪特定请求的执行路径时\n            - 当需要分析服务间调用关系时\n\n            ## 查询处理\n\n            工具会将自然语言问题转换为SLS查询，并返回：\n            - 生成的SLS查询语句\n            - 存储调用链数据的项目名\n            - 存储调用链数据的日志库名\n\n            ## 查询上下文\n\n            查询会考虑以下信息：\n            - 应用的PID\n            - 响应时间以纳秒存储，需转换为毫秒\n            - 数据以span记录存储，查询耗时需要对符合条件的span进行求和\n            - 服务相关信息使用serviceName字段\n            - 如果用户明确提出要查询 trace信息，则需要在查询问题上question 上添加说明返回trace信息\n\n            ## 查询示例\n\n            - \"帮我查询下 XXX 的 trace 信息\"\n            - \"分析最近一小时内响应时间超过1秒的调用链\"\n\n            Args:\n                ctx: MCP上下文，用于访问ARMS和SLS客户端\n                user_id: 用户阿里云账号ID\n                pid: 应用的PID\n                region_id: 阿里云区域ID\n                question: 查询调用链的自然语言问题\n\n            Returns:\n                包含查询信息的字典，包括sls_query、project和log_store\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "arms_profile_flame_analysisOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "umodel_get_relation_metrics",
+        "description": "获取实体间关系级别的指标数据，如服务调用延迟、吞吐量等。用于分析微服务依赖关系。\n            ## 参数获取: 1)搜索实体集→ 2)列出相关实体→ 3)执行查询\n            - src_domain,src_entity_set_name: `umodel_search_entity_set(search_text=\"apm\")`\n            - relation_type: `umodel_list_related_entity_set()`了解可用关系类型\n            - src_entity_ids: `umodel_get_entities()` (必填)\n            - metric_set_domain,metric_set_name,metric: `umodel_list_data_set(data_set_types=\"metric_set\")`\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "src_domain": {
+              "description": "源实体域, cannot be '*'",
+              "title": "Src Domain",
+              "type": "string"
+            },
+            "src_entity_set_name": {
+              "description": "源实体类型, cannot be '*'",
+              "title": "Src Entity Set Name",
+              "type": "string"
+            },
+            "src_entity_ids": {
+              "description": "逗号分隔的源实体ID列表",
+              "title": "Src Entity Ids",
+              "type": "string"
+            },
+            "relation_type": {
+              "description": "关系类型，如'calls'",
+              "title": "Relation Type",
+              "type": "string"
+            },
+            "direction": {
+              "description": "关系方向: 'in'或'out'",
+              "title": "Direction",
+              "type": "string"
+            },
+            "metric_set_domain": {
+              "description": "指标集域名",
+              "title": "Metric Set Domain",
+              "type": "string"
+            },
+            "metric_set_name": {
+              "description": "指标集名称",
+              "title": "Metric Set Name",
+              "type": "string"
+            },
+            "metric": {
+              "description": "具体指标名称",
+              "title": "Metric",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "dest_domain": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "目标实体域",
+              "title": "Dest Domain"
+            },
+            "dest_entity_set_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "目标实体类型",
+              "title": "Dest Entity Set Name"
+            },
+            "dest_entity_ids": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "逗号分隔的目标实体ID列表",
+              "title": "Dest Entity Ids"
+            },
+            "query_type": {
+              "default": "range",
+              "description": "查询类型: range或instant",
+              "title": "Query Type",
+              "type": "string"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "src_domain",
+            "src_entity_set_name",
+            "src_entity_ids",
+            "relation_type",
+            "direction",
+            "metric_set_domain",
+            "metric_set_name",
+            "metric",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_get_relation_metricsArguments"
         },
-        "required": [
-          "result"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_get_relation_metricsOutput"
+        }
       },
-      "inputSchema": {
-        "type": "object",
-        "title": "arms_profile_flame_analysisArguments",
-        "properties": {
-          "startMs": {
-            "description": "profile start ms",
-            "title": "Startms",
-            "type": "string"
+      {
+        "name": "umodel_get_logs",
+        "description": "获取实体相关的日志数据，用于故障诊断、性能分析、审计等场景。\n            ## 参数获取: 1)搜索实体集→ 2)列出LogSet→ 3)获取实体ID(可选) → 4)执行查询\n            - domain,entity_set_name: `umodel_search_entity_set(search_text=\"apm\")`\n            - log_set_domain,log_set_name: `umodel_list_data_set(data_set_types=\"log_set\")`返回domain/name\n            - entity_ids: `umodel_get_entities()` (可选)\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "description": "实体域, cannot be '*'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "实体类型, cannot be '*'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "log_set_name": {
+              "description": "LogSet name",
+              "title": "Log Set Name",
+              "type": "string"
+            },
+            "log_set_domain": {
+              "description": "LogSet domain",
+              "title": "Log Set Domain",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "entity_ids": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Comma-separated entity IDs",
+              "title": "Entity Ids"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
           },
-          "endMs": {
-            "description": "profile end ms",
-            "title": "Endms",
-            "type": "string"
-          },
-          "threadGroup": {
-            "description": "arms service thread group",
-            "title": "Threadgroup",
-            "type": "string"
-          },
-          "profileType": {
-            "default": "cpu",
-            "description": "profile type, like 'cpu' 'memory'",
-            "title": "Profiletype",
-            "type": "string"
-          },
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          },
-          "ip": {
-            "description": "arms service host ip",
-            "title": "Ip",
-            "type": "string"
-          },
-          "pid": {
-            "description": "arms application id",
-            "title": "Pid",
-            "type": "string"
-          },
-          "thread": {
-            "description": "arms service thread id",
-            "title": "Thread",
-            "type": "string"
-          }
+          "required": [
+            "domain",
+            "entity_set_name",
+            "log_set_name",
+            "log_set_domain",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_get_logsArguments"
         },
-        "required": [
-          "pid",
-          "startMs",
-          "endMs",
-          "regionId"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_get_logsOutput"
+        }
       },
-      "name": "arms_profile_flame_analysis",
-      "description": "分析ARMS应用火焰图性能热点。\n\n            ## 功能概述\n\n            当应用存在性能问题且开启持续剖析时，可以调用该工具对ARMS应用火焰图性能热点进行分析，生成分析结果。分析结果会包含火焰图的性能热点问题、优化建议等信息。\n\n            ## 使用场景\n\n            - 当需要分析ARMS应用火焰图性能问题时\n\n            ## 查询示例\n\n            - \"帮我分析下ARMS应用 XXX 的火焰图性能热点\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                pid: ARMS应用监控服务PID\n                startMs: 分析的开始时间，通过get_current_time工具获取毫秒级时间戳\n                endMs: 分析的结束时间，通过get_current_time工具获取毫秒级时间戳\n                profileType: Profile类型，用于选择需要分析的Profile指标，支持CPU热点和内存热点，如'cpu'、'memory'\n                ip: ARMS应用服务主机地址，非必要参数，用于选择所在的服务机器，如有多个填写时以英文逗号\",\"分隔，如'192.168.0.1,192.168.0.2'，不填写默认查询服务所在的所有IP\n                thread: 服务线程名称，非必要参数，用于选择对应线程，如有多个填写时以英文逗号\",\"分隔，如'C1 CompilerThre,C2 CompilerThre'，不填写默认查询服务所有线程\n                threadGroup: 服务聚合线程组名称，非必要参数，用于选择对应线程组，如有多个填写时以英文逗号\",\"分隔，如'http-nio-*-exec-*,http-nio-*-ClientPoller-*'，不填写默认查询服务所有聚合线程组\n                regionId: 阿里云区域ID，如'cn-hangzhou'、'cn-shanghai'等\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "arms_diff_profile_flame_analysisOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "umodel_get_events",
+        "description": "获取指定实体集的事件数据。事件是离散记录，如部署、告警、配置更改等。用于关联分析系统行为。\n            ## 参数获取: 1)搜索实体集→ 2)列出EventSet→ 3)获取实体ID(可选) → 4)执行查询\n            - domain,entity_set_name: `umodel_search_entity_set(search_text=\"apm\")`\n            - event_set_domain,event_set_name: `umodel_list_data_set(data_set_types=\"event_set\")`或默认\"default\"/\"default.event.common\"\n            - entity_ids: `umodel_get_entities()` (可选)\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "description": "EntitySet域名，如'apm'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "EntitySet名称，如'apm.service'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "event_set_domain": {
+              "description": "EventSet域名，如'default'",
+              "title": "Event Set Domain",
+              "type": "string"
+            },
+            "event_set_name": {
+              "description": "EventSet名称，如'default.event.common'",
+              "title": "Event Set Name",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "entity_ids": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "逗号分隔的实体ID列表，如id1,id2,id3",
+              "title": "Entity Ids"
+            },
+            "limit": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": 100,
+              "description": "返回的最大事件记录数量",
+              "title": "Limit"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "domain",
+            "entity_set_name",
+            "event_set_domain",
+            "event_set_name",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_get_eventsArguments"
         },
-        "required": [
-          "result"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_get_eventsOutput"
+        }
       },
-      "inputSchema": {
-        "type": "object",
-        "title": "arms_diff_profile_flame_analysisArguments",
-        "properties": {
-          "threadGroup": {
-            "description": "arms service thread group",
-            "title": "Threadgroup",
-            "type": "string"
+      {
+        "name": "umodel_get_traces",
+        "description": "获取指定trace ID的详细trace数据，包括所有span、时序数据和元数据。用于深入分析慢trace和错误trace。\n            ## 参数获取: 1)搜索trace → 2)获取详细信息\n            - trace_ids: 通常从`umodel_search_traces()`工具输出中获得\n            - domain,entity_set_name: `umodel_search_entity_set(search_text=\"apm\")`\n            - trace_set_domain,trace_set_name: `umodel_list_data_set(data_set_types=\"trace_set\")`返回domain/name\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "description": "EntitySet域名，如'apm'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "EntitySet名称，如'apm.service'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "trace_set_domain": {
+              "description": "TraceSet域名，如'apm'",
+              "title": "Trace Set Domain",
+              "type": "string"
+            },
+            "trace_set_name": {
+              "description": "TraceSet名称，如'apm.trace.common'",
+              "title": "Trace Set Name",
+              "type": "string"
+            },
+            "trace_ids": {
+              "description": "逗号分隔的trace ID列表，如trace1,trace2,trace3",
+              "title": "Trace Ids",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
           },
-          "currentEndMs": {
-            "description": "current profile end ms",
-            "title": "Currentendms",
-            "type": "string"
-          },
-          "profileType": {
-            "default": "cpu",
-            "description": "profile type, like 'cpu' 'memory'",
-            "title": "Profiletype",
-            "type": "string"
-          },
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          },
-          "referenceStartMs": {
-            "description": "reference profile start ms (for comparison)",
-            "title": "Referencestartms",
-            "type": "string"
-          },
-          "ip": {
-            "description": "arms service host ip",
-            "title": "Ip",
-            "type": "string"
-          },
-          "currentStartMs": {
-            "description": "current profile start ms",
-            "title": "Currentstartms",
-            "type": "string"
-          },
-          "referenceEndMs": {
-            "description": "reference profile end ms (for comparison)",
-            "title": "Referenceendms",
-            "type": "string"
-          },
-          "pid": {
-            "description": "arms application id",
-            "title": "Pid",
-            "type": "string"
-          },
-          "thread": {
-            "description": "arms service thread id",
-            "title": "Thread",
-            "type": "string"
-          }
+          "required": [
+            "domain",
+            "entity_set_name",
+            "trace_set_domain",
+            "trace_set_name",
+            "trace_ids",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_get_tracesArguments"
         },
-        "required": [
-          "pid",
-          "currentStartMs",
-          "currentEndMs",
-          "referenceStartMs",
-          "referenceEndMs",
-          "regionId"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_get_tracesOutput"
+        }
       },
-      "name": "arms_diff_profile_flame_analysis",
-      "description": "对比两个时间段火焰图的性能变化。\n\n            ## 功能概述\n\n            对应用在两个不同时间段内的性能进行分析，生成差分火焰图。通常用于发布前后或性能优化前后性能对比，帮助识别性能提升或退化。\n\n            ## 使用场景\n\n            - 发布前后、性能优化前后不同时间段火焰图性能对比\n\n            ## 查询示例\n\n            - \"帮我分析应用 XXX 在发布前后的性能变化情况\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                pid: ARMS应用监控服务PID\n                currentStartMs: 火焰图当前（基准）时间段的开始时间戳，通过get_current_time工具获取毫秒级时间戳\n                currentEndMs: 火焰图当前（基准）时间段的结束时间戳，通过get_current_time工具获取毫秒级时间戳\n                referenceStartMs: 火焰图对比时间段（参考时间段）的开始时间戳，通过get_current_time工具获取毫秒级时间戳\n                referenceEndMs: 火焰图对比时间段（参考时间段）的结束时间戳，通过get_current_time工具获取毫秒级时间戳\n                profileType: Profile类型，如'cpu'、'memory'\n                ip: ARMS应用服务主机地址，非必要参数，用于选择所在的服务机器，如有多个填写时以英文逗号\",\"分隔，如'192.168.0.1,192.168.0.2'，不填写默认查询服务所在的所有IP\n                thread: 服务线程名称，非必要参数，用于选择对应线程，如有多个填写时以英文逗号\",\"分隔，如'C1 CompilerThre,C2 CompilerThre'，不填写默认查询服务所有线程\n                threadGroup: 服务聚合线程组名称，非必要参数，用于选择对应线程组，如有多个填写时以英文逗号\",\"分隔，如'http-nio-*-exec-*,http-nio-*-ClientPoller-*'，不填写默认查询服务所有聚合线程组\n                regionId: 阿里云区域ID，如'cn-hangzhou'、'cn-shanghai'等\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "arms_get_application_infoOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "umodel_search_traces",
+        "description": "基于过滤条件搜索trace并返回摘要信息。支持按持续时间、错误状态、实体ID过滤，返回traceID用于详细分析。\n            ## 参数获取: 1)搜索实体集→ 2)列出TraceSet→ 3)获取实体ID(可选) → 4)执行搜索\n            - domain,entity_set_name: `umodel_search_entity_set(search_text=\"apm\")`\n            - trace_set_domain,trace_set_name: `umodel_list_data_set(data_set_types=\"trace_set\")`返回domain/name\n            - entity_ids: `umodel_get_entities()` (可选)\n            - 过滤条件: min_duration_ms(慢trace)、has_error(错误trace)、max_duration_ms等\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "description": "EntitySet域名，如'apm'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "EntitySet名称，如'apm.service'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "trace_set_domain": {
+              "description": "TraceSet域名，如'apm'",
+              "title": "Trace Set Domain",
+              "type": "string"
+            },
+            "trace_set_name": {
+              "description": "TraceSet名称，如'apm.trace.common'",
+              "title": "Trace Set Name",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "entity_ids": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "逗号分隔的实体ID列表，如id1,id2,id3",
+              "title": "Entity Ids"
+            },
+            "min_duration_ms": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "最小trace持续时间（毫秒）",
+              "title": "Min Duration Ms"
+            },
+            "max_duration_ms": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "最大trace持续时间（毫秒）",
+              "title": "Max Duration Ms"
+            },
+            "has_error": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "按错误状态过滤（true表示错误trace，false表示成功trace）",
+              "title": "Has Error"
+            },
+            "limit": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": 100,
+              "description": "返回的最大trace摘要数量",
+              "title": "Limit"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "domain",
+            "entity_set_name",
+            "trace_set_domain",
+            "trace_set_name",
+            "workspace",
+            "regionId"
+          ],
+          "title": "umodel_search_tracesArguments"
         },
-        "required": [
-          "result"
-        ]
-      },
-      "inputSchema": {
-        "type": "object",
-        "title": "arms_get_application_infoArguments",
-        "properties": {
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
           },
-          "pid": {
-            "description": "pid,the pid of the app",
-            "title": "Pid",
-            "type": "string"
-          }
+          "required": [
+            "result"
+          ],
+          "title": "umodel_search_tracesOutput"
+        }
+      },
+      {
+        "name": "umodel_get_profiles",
+        "description": "获取指定实体集的性能剖析数据。包括CPU使用、内存分配、方法调用堆栈等，用于性能瓶颈分析。\n            ## 参数获取: 1)搜索实体集→ 2)列出ProfileSet→ 3)获取实体ID(必须) → 4)执行查询\n            - domain,entity_set_name: `umodel_search_entity_set(search_text=\"apm\")`\n            - profile_set_domain,profile_set_name: `umodel_list_data_set(data_set_types=\"profile_set\")`返回domain/name\n            - entity_ids: `umodel_get_entities()` (必填,数据量大需指定精确实体)\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "description": "EntitySet域名，如'apm'",
+              "title": "Domain",
+              "type": "string"
+            },
+            "entity_set_name": {
+              "description": "EntitySet名称，如'apm.service'",
+              "title": "Entity Set Name",
+              "type": "string"
+            },
+            "profile_set_domain": {
+              "description": "ProfileSet域名，如'default'",
+              "title": "Profile Set Domain",
+              "type": "string"
+            },
+            "profile_set_name": {
+              "description": "ProfileSet名称，如'default.profile.common'",
+              "title": "Profile Set Name",
+              "type": "string"
+            },
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "entity_ids": {
+              "description": "逗号分隔的实体ID列表，必填，如id1,id2,id3",
+              "title": "Entity Ids",
+              "type": "string"
+            },
+            "limit": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": 100,
+              "description": "返回的最大性能剖析记录数量",
+              "title": "Limit"
+            },
+            "from_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now-5m",
+              "description": "开始时间: Unix时间戳(秒/毫秒)或相对时间(now-5m)",
+              "title": "From Time"
+            },
+            "to_time": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "default": "now",
+              "description": "结束时间: Unix时间戳(秒/毫秒)或相对时间(now)",
+              "title": "To Time"
+            },
+            "regionId": {
+              "description": "Region ID",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "domain",
+            "entity_set_name",
+            "profile_set_domain",
+            "profile_set_name",
+            "workspace",
+            "entity_ids",
+            "regionId"
+          ],
+          "title": "umodel_get_profilesArguments"
         },
-        "required": [
-          "pid",
-          "regionId"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "umodel_get_profilesOutput"
+        }
       },
-      "name": "arms_get_application_info",
-      "description": "\n            根据 PID获取具体某个应用的信息，\n            ## 功能概述\n            1. 获取ARMS应用信息，会返回应用的 PID，AppName,开发语言类型比如 java,python 等\n\n            ## 使用场景\n            1. 当用户明确提出要查询某个应用的信息时，可以调用该工具\n            2. 有场景需要获取应用的开发语言类型，可以调用该工具\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "arms_trace_quality_analysisOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "list_workspace",
+        "description": "列出可用的CMS工作空间\n            \n            ## 功能概述\n            获取指定区域内可用的Cloud Monitor Service (CMS)工作空间列表。\n            工作空间是CMS中用于组织和管理监控数据的逻辑容器。\n            \n            ## 参数说明\n            - regionId: 阿里云区域标识符，如 \"cn-hangzhou\", \"cn-beijing\" 等\n            \n            ## 返回结果\n            返回包含工作空间信息的字典，包括：\n            - workspaces: 工作空间列表，每个工作空间包含名称、ID、描述等信息\n            - total_count: 工作空间总数\n            - region: 查询的区域ID\n            \n            ## 使用场景\n            - 在使用PaaS层API之前，需要先获取可用的工作空间\n            - 为DoAI层查询提供工作空间选择\n            - 管理和监控多个工作空间的资源使用情况\n            \n            ## 注意事项\n            - 不同区域的工作空间是独立的\n            - 工作空间的可见性取决于当前用户的权限\n            - 这是一个基础工具，为其他PaaS和DoAI工具提供工作空间选择\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "regionId": {
+              "description": "阿里云区域ID",
+              "title": "Regionid",
+              "type": "string"
+            }
+          },
+          "required": [
+            "regionId"
+          ],
+          "title": "list_workspaceArguments"
         },
-        "required": [
-          "result"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "list_workspaceOutput"
+        }
       },
-      "inputSchema": {
-        "type": "object",
-        "title": "arms_trace_quality_analysisArguments",
-        "properties": {
-          "traceId": {
-            "description": "traceId",
-            "title": "Traceid",
-            "type": "string"
+      {
+        "name": "list_domains",
+        "description": "列出所有可用的实体域\n            \n            ## 功能概述\n            获取系统中所有可用的实体域（domain）列表。实体域是实体的最高级分类，\n            如 APM、容器、云产品等。这是发现系统支持实体类型的第一步。\n            \n            ## 使用场景\n            - 了解系统支持的所有实体域\n            - 为后续查询选择正确的domain参数\n            - 构建动态的域选择界面\n            \n            ## 返回数据\n            每个域包含：\n            - __domain__: 域名称（如 apm, k8s, cloud）  \n            - cnt: 该域下的实体总数量\n            \n            Args:\n                ctx: MCP上下文\n                workspace: CMS工作空间名称\n                regionId: 阿里云区域ID\n                \n            Returns:\n                包含实体域列表的响应对象\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "workspace": {
+              "description": "CMS工作空间名称，可通过list_workspace获取",
+              "title": "Workspace",
+              "type": "string"
+            },
+            "regionId": {
+              "description": "阿里云区域ID",
+              "title": "Regionid",
+              "type": "string"
+            }
           },
-          "startMs": {
-            "description": "start time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
-            "title": "Startms",
-            "type": "integer"
-          },
-          "endMs": {
-            "description": "end time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
-            "title": "Endms",
-            "type": "integer"
-          },
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          }
+          "required": [
+            "workspace",
+            "regionId"
+          ],
+          "title": "list_domainsArguments"
         },
-        "required": [
-          "traceId",
-          "startMs",
-          "endMs",
-          "regionId"
-        ]
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "title": "list_domainsOutput"
+        }
       },
-      "name": "arms_trace_quality_analysis",
-      "description": "Trace 质量检测\n\n            ## 功能概述\n            识别指定 traceId 的 Trace 是否存在完整性问题（断链）和性能问题（错慢调用）\n\n            ## 使用场景\n\n            - 检测调用链是否存在问题\n\n            ## 查询示例\n\n            - \"帮我分析调用链\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                traceId: 待分析的 Trace 的 traceId，必要参数\n                startMs: 分析的开始时间，通过get_current_time工具获取毫秒级时间戳\n                endMs: 分析的结束时间，通过get_current_time工具获取毫秒级时间戳\n                regionId: 阿里云区域ID，如'cn-hangzhou'、'cn-shanghai'等\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "arms_slow_trace_analysisOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
+      {
+        "name": "introduction",
+        "description": "获取阿里云可观测性MCP Server的介绍和使用说明\n            ## 功能概述\n            返回阿里云可观测性 MCP Server 的服务概述、核心能力和使用限制说明。\n            帮助用户快速了解服务能做什么，以及使用各层工具的前提条件。\n            Observable MCP Server 是阿里云可观测官方推出的 MCP (Model Context Protocol) 服务，\n            提供统一的 AI 可观测数据访问能力。\n            ## 使用场景\n            - 首次接入时了解服务能力和限制\n            - 了解不同工具层的使用前提\n\n            ## 注意事项\n            - 此工具不需要任何参数，可直接调用\n            - 返回信息包含各层工具的使用前提条件\n            ",
+        "inputSchema": {
+          "type": "object",
+          "properties": {},
+          "title": "introductionArguments"
         },
-        "required": [
-          "result"
-        ]
-      },
-      "inputSchema": {
-        "type": "object",
-        "title": "arms_slow_trace_analysisArguments",
-        "properties": {
-          "traceId": {
-            "description": "traceId",
-            "title": "Traceid",
-            "type": "string"
+        "outputSchema": {
+          "type": "object",
+          "properties": {
+            "result": {
+              "additionalProperties": true,
+              "title": "Result",
+              "type": "object"
+            }
           },
-          "startMs": {
-            "description": "start time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
-            "title": "Startms",
-            "type": "integer"
-          },
-          "endMs": {
-            "description": "end time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
-            "title": "Endms",
-            "type": "integer"
-          },
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          }
-        },
-        "required": [
-          "traceId",
-          "startMs",
-          "endMs",
-          "regionId"
-        ]
-      },
-      "name": "arms_slow_trace_analysis",
-      "description": "深入分析 Trace 慢调用根因\n\n            ## 功能概述\n\n            针对 Trace 中的慢调用进行诊断分析，输出包含概述、根因、影响范围及解决方案的诊断报告。\n\n            ## 使用场景\n\n            - 性能问题定位和修复\n\n            ## 查询示例\n\n            - \"请分析 ${traceId} 这个 trace 慢的原因\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                traceId: 待分析的Trace的 traceId，必要参数\n                startMs: 分析的开始时间，通过get_current_time工具获取毫秒级时间戳\n                endMs: 分析的结束时间，通过get_current_time工具获取毫秒级时间戳\n                regionId: 阿里云区域ID，如'cn-hangzhou'、'cn-shanghai'等\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "arms_error_trace_analysisOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result"
-          }
-        },
-        "required": [
-          "result"
-        ]
-      },
-      "inputSchema": {
-        "type": "object",
-        "title": "arms_error_trace_analysisArguments",
-        "properties": {
-          "traceId": {
-            "description": "traceId",
-            "title": "Traceid",
-            "type": "string"
-          },
-          "startMs": {
-            "description": "start time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
-            "title": "Startms",
-            "type": "integer"
-          },
-          "endMs": {
-            "description": "end time (ms) for trace query. unit is millisecond, should be unix timestamp, only number, no other characters",
-            "title": "Endms",
-            "type": "integer"
-          },
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          }
-        },
-        "required": [
-          "traceId",
-          "startMs",
-          "endMs",
-          "regionId"
-        ]
-      },
-      "name": "arms_error_trace_analysis",
-      "description": "深入分析 Trace 错误根因\n\n            ## 功能概述\n\n            针对 Trace 中的错误调用进行深入诊断分析，输出包含概述、根因、影响范围及解决方案的错误诊断报告。\n\n            ## 使用场景\n\n            - 性能问题定位和修复\n\n            ## 查询示例\n\n            - \"请分析 ${traceId} 这个 trace 发生错误的原因\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                traceId: 待分析的Trace的 traceId，必要参数\n                startMs: 分析的开始时间，通过get_current_time工具获取毫秒级时间戳\n                endMs: 分析的结束时间，通过get_current_time工具获取毫秒级时间戳\n                regionId: 阿里云区域ID，如'cn-hangzhou'、'cn-shanghai'等\n            "
-    },
-    {
-      "outputSchema": {
-        "title": "cms_translate_text_to_promqlOutput",
-        "type": "object",
-        "properties": {
-          "result": {
-            "title": "Result",
-            "type": "string"
-          }
-        },
-        "required": [
-          "result"
-        ]
-      },
-      "inputSchema": {
-        "type": "object",
-        "title": "cms_translate_text_to_promqlArguments",
-        "properties": {
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          },
-          "project": {
-            "description": "sls project name",
-            "title": "Project",
-            "type": "string"
-          },
-          "metricStore": {
-            "description": "sls metric store name",
-            "title": "Metricstore",
-            "type": "string"
-          },
-          "text": {
-            "description": "the natural language text to generate promql",
-            "title": "Text",
-            "type": "string"
-          }
-        },
-        "required": [
-          "text",
-          "project",
-          "metricStore",
-          "regionId"
-        ]
-      },
-      "name": "cms_translate_text_to_promql",
-      "description": "将自然语言转换为Prometheus PromQL查询语句。\n\n            ## 功能概述\n\n            该工具可以将自然语言描述转换为有效的PromQL查询语句，便于用户使用自然语言表达查询需求。\n\n            ## 使用场景\n\n            - 当用户不熟悉PromQL查询语法时\n            - 当需要快速构建复杂查询时\n            - 当需要从自然语言描述中提取查询意图时\n\n            ## 使用限制\n\n            - 仅支持生成PromQL查询\n            - 生成的是查询语句，而非查询结果\n            - 禁止使用sls_execute_query工具执行，两者接口不兼容\n\n            ## 最佳实践\n\n            - 提供清晰简洁的自然语言描述\n            - 不要在描述中包含项目或时序库名称\n            - 首次生成的查询可能不完全符合要求，可能需要多次尝试\n\n            ## 查询示例\n\n            - \"帮我生成 XXX 的PromQL查询语句\"\n            - \"查询每个namespace下的Pod数量\"\n\n            Args:\n                ctx: MCP上下文，用于访问SLS客户端\n                text: 用于生成查询的自然语言文本\n                project: SLS项目名称\n                metricStore: SLS时序库名称\n                regionId: 阿里云区域ID\n\n            Returns:\n                生成的PromQL查询语句\n            "
-    },
-    {
-      "inputSchema": {
-        "type": "object",
-        "title": "cms_execute_promql_queryArguments",
-        "properties": {
-          "regionId": {
-            "description": "aliyun region id,region id format like 'xx-xxx',like 'cn-hangzhou'",
-            "title": "Regionid",
-            "type": "string"
-          },
-          "query": {
-            "description": "query",
-            "title": "Query",
-            "type": "string"
-          },
-          "toTimestampInSeconds": {
-            "description": "to timestamp,unit is second,should be unix timestamp, only number,no other characters",
-            "title": "Totimestampinseconds",
-            "type": "integer"
-          },
-          "project": {
-            "description": "sls project name",
-            "title": "Project",
-            "type": "string"
-          },
-          "metricStore": {
-            "description": "sls metric store name",
-            "title": "Metricstore",
-            "type": "string"
-          },
-          "fromTimestampInSeconds": {
-            "description": "from timestamp,unit is second,should be unix timestamp, only number,no other characters",
-            "title": "Fromtimestampinseconds",
-            "type": "integer"
-          }
-        },
-        "required": [
-          "project",
-          "metricStore",
-          "query",
-          "fromTimestampInSeconds",
-          "toTimestampInSeconds",
-          "regionId"
-        ]
-      },
-      "name": "cms_execute_promql_query",
-      "description": "执行Prometheus指标查询。\n\n            ## 功能概述\n\n            该工具用于在指定的SLS项目和时序库上执行查询语句，并返回查询结果。查询将在指定的时间范围内执行。\n            如果上下文没有提到具体的 SQL 语句，必须优先使用 cms_translate_text_to_promql 工具生成查询语句,无论问题有多简单。\n            如果上下文没有提到具体的时间戳，必须优先使用 sls_get_current_time 工具生成时间戳参数，默认为最近15分钟\n\n            ## 使用场景\n\n            - 当需要根据特定条件查询日志数据时\n            - 当需要分析特定时间范围内的日志信息时\n            - 当需要检索日志中的特定事件或错误时\n            - 当需要统计日志数据的聚合信息时\n\n\n            ## 查询语法\n\n            查询必须使用PromQL有效的查询语法，而非自然语言。\n\n            ## 时间范围\n\n            查询必须指定时间范围：\n            - fromTimestampInSeconds: 开始时间戳（秒）\n            - toTimestampInSeconds: 结束时间戳（秒）\n            默认为最近15分钟，需要调用 sls_get_current_time 工具获取当前时间\n\n            ## 查询示例\n\n            - \"帮我查询下 job xxx 的采集状态\"\n            - \"查一下当前有多少个 Pod\"\n\n            ## 输出\n            查询结果为：xxxxx\n            对应的图示：将 image 中的 URL 连接到图示中，并展示在图示中。\n\n            Args:\n                ctx: MCP上下文，用于访问CMS客户端\n                project: SLS项目名称\n                metricStore: SLS日志库名称\n                query: PromQL查询语句\n                fromTimestampInSeconds: 查询开始时间戳（秒）\n                toTimestampInSeconds: 查询结束时间戳（秒）\n                regionId: 阿里云区域ID\n\n            Returns:\n                查询结果列表，每个元素为一条日志记录\n            "
-    }
-  ]
+          "required": [
+            "result"
+          ],
+          "title": "introductionOutput"
+        }
+      }
+    ]
+  }
 }

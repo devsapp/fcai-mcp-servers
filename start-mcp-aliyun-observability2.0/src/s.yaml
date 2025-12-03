@@ -19,3 +19,5 @@ resources:
       memorySize: 512
       enableAuth: true
       role: {{ serviceRole }}
+      # networkConfig: 
+      #   disableURLInternet: true

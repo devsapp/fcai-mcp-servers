@@ -1,11 +1,11 @@
 
 > 注：当前项目为 Serverless Devs 应用，由于应用中会存在需要初始化才可运行的变量（例如应用部署地区、函数名等等），所以**不推荐**直接 Clone 本仓库到本地进行部署或直接复制 s.yaml 使用，**强烈推荐**通过 `s init ${模版名称}` 的方法或应用中心进行初始化，详情可参考[部署 & 体验](../start-mcp-aliyun-observability/readme.md#部署--体验) 。
 
-# aliyun-observability-mcp-server 帮助文档
+# aliyun-observability2-mcp-server 帮助文档
 
 <description>
 
-阿里云可观测服务 Observable MCP Server
+阿里云可观测服务2.0 Observable MCP Server
 
 </description>
 
