@@ -1,0 +1,13 @@
+{
+  "tools": [
+    {
+      "inputSchema": {
+        "type": "object",
+        "title": "helloArguments",
+        "properties": {}
+      },
+      "name": "hello",
+      "description": "Return string 'Hello World!'"
+    }
+  ]
+}
