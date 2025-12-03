@@ -16,5 +16,3 @@ resources:
       startCommand: 'node build/index.js'
       cpu: 1
       memorySize: 2048
-      instanceQuota: 1
-

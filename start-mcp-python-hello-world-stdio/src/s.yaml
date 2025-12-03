@@ -14,4 +14,3 @@ resources:
       startCommand: 'python3 main.py'
       cpu: 0.5
       memorySize: 512
-      instanceQuota: 1

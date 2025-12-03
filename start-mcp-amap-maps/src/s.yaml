@@ -15,6 +15,4 @@ resources:
       runtime: nodejs20
       startCommand: 'node index.js'
       cpu: 0.5
-      memorySize: 512
-      instanceQuota: 1
-      
+      memorySize: 512      

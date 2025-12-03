@@ -16,4 +16,3 @@ resources:
       startCommand: 'python -m tablestore_openmemory_mcp.main --transport=stdio'
       cpu: 0.5
       memorySize: 512
-      instanceQuota: 1

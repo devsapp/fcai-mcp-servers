@@ -16,4 +16,3 @@ resources:
       startCommand: /code/node_modules/.bin/mcp-server
       cpu: 0.5
       memorySize: 512
-      instanceQuota: 1

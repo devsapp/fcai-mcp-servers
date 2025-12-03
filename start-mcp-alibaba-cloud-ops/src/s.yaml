@@ -16,6 +16,5 @@ resources:
       startCommand: alibaba-cloud-ops-mcp-server
       cpu: 0.5
       memorySize: 512
-      instanceQuota: 1
       role: {{ serviceRole }}
       enableAuth: true

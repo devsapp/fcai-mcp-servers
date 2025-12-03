@@ -16,4 +16,3 @@ resources:
       startCommand: python3 ppt.py
       cpu: 1
       memorySize: 2048
-      instanceQuota: 1

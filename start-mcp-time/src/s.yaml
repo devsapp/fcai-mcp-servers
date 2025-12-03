@@ -16,4 +16,3 @@ resources:
       startCommand: 'mcp-server-time --local-timezone=$TZ'
       cpu: 0.5
       memorySize: 512
-      instanceQuota: 1

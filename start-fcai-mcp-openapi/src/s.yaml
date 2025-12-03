@@ -31,4 +31,3 @@ resources:
       memorySize: 1024
       port: 8080
       startCommand: "node ./code/dist/index.js" # 启动命令
-      instanceQuota: 1 # 实例数配额

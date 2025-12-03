@@ -16,5 +16,3 @@ resources:
       startCommand: bing-search-mcp
       cpu: 1
       memorySize: 2048
-      instanceQuota: 1
-
