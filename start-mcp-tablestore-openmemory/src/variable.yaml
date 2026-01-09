@@ -14,28 +14,6 @@ services:
       required: true
       description: ""
 
-    TABLESTORE_ACCESS_KEY_ID:
-      title: 秘钥 ID
-      type: string
-      default: ""
-      required: true
-      sensitive: true
-      description: ""
-
-    TABLESTORE_ACCESS_KEY_SECRET:
-      title: 秘钥 SECRET
-      type: string
-      default: ""
-      required: true
-      sensitive: true
-      description: ""
-
-    TABLESTORE_STS_TOKEN:
-      title: STS Token
-      type: string
-      default: ""
-      description: ""
-
     TABLESTORE_VECTOR_DIMENSION:
       title: 向量维度
       type: string
