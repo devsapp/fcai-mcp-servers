@@ -1,0 +1,8 @@
+mcp-tablestore-openmemory:
+  default:
+    rootPath: ./code.zip
+    languages:
+      - python3.10
+    cache:
+      paths:
+        - "~/.cache"

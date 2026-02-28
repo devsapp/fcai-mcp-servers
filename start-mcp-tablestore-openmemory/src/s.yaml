@@ -17,4 +17,3 @@ resources:
       cpu: 1
       memorySize: 1024
       role: {{ serviceRole }}
-      code: './code.zip'
