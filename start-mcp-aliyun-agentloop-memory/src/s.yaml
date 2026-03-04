@@ -1,0 +1,21 @@
+edition: 3.0.0
+name: mcp-agentloop-memory
+access: "{{ access }}"
+
+vars:
+  region: "{{ region }}"
+
+resources:
+  mcp-agentloop-memory:
+    component: fcai-mcp-server
+    props:
+      region: ${vars.region}
+      description: mcp server deployed by devs
+      transport: sse
+      port: 8080
+      runtime: python3.10
+      startCommand: 'python3 -m mcp_server_agentloop_memory --port 8765'
+      cpu: 0.5
+      memorySize: 512
+      enableAuth: true
+      role: {{ serviceRole }}
