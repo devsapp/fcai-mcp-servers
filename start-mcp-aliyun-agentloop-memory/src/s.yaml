@@ -13,8 +13,9 @@ resources:
       description: mcp server deployed by devs
       transport: sse
       port: 8080
-      runtime: python3.10
-      startCommand: 'python3 -m mcp_server_agentloop_memory --port 8765'
+      ssePath: /mcp/myagent/sse/user1 
+      runtime: python3.12
+      startCommand: 'python3 -m mcp_server_agentloop_memory'
       cpu: 0.5
       memorySize: 512
       enableAuth: true

@@ -1,1 +1,1 @@
-alibabacloud-agentloop-memory-mcp-server==0.1.0
+alibabacloud-agentloop-memory-mcp-server==0.1.3
