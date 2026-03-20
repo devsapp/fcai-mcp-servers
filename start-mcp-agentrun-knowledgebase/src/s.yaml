@@ -1,0 +1,20 @@
+edition: 3.0.0
+name: mcp-server-app
+access: "{{ access }}"
+
+vars:
+  region: "{{ region }}"
+
+resources:
+  agentrun-knowledgebase-mcp:
+    component: fcai-mcp-server
+    props:
+      region: ${vars.region}
+      description: "AgentRun知识库MCP Server"
+      transport: sse
+      port: 8080
+      runtime: python3.12
+      startCommand: 'python3 -m uvicorn main:app --host 0.0.0.0 --port 8080'
+      cpu: 1
+      memorySize: 2048
+      role: {{ serviceRole }}

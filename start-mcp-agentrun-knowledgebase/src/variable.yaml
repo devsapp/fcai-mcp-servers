@@ -1,0 +1,17 @@
+services:
+  agentrun-knowledgebase-mcp:
+    KNOWLEDGE_BASE_NAME:
+      title: 知识库名称
+      type: string
+      default: ""
+      required: true
+      description: "AgentRun上注册的知识库名称"
+    KNOWLEDGE_BASE_TYPE:
+      title: 知识库类型
+      type: string
+      default: ""
+      required: true
+      description: "AgentRun上注册的知识库类型"
+      enum:
+        - bailian
+        - ragflow
