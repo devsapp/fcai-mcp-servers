@@ -15,3 +15,5 @@ services:
       enum:
         - bailian
         - ragflow
+        - ots
+        - adb
