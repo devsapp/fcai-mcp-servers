@@ -1,0 +1,81 @@
+{
+  "tools": [
+    {
+      "inputSchema": {
+        "type": "object",
+        "title": "add_memoriesArguments",
+        "properties": {
+          "text": {
+            "description": "The text content to store as a memory. This can be personal info, preferences, or anything the user wants to remember.",
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ]
+      },
+      "name": "add_memories",
+      "description": "Add a new memory. Called when the user shares personal info, preferences, or asks you to remember something.\n\n            ## 功能概述\n\n            将用户提供的文本内容存储为新的记忆。系统会自动对文本进行推理提取（infer=True），从中识别出关键信息并存储。\n\n            ## 使用场景\n\n            - 当用户分享个人信息时（如姓名、职业、兴趣爱好等）\n            - 当用户明确要求「记住这个」时\n            - 当用户表达偏好或习惯时\n\n            ## 返回数据结构\n\n            返回的结果包含：\n            - request_id: 请求唯一标识\n            - results: 记忆存储结果列表，每项包含 event_id、message、status\n\n            ## 使用示例\n\n            - \"记住我喜欢喝咖啡\"\n            - \"我的名字是张三\"\n            - \"我对花生过敏\"\n\n            Args:\n                text: 要存储为记忆的文本内容\n\n            Returns:\n                包含 request_id 和 results 列表的 JSON 字符串\n            "
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "title": "search_memoryArguments",
+        "properties": {
+          "query": {
+            "description": "The search query to find relevant memories.",
+            "title": "Query",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "name": "search_memory",
+      "description": "Search through stored memories. Called whenever the user asks anything.\n\n            ## 功能概述\n\n            通过语义搜索查找与查询内容相关的记忆，返回最相关的记忆条目以及相关的关系图谱数据。\n\n            ## 使用场景\n\n            - 当用户提问时，搜索相关记忆以提供个性化回答\n            - 当需要回忆用户之前提到的偏好或信息时\n            - 当需要获取用户的历史上下文时\n\n            ## 返回数据结构\n\n            返回的结果包含：\n            - results: 记忆列表，每项包含 id、memory、score、user_id、agent_id、created_at、updated_at、hash、metadata\n            - relations: 关系图谱列表，每项包含 source、relationship、destination\n\n            ## 使用示例\n\n            - \"我之前说过我喜欢什么？\"\n            - \"我的饮食偏好是什么？\"\n            - \"你还记得我的名字吗？\"\n\n            Args:\n                query: 用于搜索记忆的查询文本\n\n            Returns:\n                包含 results 和 relations 的 JSON 字符串\n            "
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "title": "list_memoriesArguments",
+        "properties": {},
+        "required": []
+      },
+      "name": "list_memories",
+      "description": "List all memories for the current user.\n\n            ## 功能概述\n\n            列出当前用户的所有已存储记忆，不需要任何查询参数。用户身份通过 SSE 连接的 URL 路径自动注入。\n\n            ## 使用场景\n\n            - 当用户想查看所有已存储的记忆时\n            - 当需要展示记忆概览时\n            - 当用户问「你都记住了什么」时\n\n            ## 返回数据结构\n\n            返回的结果包含：\n            - results: 记忆列表，每项包含 id、memory、score、user_id、agent_id、created_at、updated_at、hash、metadata\n\n            ## 使用示例\n\n            - \"你都记住了哪些关于我的信息？\"\n            - \"列出所有记忆\"\n            - \"展示我的记忆列表\"\n\n            Returns:\n                包含 results 列表的 JSON 字符串\n            "
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "title": "delete_memoriesArguments",
+        "properties": {
+          "memory_ids": {
+            "description": "List of memory IDs to delete.",
+            "title": "Memory Ids",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "memory_ids"
+        ]
+      },
+      "name": "delete_memories",
+      "description": "Delete specific memories by their IDs.\n\n            ## 功能概述\n\n            根据记忆 ID 列表批量删除指定的记忆条目。支持一次删除多条记忆，并返回删除结果统计。\n\n            ## 使用场景\n\n            - 当用户要求删除某条特定记忆时\n            - 当用户要求忘记某些信息时\n            - 当需要清理过时或错误的记忆时\n\n            ## 返回数据结构\n\n            返回删除结果的文本描述，包含：\n            - 成功删除的数量\n            - 如有错误，附带错误详情\n\n            ## 使用示例\n\n            - \"删除这条记忆：abc123\"\n            - \"忘记我之前说的那个偏好\"\n\n            Args:\n                memory_ids: 要删除的记忆 ID 列表\n\n            Returns:\n                删除操作的结果描述字符串\n            "
+    },
+    {
+      "inputSchema": {
+        "type": "object",
+        "title": "delete_all_memoriesArguments",
+        "properties": {},
+        "required": []
+      },
+      "name": "delete_all_memories",
+      "description": "Delete all memories for the current user.\n\n            ## 功能概述\n\n            删除当前用户的所有记忆数据。这是一个不可逆操作，执行后用户的全部记忆将被永久清除。\n\n            ## 使用场景\n\n            - 当用户明确要求清除所有记忆时\n            - 当用户要求「忘记关于我的一切」时\n            - 当需要重置用户记忆状态时\n\n            ## 返回数据结构\n\n            返回操作结果的文本描述\n\n            ## 使用示例\n\n            - \"清除你记住的所有关于我的信息\"\n            - \"忘记关于我的一切\"\n            - \"删除所有记忆\"\n\n            Returns:\n                操作结果的描述字符串\n            "
+    }
+  ]
+}
