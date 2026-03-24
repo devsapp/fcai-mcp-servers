@@ -1,0 +1,35 @@
+{
+  "tools": [
+    {
+      "outputSchema": {
+        "title": "searchOutput",
+        "type": "object",
+        "properties": {
+          "result": {
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "result"
+        ]
+      },
+      "inputSchema": {
+        "type": "object",
+        "title": "searchArguments",
+        "properties": {
+          "query": {
+            "title": "Query",
+            "description": "The search query to retrieve relevant information from the knowledge base.",
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "name": "search",
+      "description": "Search the knowledge base with a query string."
+    }
+  ]
+}
