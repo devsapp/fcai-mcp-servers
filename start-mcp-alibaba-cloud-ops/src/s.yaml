@@ -14,7 +14,7 @@ resources:
       transport: stdio
       runtime: python3.10
       startCommand: alibaba-cloud-ops-mcp-server
-      cpu: 0.5
-      memorySize: 512
+      cpu: 2
+      memorySize: 4096
       role: {{ serviceRole }}
       enableAuth: true
