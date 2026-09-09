@@ -1,1 +1,2 @@
 alibaba-cloud-ops-mcp-server==0.8.2
+alibabacloud_openapi_util
