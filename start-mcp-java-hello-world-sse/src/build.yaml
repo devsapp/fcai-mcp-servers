@@ -1,0 +1,8 @@
+start-mcp-java-hello-world:
+  default:
+    rootPath: ./code
+    languages:
+      - java21
+    steps:
+      - run: chmod +x ./mvnw
+      - run: ./mvnw clean install -DskipTests
