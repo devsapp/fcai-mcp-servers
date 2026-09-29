@@ -1,0 +1,20 @@
+services:  # 服务变量
+  mcp-agentloop-memory:  # 对应 s.yaml 中 resources 中的某个 key, 代表某个服务
+    ALIBABA_CLOUD_REGION_ID:
+      title: AgentLoop MemoryStore 地域ID
+      type: string
+      default: ""
+      description: ""
+      required: true
+    ALIBABA_CLOUD_WORKSPACE:
+      title: AgentLoop Workspace
+      type: string
+      default: ""
+      description: ""
+      required: true
+    ALIBABA_CLOUD_MEMORY_STORE:
+      title: AgentLoop MemoryStore
+      type: string
+      default: ""
+      description: ""
+      required: true
